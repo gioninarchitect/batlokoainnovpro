@@ -35,7 +35,7 @@ export default function Products() {
     try {
       const res = await fetch(`${API_URL}/categories`)
       const data = await res.json()
-      setCategories(data.categories || [])
+      setCategories(Array.isArray(data) ? data : (data.categories || []))
     } catch (error) {
       console.error('Failed to fetch categories:', error)
     }
