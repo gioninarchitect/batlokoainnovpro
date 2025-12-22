@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Batlokoa Admin - Training Guide</title>
+  <style>
+    :root {
+      --navy: #1a1a2e;
+      --navy-light: #2d2d44;
+      --industrial: #0f3460;
+      --safety: #e94560;
+      --safety-dark: #d13350;
+      --gold: #d4af37;
+      --white: #ffffff;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-500: #6b7280;
+      --gray-700: #374151;
+      --green: #10b981;
+      --blue: #3b82f6;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--gray-100);
+      color: var(--gray-700);
+      line-height: 1.6;
+    }
+
+    .header {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--industrial) 100%);
+      color: var(--white);
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .header .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .header .logo-icon {
+      width: 60px;
+      height: 60px;
+      background: var(--safety);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      font-weight: bold;
+    }
+
+    .header h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .header p {
+      opacity: 0.9;
+      font-size: 1.1rem;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .intro {
+      background: var(--white);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .intro h2 {
+      color: var(--navy);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .toc {
+      background: var(--white);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .toc h3 {
+      color: var(--navy);
+      margin-bottom: 1rem;
+    }
+
+    .toc ul {
+      list-style: none;
+    }
+
+    .toc li {
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--gray-200);
+    }
+
+    .toc a {
+      color: var(--industrial);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .toc a:hover {
+      color: var(--safety);
+    }
+
+    .accordion {
+      background: var(--white);
+      border-radius: 12px;
+      margin-bottom: 1rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
+
+    .accordion-header {
+      background: var(--white);
+      padding: 1.25rem 1.5rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border: none;
+      width: 100%;
+      text-align: left;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--navy);
+      transition: background 0.2s;
+    }
+
+    .accordion-header:hover {
+      background: var(--gray-100);
+    }
+
+    .accordion-header .icon {
+      width: 36px;
+      height: 36px;
+      background: var(--safety);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--white);
+      margin-right: 1rem;
+      flex-shrink: 0;
+    }
+
+    .accordion-header .title {
+      flex: 1;
+    }
+
+    .accordion-header .arrow {
+      transition: transform 0.3s;
+      color: var(--gray-500);
+    }
+
+    .accordion.active .accordion-header .arrow {
+      transform: rotate(180deg);
+    }
+
+    .accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out;
+    }
+
+    .accordion.active .accordion-content {
+      max-height: 2000px;
+    }
+
+    .accordion-body {
+      padding: 0 1.5rem 1.5rem;
+    }
+
+    .step {
+      display: flex;
+      gap: 1rem;
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--gray-200);
+    }
+
+    .step:last-child {
+      border-bottom: none;
+    }
+
+    .step-number {
+      width: 32px;
+      height: 32px;
+      background: var(--industrial);
+      color: var(--white);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+
+    .step-content h4 {
+      color: var(--navy);
+      margin-bottom: 0.25rem;
+    }
+
+    .step-content p {
+      color: var(--gray-500);
+      font-size: 0.95rem;
+    }
+
+    .tip {
+      background: #fef3c7;
+      border-left: 4px solid var(--gold);
+      padding: 1rem;
+      margin: 1rem 0;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .tip strong {
+      color: #92400e;
+    }
+
+    .warning {
+      background: #fee2e2;
+      border-left: 4px solid var(--safety);
+      padding: 1rem;
+      margin: 1rem 0;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .warning strong {
+      color: #991b1b;
+    }
+
+    .info {
+      background: #dbeafe;
+      border-left: 4px solid var(--blue);
+      padding: 1rem;
+      margin: 1rem 0;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .info strong {
+      color: #1e40af;
+    }
+
+    .shortcut-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+    }
+
+    .shortcut-table th,
+    .shortcut-table td {
+      padding: 0.75rem;
+      text-align: left;
+      border-bottom: 1px solid var(--gray-200);
+    }
+
+    .shortcut-table th {
+      background: var(--gray-100);
+      font-weight: 600;
+      color: var(--navy);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    .badge-safety { background: #fee2e2; color: #991b1b; }
+    .badge-green { background: #d1fae5; color: #065f46; }
+    .badge-blue { background: #dbeafe; color: #1e40af; }
+    .badge-yellow { background: #fef3c7; color: #92400e; }
+
+    .footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--gray-500);
+      font-size: 0.9rem;
+    }
+
+    @media print {
+      .accordion-content {
+        max-height: none !important;
+      }
+      .accordion-header .arrow {
+        display: none;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        padding: 1rem;
+      }
+      .header {
+        padding: 1.5rem 1rem;
+      }
+      .header h1 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="logo">
+      <div class="logo-icon">B</div>
+      <div>
+        <h1>Batlokoa Admin Training Guide</h1>
+        <p>Complete guide to managing your business</p>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="intro">
+      <h2>Welcome to Batlokoa Admin</h2>
+      <p>This training guide covers everything you need to know to effectively manage orders, customers, products, quotes, and invoices in the Batlokoa Innovative Projects admin system.</p>
+      <div class="info">
+        <strong>Login Credentials:</strong><br>
+        URL: <code>https://batlokoa.cleva-ai.co.za/admin</code><br>
+        Email: <code>admin@batlokoainnovpro.co.za</code>
+      </div>
+    </div>
+
+    <div class="toc">
+      <h3>Table of Contents</h3>
+      <ul>
+        <li><a href="#login">1. Logging In</a></li>
+        <li><a href="#dashboard">2. Dashboard Overview</a></li>
+        <li><a href="#orders">3. Managing Orders</a></li>
+        <li><a href="#products">4. Managing Products</a></li>
+        <li><a href="#customers">5. Managing Customers</a></li>
+        <li><a href="#quotes">6. Managing Quotes</a></li>
+        <li><a href="#categories">7. Managing Categories</a></li>
+        <li><a href="#quick-actions">8. Quick Actions & Tips</a></li>
+      </ul>
+    </div>
+
+    <!-- Login Section -->
+    <div class="accordion" id="login">
+      <button class="accordion-header">
+        <span class="icon">1</span>
+        <span class="title">Logging In</span>
+        <span class="arrow">&#9660;</span>
+      </button>
+      <div class="accordion-content">
+        <div class="accordion-body">
+          <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <h4>Navigate to Admin Login</h4>
+              <p>Go to <code>/admin/login</code> or click "Admin" from the main website footer.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <h4>Enter Credentials</h4>
+              <p>Enter your email address and password, then click "Sign in".</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <h4>Dashboard Access</h4>
+              <p>Upon successful login, you'll be redirected to the Dashboard.</p>
+            </div>
+          </div>
+          <div class="tip">
+            <strong>Tip:</strong> Use the dark mode toggle (sun/moon icon) in the top right to switch themes.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dashboard Section -->
+    <div class="accordion" id="dashboard">
+      <button class="accordion-header">
+        <span class="icon">2</span>
+        <span class="title">Dashboard Overview</span>
+        <span class="arrow">&#9660;</span>
+      </button>
+      <div class="accordion-content">
+        <div class="accordion-body">
+          <p>The Dashboard provides a quick overview of your business metrics:</p>
+
+          <h4 style="margin: 1rem 0 0.5rem;">Stats Cards</h4>
+          <table class="shortcut-table">
+            <tr><th>Card</th><th>Shows</th></tr>
+            <tr><td>Revenue</td><td>Total sales revenue</td></tr>
+            <tr><td>Orders</td><td>Total orders + pending/processing counts</td></tr>
+            <tr><td>Customers</td><td>Total registered customers</td></tr>
+            <tr><td>Products</td><td>Total products + low stock alerts</td></tr>
+          </table>
+
+          <h4 style="margin: 1rem 0 0.5rem;">Alerts Panel</h4>
+          <p>Color-coded alerts appear at the top when action is needed:</p>
+          <ul style="margin-left: 1.5rem;">
+            <li><span class="badge badge-yellow">Yellow</span> - POP awaiting verification</li>
+            <li><span class="badge badge-blue">Blue</span> - Quotes expiring soon</li>
+            <li><span class="badge badge-safety">Red</span> - Low stock / Overdue invoices</li>
+          </ul>
+
+          <h4 style="margin: 1rem 0 0.5rem;">Quick Actions</h4>
+          <p>Use the bottom grid to quickly create new orders, quotes, customers, or products.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Orders Section -->
+    <div class="accordion" id="orders">
+      <button class="accordion-header">
+        <span class="icon">3</span>
+        <span class="title">Managing Orders</span>
+        <span class="arrow">&#9660;</span>
+      </button>
+      <div class="accordion-content">
+        <div class="accordion-body">
+          <h4>Creating a New Order</h4>
+          <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <h4>Click "New Order"</h4>
+              <p>From Dashboard or Orders page, click the "New Order" button.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <h4>Select Customer</h4>
+              <p>Search for an existing customer by name, company, or email. The search will show matching results.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <h4>Add Products</h4>
+              <p>Search for products to add. You can also add custom line items. Adjust quantities and prices as needed.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+              <h4>Set Delivery Details</h4>
+              <p>Enter delivery address, select payment method, and set priority if needed.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">5</div>
+            <div class="step-content">
+              <h4>Create Order</h4>
+              <p>Review totals (VAT is calculated automatically) and click "Create Order".</p>
+            </div>
+          </div>
+
+          <h4 style="margin-top: 1.5rem;">Order Statuses</h4>
+          <table class="shortcut-table">
+            <tr><th>Status</th><th>Meaning</th></tr>
+            <tr><td><span class="badge badge-yellow">PENDING</span></td><td>New order, awaiting confirmation</td></tr>
+            <tr><td><span class="badge badge-blue">CONFIRMED</span></td><td>Order confirmed, stock reserved</td></tr>
+            <tr><td><span class="badge badge-yellow">AWAITING_PAYMENT</span></td><td>POP uploaded, needs verification</td></tr>
+            <tr><td><span class="badge badge-green">PAYMENT_RECEIVED</span></td><td>Payment verified</td></tr>
+            <tr><td><span class="badge badge-blue">PROCESSING</span></td><td>Being prepared</td></tr>
+            <tr><td><span class="badge badge-green">DISPATCHED</span></td><td>Shipped to customer</td></tr>
+            <tr><td><span class="badge badge-green">DELIVERED</span></td><td>Order complete</td></tr>
+          </table>
+
+          <div class="warning">
+            <strong>Important:</strong> When you change status to CONFIRMED, stock is automatically deducted from inventory.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Products Section -->
+    <div class="accordion" id="products">
+      <button class="accordion-header">
+        <span class="icon">4</span>
+        <span class="title">Managing Products</span>
+        <span class="arrow">&#9660;</span>
+      </button>
+      <div class="accordion-content">
+        <div class="accordion-body">
+          <h4>Adding a New Product</h4>
+          <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <h4>Click "Add Product"</h4>
+              <p>From the Products page, click the "Add Product" button.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <h4>Enter Product Details</h4>
+              <p>Fill in the product name, SKU, and select a category. The slug is auto-generated.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <h4>Set Pricing</h4>
+              <p>Enter the selling price. Optionally add cost price (for margin tracking) and bulk pricing.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+              <h4>Set Inventory</h4>
+              <p>Enter stock quantity and low stock threshold (you'll get alerts when stock falls below this).</p>
+            </div>
+          </div>
+
+          <h4 style="margin-top: 1.5rem;">Quick Stock Updates</h4>
+          <p>From the Products list, click on the stock number to quickly update inventory without opening the full edit form.</p>
+
+          <div class="tip">
+            <strong>Tip:</strong> Use the "Low Stock" filter button to quickly see all products that need restocking.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Customers Section -->
+    <div class="accordion" id="customers">
+      <button class="accordion-header">
+        <span class="icon">5</span>
+        <span class="title">Managing Customers</span>
+        <span class="arrow">&#9660;</span>
+      </button>
+      <div class="accordion-content">
+        <div class="accordion-body">
+          <h4>Customer Tags</h4>
+          <p>Customers are automatically tagged based on their activity:</p>
+          <table class="shortcut-table">
+            <tr><th>Tag</th><th>Criteria</th></tr>
+            <tr><td><span class="badge badge-green">New</span></td><td>Registered within last 30 days</td></tr>
+            <tr><td><span class="badge" style="background:#f3e8ff;color:#6b21a8;">VIP</span></td><td>5+ orders or R50,000+ spent</td></tr>
+            <tr><td><span class="badge badge-blue">Repeat</span></td><td>2 or more orders</td></tr>
+            <tr><td><span class="badge badge-yellow">Mining/Construction/Engineering</span></td><td>Based on company name</td></tr>
+          </table>
+
+          <h4 style="margin-top: 1.5rem;">Lead Score</h4>
+          <p>Each customer has a lead score (0-100) based on:</p>
+          <ul style="margin-left: 1.5rem;">
+            <li>Number of orders (max 30 points)</li>
+            <li>Total spent (max 30 points)</li>
+            <li>Number of quotes (max 20 points)</li>
+            <li>Has company name (10 points)</li>
+            <li>Recent activity (max 10 points)</li>
+          </ul>
+
+          <h4 style="margin-top: 1.5rem;">Quick Actions</h4>
+          <p>From the customer list, use the quick action buttons to:</p>
+          <ul style="margin-left: 1.5rem;">
+            <li><strong>WhatsApp</strong> - Opens WhatsApp with pre-filled message</li>
+            <li><strong>Call</strong> - Initiates phone call</li>
+            <li><strong>Email</strong> - Opens email client with pre-filled subject</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quotes Section -->
+    <div class="accordion" id="quotes">
+      <button class="accordion-header">
+        <span class="icon">6</span>
+        <span class="title">Managing Quotes</span>
+        <span class="arrow">&#9660;</span>
+      </button>
+      <div class="accordion-content">
+        <div class="accordion-body">
+          <h4>Creating a Quote</h4>
+          <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <h4>Click "New Quote"</h4>
+              <p>From Dashboard or Quotes page, click "New Quote".</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <h4>Enter Customer Details</h4>
+              <p>Search for existing customer OR enter details manually for new prospects.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <h4>Add Items</h4>
+              <p>Search and add products. Prices can be adjusted per quote.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+              <h4>Set Validity</h4>
+              <p>Choose how long the quote is valid (7, 14, 30, or 60 days).</p>
+            </div>
+          </div>
+
+          <h4 style="margin-top: 1.5rem;">Follow-Up System</h4>
+          <p>The Dashboard shows pending quotes that need follow-up:</p>
+          <ul style="margin-left: 1.5rem;">
+            <li><span class="badge badge-yellow">Follow up</span> - Quote is 2+ days old with no response</li>
+            <li><span class="badge badge-safety">Expires in Xd</span> - Quote expires within 3 days</li>
+          </ul>
+
+          <div class="tip">
+            <strong>Tip:</strong> Use the WhatsApp/Call/Email buttons on pending quotes to quickly follow up with customers.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Categories Section -->
+    <div class="accordion" id="categories">
+      <button class="accordion-header">
+        <span class="icon">7</span>
+        <span class="title">Managing Categories</span>
+        <span class="arrow">&#9660;</span>
+      </button>
+      <div class="accordion-content">
+        <div class="accordion-body">
+          <p>Categories help organize your products. The system comes with default categories:</p>
+          <ul style="margin-left: 1.5rem; margin-bottom: 1rem;">
+            <li>Fasteners</li>
+            <li>Bearings</li>
+            <li>Power Transmission</li>
+            <li>Hydraulics</li>
+            <li>Pneumatics</li>
+            <li>Tools</li>
+            <li>Safety Equipment</li>
+            <li>Electrical</li>
+          </ul>
+
+          <h4>Adding/Editing Categories</h4>
+          <p>Click "Add Category" to create new ones. Click the edit icon on any category to modify it. The slug is auto-generated from the name.</p>
+
+          <div class="info">
+            <strong>Note:</strong> Deleting a category with products is not allowed. Reassign products first.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Actions Section -->
+    <div class="accordion" id="quick-actions">
+      <button class="accordion-header">
+        <span class="icon">8</span>
+        <span class="title">Quick Actions & Tips</span>
+        <span class="arrow">&#9660;</span>
+      </button>
+      <div class="accordion-content">
+        <div class="accordion-body">
+          <h4>Navigation</h4>
+          <ul style="margin-left: 1.5rem; margin-bottom: 1rem;">
+            <li>Click the hamburger menu (three lines) to open the sidebar</li>
+            <li>Use the bottom navigation on mobile for quick access</li>
+            <li>"View Site" link opens the public website in a new tab</li>
+          </ul>
+
+          <h4>Keyboard Shortcuts</h4>
+          <table class="shortcut-table">
+            <tr><th>Action</th><th>Shortcut</th></tr>
+            <tr><td>Search (in list pages)</td><td>Type and press Enter</td></tr>
+            <tr><td>Cancel/Close modal</td><td>Click outside or X button</td></tr>
+          </table>
+
+          <h4 style="margin-top: 1.5rem;">Best Practices</h4>
+          <ul style="margin-left: 1.5rem;">
+            <li>Check the Dashboard daily for alerts and pending items</li>
+            <li>Follow up on quotes within 2-3 days</li>
+            <li>Keep stock levels updated to avoid overselling</li>
+            <li>Verify POP documents promptly</li>
+            <li>Use customer tags to identify VIP clients</li>
+          </ul>
+
+          <div class="warning">
+            <strong>Security:</strong> Always log out when leaving your workstation. Sessions expire after 7 days.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p>Batlokoa Innovative Projects - Admin Training Guide</p>
+    <p>Version 1.0 | December 2025</p>
+  </footer>
+
+  <script>
+    document.querySelectorAll('.accordion-header').forEach(header => {
+      header.addEventListener('click', () => {
+        const accordion = header.parentElement;
+        const wasActive = accordion.classList.contains('active');
+
+        // Close all accordions
+        document.querySelectorAll('.accordion').forEach(a => a.classList.remove('active'));
+
+        // Open clicked one if it wasn't active
+        if (!wasActive) {
+          accordion.classList.add('active');
+        }
+      });
+    });
+
+    // Open first accordion by default
+    document.querySelector('.accordion').classList.add('active');
+  </script>
+</body>
+</html>

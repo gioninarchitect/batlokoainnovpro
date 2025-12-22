@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UAT Checklist - Batlokoa Admin System</title>
+    <style>
+        :root {
+            --navy: #1a1a2e;
+            --industrial: #0f3460;
+            --safety: #e94560;
+            --gold: #d4af37;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --info: #3b82f6;
+            --light: #f8fafc;
+            --gray: #64748b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--light);
+            color: var(--navy);
+            line-height: 1.6;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--industrial) 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .progress-bar {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .progress-bar h3 {
+            margin-bottom: 1rem;
+            color: var(--industrial);
+        }
+
+        .progress-track {
+            background: #e2e8f0;
+            height: 24px;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, var(--success), #34d399);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+            border-radius: 12px;
+        }
+
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: var(--navy);
+        }
+
+        .stats {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .stat-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .stat-dot.passed { background: var(--success); }
+        .stat-dot.failed { background: var(--safety); }
+        .stat-dot.pending { background: var(--gray); }
+
+        .section {
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .section-header {
+            background: var(--navy);
+            color: white;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-header h2 {
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+        }
+
+        .section-content {
+            padding: 1.5rem;
+        }
+
+        .test-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .test-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .test-group h4 {
+            color: var(--industrial);
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--light);
+        }
+
+        .test-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            transition: background 0.2s;
+        }
+
+        .test-item:hover {
+            background: var(--light);
+        }
+
+        .checkbox {
+            appearance: none;
+            width: 22px;
+            height: 22px;
+            border: 2px solid var(--gray);
+            border-radius: 4px;
+            cursor: pointer;
+            flex-shrink: 0;
+            position: relative;
+            transition: all 0.2s;
+        }
+
+        .checkbox:checked {
+            background: var(--success);
+            border-color: var(--success);
+        }
+
+        .checkbox:checked::after {
+            content: '';
+            position: absolute;
+            left: 6px;
+            top: 2px;
+            width: 6px;
+            height: 12px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+
+        .checkbox.failed {
+            background: var(--safety);
+            border-color: var(--safety);
+        }
+
+        .checkbox.failed::after {
+            content: 'X';
+            position: absolute;
+            left: 4px;
+            top: 0;
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .test-label {
+            flex: 1;
+        }
+
+        .test-label strong {
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .test-label small {
+            color: var(--gray);
+            font-size: 0.8rem;
+        }
+
+        .test-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-pass, .btn-fail {
+            padding: 0.25rem 0.5rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .btn-pass {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .btn-pass:hover {
+            background: #a7f3d0;
+        }
+
+        .btn-fail {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .btn-fail:hover {
+            background: #fecaca;
+        }
+
+        .notes-field {
+            width: 100%;
+            margin-top: 1rem;
+            padding: 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.875rem;
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .notes-field:focus {
+            outline: none;
+            border-color: var(--industrial);
+        }
+
+        .quick-ref {
+            background: linear-gradient(135deg, var(--industrial) 0%, var(--navy) 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .quick-ref h3 {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .ref-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .ref-item {
+            background: rgba(255,255,255,0.1);
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .ref-item strong {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--gold);
+        }
+
+        .ref-item code {
+            background: rgba(0,0,0,0.2);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .btn-primary {
+            background: var(--safety);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: var(--industrial);
+            color: white;
+        }
+
+        .btn-outline {
+            background: white;
+            color: var(--navy);
+            border: 2px solid var(--navy);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--gray);
+            font-size: 0.875rem;
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+
+            .header {
+                background: var(--navy) !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .action-buttons,
+            .btn-pass,
+            .btn-fail {
+                display: none;
+            }
+
+            .section {
+                break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #e2e8f0;
+            }
+
+            .checkbox:checked {
+                background: var(--success) !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .test-item {
+                flex-wrap: wrap;
+            }
+
+            .test-actions {
+                width: 100%;
+                margin-top: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>UAT Checklist</h1>
+        <p>Batlokoa Admin System - User Acceptance Testing</p>
+    </div>
+
+    <div class="container">
+        <div class="progress-bar">
+            <h3>Testing Progress</h3>
+            <div class="progress-track">
+                <div class="progress-fill" id="progressFill"></div>
+                <span class="progress-text" id="progressText">0 / 0 Tests</span>
+            </div>
+            <div class="stats">
+                <div class="stat">
+                    <span class="stat-dot passed"></span>
+                    <span id="passedCount">0 Passed</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-dot failed"></span>
+                    <span id="failedCount">0 Failed</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-dot pending"></span>
+                    <span id="pendingCount">0 Pending</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="quick-ref">
+            <h3>Quick Reference</h3>
+            <div class="ref-grid">
+                <div class="ref-item">
+                    <strong>Test Login</strong>
+                    <code>admin@batlokoa.co.za</code><br>
+                    <code>Admin123!</code>
+                </div>
+                <div class="ref-item">
+                    <strong>Admin URL</strong>
+                    <code>/admin</code>
+                </div>
+                <div class="ref-item">
+                    <strong>API Base</strong>
+                    <code>/api/v1</code>
+                </div>
+                <div class="ref-item">
+                    <strong>VAT Rate</strong>
+                    <code>15%</code>
+                </div>
+            </div>
+        </div>
+
+        <!-- Authentication Section -->
+        <div class="section">
+            <div class="section-header">
+                <h2>1. Authentication</h2>
+                <span class="section-badge" id="badge-auth">0/5</span>
+            </div>
+            <div class="section-content">
+                <div class="test-group">
+                    <h4>Login Flow</h4>
+                    <div class="test-item" data-section="auth">
+                        <input type="checkbox" class="checkbox" id="auth-1">
+                        <div class="test-label">
+                            <strong>Valid login works</strong>
+                            <small>Enter valid credentials and verify redirect to dashboard</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('auth-1')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('auth-1')">Fail</button>
+                        </div>
+                    </div>
+                    <div class="test-item" data-section="auth">
+                        <input type="checkbox" class="checkbox" id="auth-2">
+                        <div class="test-label">
+                            <strong>Invalid login rejected</strong>
+                            <small>Wrong password shows error message</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('auth-2')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('auth-2')">Fail</button>
+                        </div>
+                    </div>
+                    <div class="test-item" data-section="auth">
+                        <input type="checkbox" class="checkbox" id="auth-3">
+                        <div class="test-label">
+                            <strong>Session persists on refresh</strong>
+                            <small>Refresh page after login, should stay logged in</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('auth-3')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('auth-3')">Fail</button>
+                        </div>
+                    </div>
+                    <div class="test-item" data-section="auth">
+                        <input type="checkbox" class="checkbox" id="auth-4">
+                        <div class="test-label">
+                            <strong>Logout works</strong>
+                            <small>Click logout, verify redirect to login page</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('auth-4')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('auth-4')">Fail</button>
+                        </div>
+                    </div>
+                    <div class="test-item" data-section="auth">
+                        <input type="checkbox" class="checkbox" id="auth-5">
+                        <div class="test-label">
+                            <strong>Protected routes redirect</strong>
+                            <small>Access /admin/dashboard when logged out, should redirect to login</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('auth-5')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('auth-5')">Fail</button>
+                        </div>
+                    </div>
+                </div>
+                <textarea class="notes-field" placeholder="Notes for Authentication testing..."></textarea>
+            </div>
+        </div>
+
+        <!-- Dashboard Section -->
+        <div class="section">
+            <div class="section-header">
+                <h2>2. Dashboard</h2>
+                <span class="section-badge" id="badge-dashboard">0/4</span>
+            </div>
+            <div class="section-content">
+                <div class="test-group">
+                    <h4>Dashboard Display</h4>
+                    <div class="test-item" data-section="dashboard">
+                        <input type="checkbox" class="checkbox" id="dash-1">
+                        <div class="test-label">
+                            <strong>Stats cards load</strong>
+                            <small>Total Orders, Revenue, Customers, Products show correct numbers</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('dash-1')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('dash-1')">Fail</button>
+                        </div>
+                    </div>
+                    <div class="test-item" data-section="dashboard">
+                        <input type="checkbox" class="checkbox" id="dash-2">
+                        <div class="test-label">
+                            <strong>Recent orders show</strong>
+                            <small>Latest 5-10 orders display with correct status badges</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('dash-2')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('dash-2')">Fail</button>
+                        </div>
+                    </div>
+                    <div class="test-item" data-section="dashboard">
+                        <input type="checkbox" class="checkbox" id="dash-3">
+                        <div class="test-label">
+                            <strong>Low stock alerts work</strong>
+                            <small>Products below threshold appear in alerts</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('dash-3')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('dash-3')">Fail</button>
+                        </div>
+                    </div>
+                    <div class="test-item" data-section="dashboard">
+                        <input type="checkbox" class="checkbox" id="dash-4">
+                        <div class="test-label">
+                            <strong>Navigation works</strong>
+                            <small>Sidebar menu opens, all links work correctly</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('dash-4')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('dash-4')">Fail</button>
+                        </div>
+                    </div>
+                </div>
+                <textarea class="notes-field" placeholder="Notes for Dashboard testing..."></textarea>
+            </div>
+        </div>
+
+        <!-- Products CRUD Section -->
+        <div class="section">
+            <div class="section-header">
+                <h2>3. Products CRUD</h2>
+                <span class="section-badge" id="badge-products">0/6</span>
+            </div>
+            <div class="section-content">
+                <div class="test-group">
+                    <h4>Product Operations</h4>
+                    <div class="test-item" data-section="products">
+                        <input type="checkbox" class="checkbox" id="prod-1">
+                        <div class="test-label">
+                            <strong>View products list</strong>
+                            <small>Products page loads with all products, pagination works</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('prod-1')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('prod-1')">Fail</button>
+                        </div>
+                    </div>
+                    <div class="test-item" data-section="products">
+                        <input type="checkbox" class="checkbox" id="prod-2">
+                        <div class="test-label">
+                            <strong>Create new product</strong>
+                            <small>Click Add Product, fill form, save - product appears in list</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('prod-2')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('prod-2')">Fail</button>
+                        </div>
+                    </div>
+                    <div class="test-item" data-section="products">
+                        <input type="checkbox" class="checkbox" id="prod-3">
+                        <div class="test-label">
+                            <strong>Edit existing product</strong>
+                            <small>Click product, modify details, save - changes persist</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('prod-3')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('prod-3')">Fail</button>
+                        </div>
+                    </div>
+                    <div class="test-item" data-section="products">
+                        <input type="checkbox" class="checkbox" id="prod-4">
+                        <div class="test-label">
+                            <strong>Delete product</strong>
+                            <small>Delete a product, confirm it's removed from list</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('prod-4')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('prod-4')">Fail</button>
+                        </div>
+                    </div>
+                    <div class="test-item" data-section="products">
+                        <input type="checkbox" class="checkbox" id="prod-5">
+                        <div class="test-label">
+                            <strong>Search/filter products</strong>
+                            <small>Search by name, filter by category works correctly</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('prod-5')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('prod-5')">Fail</button>
+                        </div>
+                    </div>
+                    <div class="test-item" data-section="products">
+                        <input type="checkbox" class="checkbox" id="prod-6">
+                        <div class="test-label">
+                            <strong>Stock quantity updates</strong>
+                            <small>Modify stock qty, save, verify change persists</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('prod-6')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('prod-6')">Fail</button>
+                        </div>
+                    </div>
+                </div>
+                <textarea class="notes-field" placeholder="Notes for Products testing..."></textarea>
+            </div>
+        </div>
+
+        <!-- Customers CRUD Section -->
+        <div class="section">
+            <div class="section-header">
+                <h2>4. Customers CRUD</h2>
+                <span class="section-badge" id="badge-customers">0/5</span>
+            </div>
+            <div class="section-content">
+                <div class="test-group">
+                    <h4>Customer Operations</h4>
+                    <div class="test-item" data-section="customers">
+                        <input type="checkbox" class="checkbox" id="cust-1">
+                        <div class="test-label">
+                            <strong>View customers list</strong>
+                            <small>Customers page loads, shows all customers with tags</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('cust-1')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('cust-1')">Fail</button>
+                        </div>
+                    </div>
+                    <div class="test-item" data-section="customers">
+                        <input type="checkbox" class="checkbox" id="cust-2">
+                        <div class="test-label">
+                            <strong>Create new customer</strong>
+                            <small>Add customer with all fields, verify it saves correctly</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('cust-2')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('cust-2')">Fail</button>
+                        </div>
+                    </div>
+                    <div class="test-item" data-section="customers">
+                        <input type="checkbox" class="checkbox" id="cust-3">
+                        <div class="test-label">
+                            <strong>Edit customer details</strong>
+                            <small>Modify customer info, save, verify changes persist</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('cust-3')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('cust-3')">Fail</button>
+                        </div>
+                    </div>
+                    <div class="test-item" data-section="customers">
+                        <input type="checkbox" class="checkbox" id="cust-4">
+                        <div class="test-label">
+                            <strong>View customer history</strong>
+                            <small>Click customer to see order history and total spent</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('cust-4')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('cust-4')">Fail</button>
+                        </div>
+                    </div>
+                    <div class="test-item" data-section="customers">
+                        <input type="checkbox" class="checkbox" id="cust-5">
+                        <div class="test-label">
+                            <strong>Lead score displays</strong>
+                            <small>Verify lead score (0-100) shows for each customer</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('cust-5')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('cust-5')">Fail</button>
+                        </div>
+                    </div>
+                </div>
+                <textarea class="notes-field" placeholder="Notes for Customers testing..."></textarea>
+            </div>
+        </div>
+
+        <!-- Orders CRUD Section -->
+        <div class="section">
+            <div class="section-header">
+                <h2>5. Orders CRUD</h2>
+                <span class="section-badge" id="badge-orders">0/7</span>
+            </div>
+            <div class="section-content">
+                <div class="test-group">
+                    <h4>Order Operations</h4>
+                    <div class="test-item" data-section="orders">
+                        <input type="checkbox" class="checkbox" id="order-1">
+                        <div class="test-label">
+                            <strong>View orders list</strong>
+                            <small>Orders page loads with all orders, status badges show correctly</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('order-1')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('order-1')">Fail</button>
+                        </div>
+                    </div>
+                    <div class="test-item" data-section="orders">
+                        <input type="checkbox" class="checkbox" id="order-2">
+                        <div class="test-label">
+                            <strong>Create new order</strong>
+                            <small>Select customer, add products, verify total calculation with VAT</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('order-2')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('order-2')">Fail</button>
+                        </div>
+                    </div>
+                    <div class="test-item" data-section="orders">
+                        <input type="checkbox" class="checkbox" id="order-3">
+                        <div class="test-label">
+                            <strong>Order number generated</strong>
+                            <small>New order gets ORD-YYYY-XXXXX format number</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('order-3')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('order-3')">Fail</button>
+                        </div>
+                    </div>
+                    <div class="test-item" data-section="orders">
+                        <input type="checkbox" class="checkbox" id="order-4">
+                        <div class="test-label">
+                            <strong>Update order status</strong>
+                            <small>Change status from Pending to Processing to Shipped to Delivered</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('order-4')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('order-4')">Fail</button>
+                        </div>
+                    </div>
+                    <div class="test-item" data-section="orders">
+                        <input type="checkbox" class="checkbox" id="order-5">
+                        <div class="test-label">
+                            <strong>View order details</strong>
+                            <small>Click order to see full details, line items, customer info</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('order-5')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('order-5')">Fail</button>
+                        </div>
+                    </div>
+                    <div class="test-item" data-section="orders">
+                        <input type="checkbox" class="checkbox" id="order-6">
+                        <div class="test-label">
+                            <strong>Stock decrements on order</strong>
+                            <small>After order placed, product stock qty reduces</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('order-6')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('order-6')">Fail</button>
+                        </div>
+                    </div>
+                    <div class="test-item" data-section="orders">
+                        <input type="checkbox" class="checkbox" id="order-7">
+                        <div class="test-label">
+                            <strong>Filter orders by status</strong>
+                            <small>Filter by Pending, Processing, etc. shows correct orders</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('order-7')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('order-7')">Fail</button>
+                        </div>
+                    </div>
+                </div>
+                <textarea class="notes-field" placeholder="Notes for Orders testing..."></textarea>
+            </div>
+        </div>
+
+        <!-- Quotes CRUD Section -->
+        <div class="section">
+            <div class="section-header">
+                <h2>6. Quotes CRUD</h2>
+                <span class="section-badge" id="badge-quotes">0/6</span>
+            </div>
+            <div class="section-content">
+                <div class="test-group">
+                    <h4>Quote Operations</h4>
+                    <div class="test-item" data-section="quotes">
+                        <input type="checkbox" class="checkbox" id="quote-1">
+                        <div class="test-label">
+                            <strong>View quotes list</strong>
+                            <small>Quotes page loads with status (Draft, Sent, Accepted, Expired)</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('quote-1')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('quote-1')">Fail</button>
+                        </div>
+                    </div>
+                    <div class="test-item" data-section="quotes">
+                        <input type="checkbox" class="checkbox" id="quote-2">
+                        <div class="test-label">
+                            <strong>Create quote for customer</strong>
+                            <small>Link to existing customer, add items, save</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('quote-2')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('quote-2')">Fail</button>
+                        </div>
+                    </div>
+                    <div class="test-item" data-section="quotes">
+                        <input type="checkbox" class="checkbox" id="quote-3">
+                        <div class="test-label">
+                            <strong>Create quote for prospect</strong>
+                            <small>Manual entry of name/email/phone for non-customers</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('quote-3')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('quote-3')">Fail</button>
+                        </div>
+                    </div>
+                    <div class="test-item" data-section="quotes">
+                        <input type="checkbox" class="checkbox" id="quote-4">
+                        <div class="test-label">
+                            <strong>Quote number generated</strong>
+                            <small>New quote gets QUO-YYYY-XXXXX format number</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('quote-4')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('quote-4')">Fail</button>
+                        </div>
+                    </div>
+                    <div class="test-item" data-section="quotes">
+                        <input type="checkbox" class="checkbox" id="quote-5">
+                        <div class="test-label">
+                            <strong>Validity period works</strong>
+                            <small>Set 7/14/30/60 day validity, expiry date calculates correctly</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('quote-5')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('quote-5')">Fail</button>
+                        </div>
+                    </div>
+                    <div class="test-item" data-section="quotes">
+                        <input type="checkbox" class="checkbox" id="quote-6">
+                        <div class="test-label">
+                            <strong>Convert quote to order</strong>
+                            <small>Accept quote, verify order is created from it</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('quote-6')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('quote-6')">Fail</button>
+                        </div>
+                    </div>
+                </div>
+                <textarea class="notes-field" placeholder="Notes for Quotes testing..."></textarea>
+            </div>
+        </div>
+
+        <!-- Categories Section -->
+        <div class="section">
+            <div class="section-header">
+                <h2>7. Categories</h2>
+                <span class="section-badge" id="badge-categories">0/4</span>
+            </div>
+            <div class="section-content">
+                <div class="test-group">
+                    <h4>Category Operations</h4>
+                    <div class="test-item" data-section="categories">
+                        <input type="checkbox" class="checkbox" id="cat-1">
+                        <div class="test-label">
+                            <strong>View categories list</strong>
+                            <small>Categories page shows all categories with product counts</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('cat-1')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('cat-1')">Fail</button>
+                        </div>
+                    </div>
+                    <div class="test-item" data-section="categories">
+                        <input type="checkbox" class="checkbox" id="cat-2">
+                        <div class="test-label">
+                            <strong>Create new category</strong>
+                            <small>Add category with name, description, sort order</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('cat-2')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('cat-2')">Fail</button>
+                        </div>
+                    </div>
+                    <div class="test-item" data-section="categories">
+                        <input type="checkbox" class="checkbox" id="cat-3">
+                        <div class="test-label">
+                            <strong>Edit category</strong>
+                            <small>Modify category details, verify changes save</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('cat-3')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('cat-3')">Fail</button>
+                        </div>
+                    </div>
+                    <div class="test-item" data-section="categories">
+                        <input type="checkbox" class="checkbox" id="cat-4">
+                        <div class="test-label">
+                            <strong>Category links to products</strong>
+                            <small>New products can be assigned to new category</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('cat-4')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('cat-4')">Fail</button>
+                        </div>
+                    </div>
+                </div>
+                <textarea class="notes-field" placeholder="Notes for Categories testing..."></textarea>
+            </div>
+        </div>
+
+        <!-- Responsive/UI Section -->
+        <div class="section">
+            <div class="section-header">
+                <h2>8. UI/Responsive</h2>
+                <span class="section-badge" id="badge-ui">0/5</span>
+            </div>
+            <div class="section-content">
+                <div class="test-group">
+                    <h4>User Interface</h4>
+                    <div class="test-item" data-section="ui">
+                        <input type="checkbox" class="checkbox" id="ui-1">
+                        <div class="test-label">
+                            <strong>Mobile menu works</strong>
+                            <small>Hamburger opens sidebar, navigation works on mobile</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('ui-1')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('ui-1')">Fail</button>
+                        </div>
+                    </div>
+                    <div class="test-item" data-section="ui">
+                        <input type="checkbox" class="checkbox" id="ui-2">
+                        <div class="test-label">
+                            <strong>Tables scroll on mobile</strong>
+                            <small>Data tables are scrollable, not cut off on small screens</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('ui-2')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('ui-2')">Fail</button>
+                        </div>
+                    </div>
+                    <div class="test-item" data-section="ui">
+                        <input type="checkbox" class="checkbox" id="ui-3">
+                        <div class="test-label">
+                            <strong>Forms usable on mobile</strong>
+                            <small>All form fields accessible and usable on small screens</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('ui-3')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('ui-3')">Fail</button>
+                        </div>
+                    </div>
+                    <div class="test-item" data-section="ui">
+                        <input type="checkbox" class="checkbox" id="ui-4">
+                        <div class="test-label">
+                            <strong>Loading states show</strong>
+                            <small>Spinner/loading indicator appears during data fetches</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('ui-4')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('ui-4')">Fail</button>
+                        </div>
+                    </div>
+                    <div class="test-item" data-section="ui">
+                        <input type="checkbox" class="checkbox" id="ui-5">
+                        <div class="test-label">
+                            <strong>Error messages display</strong>
+                            <small>Form validation errors and API errors show clearly</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('ui-5')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('ui-5')">Fail</button>
+                        </div>
+                    </div>
+                </div>
+                <textarea class="notes-field" placeholder="Notes for UI/Responsive testing..."></textarea>
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <button class="btn btn-primary" onclick="exportResults()">Export Results</button>
+            <button class="btn btn-secondary" onclick="saveProgress()">Save Progress</button>
+            <button class="btn btn-outline" onclick="resetAll()">Reset All</button>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Batlokoa Innovative Projects - Admin System UAT</p>
+        <p>Document generated for testing purposes</p>
+    </div>
+
+    <script>
+        // Track test states
+        const testStates = {};
+
+        // Load saved progress
+        function loadProgress() {
+            const saved = localStorage.getItem('batlokoa-uat-progress');
+            if (saved) {
+                const data = JSON.parse(saved);
+                Object.keys(data.states || {}).forEach(id => {
+                    testStates[id] = data.states[id];
+                    const checkbox = document.getElementById(id);
+                    if (checkbox) {
+                        checkbox.checked = data.states[id] !== 'pending';
+                        if (data.states[id] === 'failed') {
+                            checkbox.classList.add('failed');
+                        }
+                    }
+                });
+                // Load notes
+                document.querySelectorAll('.notes-field').forEach((field, i) => {
+                    if (data.notes && data.notes[i]) {
+                        field.value = data.notes[i];
+                    }
+                });
+            }
+            updateProgress();
+        }
+
+        // Save progress to localStorage
+        function saveProgress() {
+            const notes = [];
+            document.querySelectorAll('.notes-field').forEach(field => {
+                notes.push(field.value);
+            });
+            localStorage.setItem('batlokoa-uat-progress', JSON.stringify({
+                states: testStates,
+                notes: notes,
+                savedAt: new Date().toISOString()
+            }));
+            alert('Progress saved!');
+        }
+
+        // Mark test as passed
+        function markPass(id) {
+            const checkbox = document.getElementById(id);
+            checkbox.checked = true;
+            checkbox.classList.remove('failed');
+            testStates[id] = 'passed';
+            updateProgress();
+        }
+
+        // Mark test as failed
+        function markFail(id) {
+            const checkbox = document.getElementById(id);
+            checkbox.checked = true;
+            checkbox.classList.add('failed');
+            testStates[id] = 'failed';
+            updateProgress();
+        }
+
+        // Update progress display
+        function updateProgress() {
+            const allCheckboxes = document.querySelectorAll('.checkbox');
+            const total = allCheckboxes.length;
+            let passed = 0;
+            let failed = 0;
+            let pending = 0;
+
+            allCheckboxes.forEach(cb => {
+                const state = testStates[cb.id];
+                if (state === 'passed') passed++;
+                else if (state === 'failed') failed++;
+                else pending++;
+            });
+
+            const completed = passed + failed;
+            const percent = total > 0 ? Math.round((completed / total) * 100) : 0;
+
+            document.getElementById('progressFill').style.width = percent + '%';
+            document.getElementById('progressText').textContent = `${completed} / ${total} Tests`;
+            document.getElementById('passedCount').textContent = `${passed} Passed`;
+            document.getElementById('failedCount').textContent = `${failed} Failed`;
+            document.getElementById('pendingCount').textContent = `${pending} Pending`;
+
+            // Update section badges
+            updateSectionBadge('auth', 5);
+            updateSectionBadge('dashboard', 4);
+            updateSectionBadge('products', 6);
+            updateSectionBadge('customers', 5);
+            updateSectionBadge('orders', 7);
+            updateSectionBadge('quotes', 6);
+            updateSectionBadge('categories', 4);
+            updateSectionBadge('ui', 5);
+        }
+
+        function updateSectionBadge(section, total) {
+            const items = document.querySelectorAll(`[data-section="${section}"] .checkbox`);
+            let completed = 0;
+            items.forEach(cb => {
+                if (testStates[cb.id]) completed++;
+            });
+            const badge = document.getElementById(`badge-${section}`);
+            if (badge) {
+                badge.textContent = `${completed}/${total}`;
+            }
+        }
+
+        // Export results
+        function exportResults() {
+            const notes = [];
+            document.querySelectorAll('.notes-field').forEach(field => {
+                notes.push(field.value);
+            });
+
+            const allTests = [];
+            document.querySelectorAll('.test-item').forEach(item => {
+                const checkbox = item.querySelector('.checkbox');
+                const label = item.querySelector('.test-label strong').textContent;
+                const section = item.dataset.section;
+                allTests.push({
+                    id: checkbox.id,
+                    section: section,
+                    test: label,
+                    status: testStates[checkbox.id] || 'pending'
+                });
+            });
+
+            const report = {
+                title: 'Batlokoa Admin UAT Results',
+                date: new Date().toISOString(),
+                summary: {
+                    total: allTests.length,
+                    passed: allTests.filter(t => t.status === 'passed').length,
+                    failed: allTests.filter(t => t.status === 'failed').length,
+                    pending: allTests.filter(t => t.status === 'pending').length
+                },
+                tests: allTests,
+                notes: notes
+            };
+
+            const blob = new Blob([JSON.stringify(report, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `uat-results-${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+        }
+
+        // Reset all
+        function resetAll() {
+            if (confirm('Are you sure you want to reset all test results?')) {
+                Object.keys(testStates).forEach(key => delete testStates[key]);
+                document.querySelectorAll('.checkbox').forEach(cb => {
+                    cb.checked = false;
+                    cb.classList.remove('failed');
+                });
+                document.querySelectorAll('.notes-field').forEach(field => {
+                    field.value = '';
+                });
+                localStorage.removeItem('batlokoa-uat-progress');
+                updateProgress();
+            }
+        }
+
+        // Handle checkbox clicks directly
+        document.querySelectorAll('.checkbox').forEach(cb => {
+            cb.addEventListener('click', function(e) {
+                if (this.classList.contains('failed')) {
+                    this.classList.remove('failed');
+                }
+                if (this.checked) {
+                    testStates[this.id] = 'passed';
+                } else {
+                    delete testStates[this.id];
+                }
+                updateProgress();
+            });
+        });
+
+        // Initialize
+        loadProgress();
+    </script>
+</body>
+</html>
