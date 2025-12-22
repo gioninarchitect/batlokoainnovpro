@@ -173,12 +173,12 @@ export default function Quotes() {
                         Send
                       </button>
                     )}
-                    {quote.status === 'ACCEPTED' && (
+                    {(quote.status === 'PENDING' || quote.status === 'ACCEPTED') && (
                       <button
                         onClick={() => handleConvertToOrder(quote.id)}
                         className="flex-1 px-3 py-2 text-sm bg-green-500 text-white rounded-lg hover:bg-green-600"
                       >
-                        Convert to Order
+                        Approve & Convert
                       </button>
                     )}
                   </div>
@@ -235,12 +235,12 @@ export default function Quotes() {
                               Send
                             </button>
                           )}
-                          {quote.status === 'ACCEPTED' && (
+                          {(quote.status === 'PENDING' || quote.status === 'ACCEPTED') && (
                             <button
                               onClick={() => handleConvertToOrder(quote.id)}
                               className="text-sm text-green-600 hover:text-green-700"
                             >
-                              Convert
+                              Approve
                             </button>
                           )}
                           <Link
