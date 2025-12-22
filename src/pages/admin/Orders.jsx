@@ -133,6 +133,31 @@ export default function Orders() {
     }
   }
 
+  const generateInvoice = async (orderId) => {
+    if (!confirm('Generate invoice for this order?')) return
+    try {
+      const res = await fetch(`${API_URL}/invoices`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ orderId })
+      })
+      if (res.ok) {
+        const invoice = await res.json()
+        alert(`Invoice ${invoice.invoiceNumber} created!`)
+        fetchOrders()
+      } else {
+        const error = await res.json()
+        alert(error.error || 'Failed to generate invoice')
+      }
+    } catch (error) {
+      console.error('Failed to generate invoice:', error)
+      alert('Failed to generate invoice')
+    }
+  }
+
   const totalPages = Math.ceil(pagination.total / pagination.limit)
 
   return (
@@ -289,12 +314,21 @@ export default function Orders() {
                         <p className="text-sm font-medium text-gray-900 dark:text-white">{formatCurrency(order.total)}</p>
                       </td>
                       <td className="px-4 py-4 text-right">
-                        <Link
-                          to={`/admin/orders/${order.id}`}
-                          className="text-sm text-safety hover:text-safety-dark"
-                        >
-                          View
-                        </Link>
+                        <div className="flex items-center justify-end gap-2">
+                          <button
+                            onClick={() => generateInvoice(order.id)}
+                            className="text-sm text-purple-600 hover:text-purple-700"
+                            title="Generate Invoice"
+                          >
+                            Invoice
+                          </button>
+                          <Link
+                            to={`/admin/orders/${order.id}`}
+                            className="text-sm text-safety hover:text-safety-dark"
+                          >
+                            View
+                          </Link>
+                        </div>
                       </td>
                     </tr>
                   ))}
