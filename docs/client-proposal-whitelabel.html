@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Whitelabel B2B Platform - Client Investment Proposal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #1a1a2e;
+            --navy-light: #252542;
+            --navy-dark: #12121f;
+            --industrial: #0f3460;
+            --industrial-light: #164470;
+            --safety: #e94560;
+            --safety-dark: #d13350;
+            --gold: #d4af37;
+            --gold-light: #e0c45c;
+            --white: #ffffff;
+            --gray-50: #fafafa;
+            --gray-100: #f5f5f5;
+            --gray-200: #eeeeee;
+            --gray-300: #e0e0e0;
+            --gray-400: #bdbdbd;
+            --gray-500: #9e9e9e;
+            --gray-600: #757575;
+            --gray-700: #616161;
+            --gray-800: #424242;
+            --gray-900: #333333;
+            --success: #4caf50;
+            --success-light: #e8f5e9;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--white);
+            color: var(--gray-900);
+            line-height: 1.6;
+        }
+
+        /* Cover Page */
+        .cover {
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--navy) 0%, var(--industrial) 50%, var(--navy-dark) 100%);
+            color: var(--white);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 60px 40px;
+            position: relative;
+        }
+
+        .cover::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.5;
+        }
+
+        .cover-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+        }
+
+        .cover-label {
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            opacity: 0.7;
+            margin-bottom: 16px;
+        }
+
+        .cover h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+
+        .cover h1 span {
+            color: var(--gold);
+        }
+
+        .cover .subtitle {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            margin-bottom: 50px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cover-stats {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            flex-wrap: wrap;
+            margin-bottom: 60px;
+        }
+
+        .cover-stat {
+            text-align: center;
+        }
+
+        .cover-stat .value {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--gold);
+        }
+
+        .cover-stat .label {
+            font-size: 0.875rem;
+            opacity: 0.8;
+            margin-top: 4px;
+        }
+
+        .cover-meta {
+            font-size: 0.875rem;
+            opacity: 0.6;
+        }
+
+        /* Section Styling */
+        .section {
+            padding: 80px 40px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .section-alt {
+            background: var(--gray-50);
+        }
+
+        .section-dark {
+            background: var(--navy);
+            color: var(--white);
+            max-width: none;
+        }
+
+        .section-dark .inner {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .section h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 16px;
+        }
+
+        .section-dark h2 {
+            color: var(--white);
+        }
+
+        .section h2 span {
+            color: var(--safety);
+        }
+
+        .section .lead {
+            font-size: 1.125rem;
+            color: var(--gray-600);
+            margin-bottom: 40px;
+            max-width: 700px;
+        }
+
+        .section-dark .lead {
+            color: rgba(255,255,255,0.8);
+        }
+
+        /* What You Get */
+        .deliverables {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-top: 40px;
+        }
+
+        .deliverable-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 28px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            border-left: 4px solid var(--safety);
+        }
+
+        .deliverable-card h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--navy);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .deliverable-card h4 .icon {
+            width: 32px;
+            height: 32px;
+            background: var(--safety);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .deliverable-card h4 .icon svg {
+            width: 18px;
+            height: 18px;
+            color: var(--white);
+        }
+
+        .deliverable-card ul {
+            list-style: none;
+            margin: 0;
+        }
+
+        .deliverable-card li {
+            padding: 6px 0;
+            padding-left: 20px;
+            position: relative;
+            color: var(--gray-700);
+            font-size: 0.9375rem;
+        }
+
+        .deliverable-card li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 12px;
+            width: 8px;
+            height: 8px;
+            background: var(--success);
+            border-radius: 50%;
+        }
+
+        /* AI Feature Box */
+        .ai-feature-box {
+            background: linear-gradient(135deg, var(--industrial) 0%, var(--navy) 100%);
+            color: var(--white);
+            border-radius: 16px;
+            padding: 40px;
+            margin-top: 40px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .ai-feature-box h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--gold);
+        }
+
+        .ai-feature-box p {
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .ai-feature-box ul {
+            list-style: none;
+        }
+
+        .ai-feature-box li {
+            padding: 8px 0;
+            padding-left: 24px;
+            position: relative;
+        }
+
+        .ai-feature-box li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 14px;
+            width: 10px;
+            height: 10px;
+            background: var(--gold);
+            border-radius: 50%;
+        }
+
+        .ai-value-prop {
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+        }
+
+        .ai-value-prop .big-number {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--gold);
+        }
+
+        .ai-value-prop .description {
+            font-size: 0.9375rem;
+            opacity: 0.9;
+            margin-top: 8px;
+        }
+
+        /* Revenue Model */
+        .revenue-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 32px;
+            background: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+        }
+
+        .revenue-table th {
+            background: var(--industrial);
+            color: var(--white);
+            padding: 16px 20px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .revenue-table td {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .revenue-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .revenue-table tr:hover {
+            background: var(--gray-50);
+        }
+
+        .revenue-table .package-name {
+            font-weight: 600;
+            color: var(--navy);
+        }
+
+        .revenue-table .price {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            color: var(--safety);
+        }
+
+        .revenue-table .monthly {
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        /* ROI Calculator */
+        .roi-box {
+            background: var(--success-light);
+            border-radius: 16px;
+            padding: 40px;
+            margin-top: 40px;
+            border: 2px solid var(--success);
+        }
+
+        .roi-box h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--success);
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .roi-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            text-align: center;
+        }
+
+        .roi-item .number {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--navy);
+        }
+
+        .roi-item .label {
+            color: var(--gray-700);
+            font-size: 0.9375rem;
+            margin-top: 4px;
+        }
+
+        .roi-item .sublabel {
+            color: var(--gray-500);
+            font-size: 0.8125rem;
+            margin-top: 2px;
+        }
+
+        .roi-calculation {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 24px;
+            margin-top: 32px;
+        }
+
+        .roi-calculation h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            color: var(--navy);
+            margin-bottom: 16px;
+        }
+
+        .roi-calculation table {
+            width: 100%;
+        }
+
+        .roi-calculation td {
+            padding: 8px 0;
+        }
+
+        .roi-calculation .total {
+            border-top: 2px solid var(--gray-300);
+            font-weight: 700;
+            color: var(--success);
+        }
+
+        /* Investment Summary */
+        .investment-summary {
+            background: var(--navy);
+            color: var(--white);
+            border-radius: 16px;
+            padding: 40px;
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .investment-summary h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            opacity: 0.8;
+            margin-bottom: 16px;
+        }
+
+        .investment-summary .amount {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--gold);
+        }
+
+        .investment-summary .includes {
+            margin-top: 24px;
+            opacity: 0.8;
+        }
+
+        .investment-summary .note {
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            font-size: 0.9375rem;
+            opacity: 0.7;
+        }
+
+        /* Comparison */
+        .comparison-box {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-top: 40px;
+        }
+
+        .comparison-card {
+            border-radius: 12px;
+            padding: 28px;
+        }
+
+        .comparison-card.them {
+            background: var(--gray-100);
+            border: 2px dashed var(--gray-300);
+        }
+
+        .comparison-card.us {
+            background: var(--success-light);
+            border: 2px solid var(--success);
+        }
+
+        .comparison-card h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .comparison-card.them h4 {
+            color: var(--gray-600);
+        }
+
+        .comparison-card.us h4 {
+            color: var(--success);
+        }
+
+        .comparison-card ul {
+            list-style: none;
+        }
+
+        .comparison-card li {
+            padding: 6px 0;
+            font-size: 0.9375rem;
+        }
+
+        .comparison-card.them li {
+            color: var(--gray-600);
+        }
+
+        .comparison-card.us li {
+            color: var(--gray-800);
+        }
+
+        /* Timeline */
+        .timeline {
+            margin-top: 40px;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .timeline-marker {
+            width: 48px;
+            height: 48px;
+            background: var(--safety);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .timeline-content h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            color: var(--navy);
+            margin-bottom: 4px;
+        }
+
+        .timeline-content p {
+            color: var(--gray-600);
+            font-size: 0.9375rem;
+        }
+
+        /* CTA */
+        .cta-section {
+            background: linear-gradient(135deg, var(--safety) 0%, var(--safety-dark) 100%);
+            color: var(--white);
+            text-align: center;
+            padding: 80px 40px;
+        }
+
+        .cta-section h2 {
+            color: var(--white);
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+        }
+
+        .cta-section p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            margin-bottom: 40px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 16px 32px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .cta-btn.primary {
+            background: var(--white);
+            color: var(--safety);
+        }
+
+        .cta-btn.secondary {
+            background: transparent;
+            color: var(--white);
+            border: 2px solid var(--white);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--navy-dark);
+            color: var(--white);
+            padding: 40px;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .footer p {
+            opacity: 0.7;
+            font-size: 0.875rem;
+            margin-bottom: 8px;
+        }
+
+        .footer-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--gold);
+            color: var(--navy);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            margin-top: 16px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .cover h1 {
+                font-size: 2rem;
+            }
+
+            .cover-stats {
+                gap: 30px;
+            }
+
+            .ai-feature-box {
+                grid-template-columns: 1fr;
+            }
+
+            .roi-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison-box {
+                grid-template-columns: 1fr;
+            }
+
+            .investment-summary .amount {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media print {
+            .cover {
+                min-height: auto;
+                padding: 40px;
+            }
+
+            .section {
+                padding: 40px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Cover Page -->
+    <div class="cover">
+        <div class="cover-content">
+            <p class="cover-label">Investment Proposal</p>
+            <h1>Whitelabel B2B Platform<br><span>Your Revenue Opportunity</span></h1>
+            <p class="subtitle">A complete, branded B2B e-commerce platform with AI-powered sales automation that you can resell to your customers</p>
+
+            <div class="cover-stats">
+                <div class="cover-stat">
+                    <div class="value">12</div>
+                    <div class="label">Admin Modules</div>
+                </div>
+                <div class="cover-stat">
+                    <div class="value">R0</div>
+                    <div class="label">AI Running Costs</div>
+                </div>
+                <div class="cover-stat">
+                    <div class="value">Unlimited</div>
+                    <div class="label">Clients You Can Serve</div>
+                </div>
+            </div>
+
+            <p class="cover-meta">Prepared by Batlokoa Innovative Projects | December 2025</p>
+        </div>
+    </div>
+
+    <!-- What You Get -->
+    <div class="section">
+        <h2>What You're <span>Getting</span></h2>
+        <p class="lead">A complete, production-ready platform that you own and can brand as your own. Deploy to unlimited clients.</p>
+
+        <div class="deliverables">
+            <div class="deliverable-card">
+                <h4>
+                    <span class="icon"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg></span>
+                    Admin Dashboard
+                </h4>
+                <ul>
+                    <li>Product & Inventory Management</li>
+                    <li>Order Lifecycle Management</li>
+                    <li>Quote Creation & Conversion</li>
+                    <li>Invoice Generation (PDF)</li>
+                    <li>Customer CRM</li>
+                    <li>Supplier Management</li>
+                    <li>Purchase Orders</li>
+                    <li>Reports & Analytics</li>
+                    <li>Audit Logging</li>
+                    <li>Company Settings</li>
+                </ul>
+            </div>
+
+            <div class="deliverable-card">
+                <h4>
+                    <span class="icon"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg></span>
+                    Customer Portal
+                </h4>
+                <ul>
+                    <li>Customer Self-Service Dashboard</li>
+                    <li>Order History & Tracking</li>
+                    <li>Quote Requests & Viewing</li>
+                    <li>Invoice Access & Payments</li>
+                    <li>Profile Management</li>
+                    <li>Dark/Light Mode</li>
+                    <li>Mobile Responsive</li>
+                </ul>
+            </div>
+
+            <div class="deliverable-card">
+                <h4>
+                    <span class="icon"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg></span>
+                    Supplier Portal
+                </h4>
+                <ul>
+                    <li>Supplier Self-Registration</li>
+                    <li>Purchase Order View</li>
+                    <li>Order Fulfillment Updates</li>
+                    <li>Profile & Company Details</li>
+                    <li>Document Management</li>
+                </ul>
+            </div>
+
+            <div class="deliverable-card">
+                <h4>
+                    <span class="icon"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg></span>
+                    Technical Features
+                </h4>
+                <ul>
+                    <li>Full Source Code Ownership</li>
+                    <li>PostgreSQL Database</li>
+                    <li>React Frontend (Vite)</li>
+                    <li>Node.js/Express Backend</li>
+                    <li>Prisma ORM</li>
+                    <li>REST API</li>
+                    <li>Whitelabel Ready</li>
+                    <li>Multi-tenant Capable</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- AI Feature -->
+        <div class="ai-feature-box">
+            <div>
+                <h3>Smart AI Assistant (Included)</h3>
+                <p>A zero-cost AI chat assistant that works without any external API fees. Pattern-matching technology means no ChatGPT or Claude costs ever.</p>
+                <ul>
+                    <li>24 intent types (product search, pricing, compliance)</li>
+                    <li>Lead scoring (HOT/WARM/COOL/COLD)</li>
+                    <li>SANS/OHSA/DMR compliance checking</li>
+                    <li>English, Afrikaans, Zulu support</li>
+                    <li>Works 100% offline (load-shedding proof)</li>
+                    <li>Response time under 50ms</li>
+                </ul>
+            </div>
+            <div>
+                <div class="ai-value-prop">
+                    <div class="big-number">R0</div>
+                    <div class="description">Monthly AI running costs<br>(vs R15,000+/month for ChatGPT API)</div>
+                </div>
+                <div class="ai-value-prop" style="margin-top: 16px;">
+                    <div class="big-number">R180K</div>
+                    <div class="description">Annual savings per client<br>compared to LLM-based solutions</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Revenue Model -->
+    <div class="section section-alt">
+        <h2>What You Can <span>Charge Clients</span></h2>
+        <p class="lead">This is the market rate for this type of platform in South Africa. This is what you can charge YOUR customers.</p>
+
+        <table class="revenue-table">
+            <thead>
+                <tr>
+                    <th>Package You Offer</th>
+                    <th>Setup Fee</th>
+                    <th>Monthly Fee</th>
+                    <th>Your Annual Revenue</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="package-name">Starter (Small Clients)</td>
+                    <td class="price">R95,000</td>
+                    <td class="monthly">R3,500/month</td>
+                    <td>R137,000/year per client</td>
+                </tr>
+                <tr>
+                    <td class="package-name">Professional (Mid-Size)</td>
+                    <td class="price">R175,000</td>
+                    <td class="monthly">R6,500/month</td>
+                    <td>R253,000/year per client</td>
+                </tr>
+                <tr>
+                    <td class="package-name">Enterprise (Large Clients)</td>
+                    <td class="price">R350,000</td>
+                    <td class="monthly">R12,000/month</td>
+                    <td>R494,000/year per client</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p style="margin-top: 24px; color: var(--gray-600); font-size: 0.9375rem;">
+            <strong>Note:</strong> These are market-validated prices based on competitor analysis (Shopify B2B: R40,000+/month, SAP: R25,000+/month, Custom dev: R500,000+).
+        </p>
+
+        <!-- ROI Calculator -->
+        <div class="roi-box">
+            <h3>Your Return on Investment</h3>
+            <div class="roi-grid">
+                <div class="roi-item">
+                    <div class="number">3</div>
+                    <div class="label">Starter Clients</div>
+                    <div class="sublabel">to break even</div>
+                </div>
+                <div class="roi-item">
+                    <div class="number">2</div>
+                    <div class="label">Professional Clients</div>
+                    <div class="sublabel">to break even</div>
+                </div>
+                <div class="roi-item">
+                    <div class="number">1</div>
+                    <div class="label">Enterprise Client</div>
+                    <div class="sublabel">to break even</div>
+                </div>
+            </div>
+
+            <div class="roi-calculation">
+                <h4>Example: 5 Clients in Year 1</h4>
+                <table>
+                    <tr>
+                        <td>2 x Starter clients (R95K + R42K recurring)</td>
+                        <td style="text-align: right;">R274,000</td>
+                    </tr>
+                    <tr>
+                        <td>2 x Professional clients (R175K + R78K recurring)</td>
+                        <td style="text-align: right;">R506,000</td>
+                    </tr>
+                    <tr>
+                        <td>1 x Enterprise client (R350K + R144K recurring)</td>
+                        <td style="text-align: right;">R494,000</td>
+                    </tr>
+                    <tr class="total">
+                        <td><strong>Total Year 1 Revenue</strong></td>
+                        <td style="text-align: right;"><strong>R1,274,000</strong></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Why This Works -->
+    <div class="section">
+        <h2>Why This <span>Works</span></h2>
+        <p class="lead">What makes this platform valuable in the South African market.</p>
+
+        <div class="comparison-box">
+            <div class="comparison-card them">
+                <h4>What Competitors Offer</h4>
+                <ul>
+                    <li>Generic international platforms</li>
+                    <li>No BBB-EE integration</li>
+                    <li>No SANS/OHSA compliance</li>
+                    <li>USD pricing (exchange rate risk)</li>
+                    <li>Requires internet for AI</li>
+                    <li>R15,000+/month API costs</li>
+                    <li>12-18 month build time</li>
+                </ul>
+            </div>
+            <div class="comparison-card us">
+                <h4>What You're Getting</h4>
+                <ul>
+                    <li>Built for South African businesses</li>
+                    <li>BBB-EE Level 1 integration (135%)</li>
+                    <li>SANS/OHSA/DMR pre-loaded</li>
+                    <li>Rand-based, local hosting</li>
+                    <li>Works offline (load-shedding)</li>
+                    <li>R0 AI running costs</li>
+                    <li>Ready to deploy NOW</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Your Investment -->
+    <div class="section section-alt">
+        <h2>Your <span>Investment</span></h2>
+        <p class="lead">One-time investment for unlimited deployment rights.</p>
+
+        <div class="investment-summary">
+            <h3>Whitelabel License Fee</h3>
+            <div class="amount">R500,000</div>
+            <p class="includes">
+                Full source code | Unlimited clients | 12 months support | All future updates
+            </p>
+            <p class="note">
+                This is a one-time fee. No monthly platform fees to us. You keep 100% of what you charge your clients.
+            </p>
+        </div>
+
+        <div style="margin-top: 40px;">
+            <h3 style="font-family: 'Montserrat', sans-serif; font-weight: 600; color: var(--navy); margin-bottom: 24px;">What's Included</h3>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-marker">1</div>
+                    <div class="timeline-content">
+                        <h4>Complete Source Code</h4>
+                        <p>Full ownership of frontend, backend, and AI engine. Deploy anywhere, modify anything.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-marker">2</div>
+                    <div class="timeline-content">
+                        <h4>Deployment Support</h4>
+                        <p>We help you set up your first 3 client deployments to ensure you're confident.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-marker">3</div>
+                    <div class="timeline-content">
+                        <h4>12 Months Updates</h4>
+                        <p>All bug fixes, security patches, and feature improvements for the first year.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-marker">4</div>
+                    <div class="timeline-content">
+                        <h4>Documentation & Training</h4>
+                        <p>Complete technical docs, training guides, and client-facing materials.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-section">
+        <h2>Ready to Start?</h2>
+        <p>Get your whitelabel platform and start signing clients within weeks.</p>
+        <div class="cta-buttons">
+            <a href="mailto:info@batlokoainnovpro.co.za?subject=Whitelabel Platform Interest" class="cta-btn primary">
+                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                Get Started
+            </a>
+            <a href="tel:+27739748317" class="cta-btn secondary">
+                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                Call to Discuss
+            </a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-logo">Batlokoa Innovative Projects (Pty) Ltd</div>
+        <p>12 A Bussing Rd, Aureus Ext 1, Randfontein, Gauteng</p>
+        <p>info@batlokoainnovpro.co.za | +27 73 974 8317</p>
+        <div class="footer-badge">
+            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            Level 1 BBB-EE | 100% Black Women-Owned
+        </div>
+        <p style="margin-top: 24px; opacity: 0.5;">Proposal valid for 30 days from date of issue.</p>
+    </footer>
+</body>
+</html>
