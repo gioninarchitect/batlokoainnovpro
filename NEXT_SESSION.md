@@ -215,7 +215,8 @@ Located in `docs/`:
 - `client-presentation.html` - Professional client presentation
 - `order-flow-guide.html` - Order workflow documentation
 - `smart-ai-factory.html` - Smart AI technical documentation
-- `pricing-proposal.html` - SA market pricing & investment guide (NEW)
+- `pricing-proposal.html` - SA market pricing & investment guide
+- `client-proposal-whitelabel.html` - Whitelabel client proposal with ROI calculator (NEW)
 - `DESIGN_SYSTEM.md` - Colors, typography, components
 
 ---
