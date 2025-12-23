@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart AI Chat Widget - fig3.online</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+    <style>
+        /* fig3.online Design System */
+        :root {
+            --fig3-bg: #0F1419;
+            --fig3-bg-light: #1a2633;
+            --fig3-primary: #0099FF;
+            --fig3-primary-dark: #007acc;
+            --fig3-text: #ffffff;
+            --fig3-text-muted: rgba(255, 255, 255, 0.7);
+            --fig3-border: rgba(255, 255, 255, 0.1);
+            --fig3-success: #4caf50;
+            --fig3-warning: #ff9800;
+            --fig3-radius: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Chat Bubble */
+        .fig3-chat-bubble {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 60px;
+            height: 60px;
+            background: var(--fig3-primary);
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(0, 153, 255, 0.4);
+            transition: all 0.3s ease;
+            z-index: 9999;
+        }
+
+        .fig3-chat-bubble:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 30px rgba(0, 153, 255, 0.5);
+        }
+
+        .fig3-chat-bubble svg {
+            width: 28px;
+            height: 28px;
+            fill: white;
+        }
+
+        .fig3-chat-bubble .notification {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            width: 20px;
+            height: 20px;
+            background: var(--fig3-warning);
+            border-radius: 50%;
+            font-size: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        /* Chat Container */
+        .fig3-chat-container {
+            position: fixed;
+            bottom: 100px;
+            right: 24px;
+            width: 380px;
+            max-height: 550px;
+            background: var(--fig3-bg);
+            border-radius: var(--fig3-radius);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 9998;
+            border: 1px solid var(--fig3-border);
+        }
+
+        .fig3-chat-container.open {
+            display: flex;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Chat Header */
+        .fig3-chat-header {
+            background: var(--fig3-bg-light);
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--fig3-border);
+        }
+
+        .fig3-chat-header-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .fig3-chat-avatar {
+            width: 40px;
+            height: 40px;
+            background: var(--fig3-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .fig3-chat-avatar svg {
+            width: 20px;
+            height: 20px;
+            fill: white;
+        }
+
+        .fig3-chat-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            color: var(--fig3-text);
+            font-size: 0.9375rem;
+        }
+
+        .fig3-chat-status {
+            font-size: 0.75rem;
+            color: var(--fig3-success);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .fig3-chat-status::before {
+            content: "";
+            width: 8px;
+            height: 8px;
+            background: var(--fig3-success);
+            border-radius: 50%;
+        }
+
+        .fig3-chat-close {
+            background: none;
+            border: none;
+            color: var(--fig3-text-muted);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .fig3-chat-close:hover {
+            background: var(--fig3-border);
+            color: var(--fig3-text);
+        }
+
+        /* Messages */
+        .fig3-chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            max-height: 320px;
+        }
+
+        .fig3-message {
+            max-width: 85%;
+            padding: 12px 16px;
+            border-radius: 16px;
+            font-size: 0.9375rem;
+            line-height: 1.5;
+        }
+
+        .fig3-message.bot {
+            background: var(--fig3-bg-light);
+            color: var(--fig3-text);
+            border-bottom-left-radius: 4px;
+            align-self: flex-start;
+        }
+
+        .fig3-message.user {
+            background: var(--fig3-primary);
+            color: white;
+            border-bottom-right-radius: 4px;
+            align-self: flex-end;
+        }
+
+        .fig3-typing {
+            display: flex;
+            gap: 4px;
+            padding: 12px 16px;
+            background: var(--fig3-bg-light);
+            border-radius: 16px;
+            border-bottom-left-radius: 4px;
+            align-self: flex-start;
+        }
+
+        .fig3-typing span {
+            width: 8px;
+            height: 8px;
+            background: var(--fig3-text-muted);
+            border-radius: 50%;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+
+        .fig3-typing span:nth-child(2) { animation-delay: 0.2s; }
+        .fig3-typing span:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-6px); }
+        }
+
+        /* Quick Actions */
+        .fig3-quick-actions {
+            padding: 12px 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            border-top: 1px solid var(--fig3-border);
+        }
+
+        .fig3-quick-btn {
+            background: var(--fig3-bg-light);
+            border: 1px solid var(--fig3-border);
+            color: var(--fig3-text);
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 0.8125rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .fig3-quick-btn:hover {
+            background: var(--fig3-primary);
+            border-color: var(--fig3-primary);
+        }
+
+        /* Input */
+        .fig3-chat-input-container {
+            padding: 16px 20px;
+            background: var(--fig3-bg-light);
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .fig3-chat-input {
+            flex: 1;
+            background: var(--fig3-bg);
+            border: 1px solid var(--fig3-border);
+            border-radius: 24px;
+            padding: 12px 20px;
+            color: var(--fig3-text);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9375rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .fig3-chat-input::placeholder {
+            color: var(--fig3-text-muted);
+        }
+
+        .fig3-chat-input:focus {
+            border-color: var(--fig3-primary);
+        }
+
+        .fig3-chat-send {
+            width: 44px;
+            height: 44px;
+            background: var(--fig3-primary);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .fig3-chat-send:hover {
+            background: var(--fig3-primary-dark);
+            transform: scale(1.05);
+        }
+
+        .fig3-chat-send svg {
+            width: 20px;
+            height: 20px;
+            fill: white;
+        }
+
+        /* Powered By */
+        .fig3-powered {
+            padding: 8px;
+            text-align: center;
+            font-size: 0.6875rem;
+            color: var(--fig3-text-muted);
+            border-top: 1px solid var(--fig3-border);
+        }
+
+        .fig3-powered a {
+            color: var(--fig3-primary);
+            text-decoration: none;
+        }
+
+        /* Mobile */
+        @media (max-width: 480px) {
+            .fig3-chat-container {
+                right: 0;
+                bottom: 0;
+                width: 100%;
+                max-height: 100%;
+                height: 100%;
+                border-radius: 0;
+            }
+
+            .fig3-chat-bubble {
+                bottom: 16px;
+                right: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Chat Bubble -->
+    <div class="fig3-chat-bubble" id="chatBubble">
+        <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
+        <div class="notification" id="notification" style="display: none;">1</div>
+    </div>
+
+    <!-- Chat Container -->
+    <div class="fig3-chat-container" id="chatContainer">
+        <div class="fig3-chat-header">
+            <div class="fig3-chat-header-info">
+                <div class="fig3-chat-avatar">
+                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                </div>
+                <div>
+                    <div class="fig3-chat-title">Smart Assistant</div>
+                    <div class="fig3-chat-status">Online</div>
+                </div>
+            </div>
+            <button class="fig3-chat-close" id="chatClose">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            </button>
+        </div>
+
+        <div class="fig3-chat-messages" id="chatMessages">
+            <div class="fig3-message bot">
+                Welcome! I'm your Smart Assistant. I can help with product info, pricing, and compliance questions. How can I assist you today?
+            </div>
+        </div>
+
+        <div class="fig3-quick-actions" id="quickActions">
+            <button class="fig3-quick-btn" data-message="Show me products">Products</button>
+            <button class="fig3-quick-btn" data-message="Get a quote">Get Quote</button>
+            <button class="fig3-quick-btn" data-message="Check compliance">Compliance</button>
+            <button class="fig3-quick-btn" data-message="Contact sales">Contact</button>
+        </div>
+
+        <div class="fig3-chat-input-container">
+            <input type="text" class="fig3-chat-input" id="chatInput" placeholder="Type your message...">
+            <button class="fig3-chat-send" id="chatSend">
+                <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+            </button>
+        </div>
+
+        <div class="fig3-powered">
+            Powered by <a href="https://fig3.online" target="_blank">fig3.online</a>
+        </div>
+    </div>
+
+    <script>
+        // Smart AI Chat Widget - fig3.online
+        (function() {
+            const bubble = document.getElementById('chatBubble');
+            const container = document.getElementById('chatContainer');
+            const closeBtn = document.getElementById('chatClose');
+            const input = document.getElementById('chatInput');
+            const sendBtn = document.getElementById('chatSend');
+            const messages = document.getElementById('chatMessages');
+            const quickActions = document.getElementById('quickActions');
+            const notification = document.getElementById('notification');
+
+            // Knowledge Base - Pattern Matching AI
+            const patterns = {
+                greeting: {
+                    regex: /^(hi|hello|hey|good\s*(morning|afternoon|evening)|howzit|sawubona|goeie\s*dag)/i,
+                    responses: [
+                        "Hello! How can I help you today?",
+                        "Hi there! What can I assist you with?",
+                        "Welcome! I'm here to help with products, pricing, or compliance questions."
+                    ]
+                },
+                products: {
+                    regex: /(product|item|stock|inventory|what.*sell|show.*products)/i,
+                    responses: [
+                        "We offer a wide range of industrial products including PPE, safety equipment, tools, and more. Would you like me to help you find something specific?",
+                        "Our product catalog includes safety gear, industrial tools, and equipment. What category are you interested in?"
+                    ]
+                },
+                pricing: {
+                    regex: /(price|cost|how much|quote|pricing|rate)/i,
+                    responses: [
+                        "I can help with pricing! For accurate quotes, I'll need to know which products you're interested in and the quantity. What are you looking for?",
+                        "Our pricing depends on quantity and delivery requirements. Tell me what you need and I'll get you a quote."
+                    ]
+                },
+                compliance: {
+                    regex: /(compliance|sans|ohsa|safety\s*standard|regulation|certificate|dmr)/i,
+                    responses: [
+                        "We take compliance seriously. Our products meet SANS, OHSA, and DMR standards where applicable. Which specific compliance requirements do you need information about?",
+                        "All our safety products are compliant with South African regulations including SANS and OHSA standards. Need details on a specific product?"
+                    ]
+                },
+                contact: {
+                    regex: /(contact|call|email|phone|speak.*human|sales\s*team)/i,
+                    responses: [
+                        "You can reach our sales team at hello@fig3.online or WhatsApp us at +27 79 406 8239. We're happy to help!",
+                        "Our team is available via email (hello@fig3.online) or WhatsApp (+27 79 406 8239). Would you like me to arrange a callback?"
+                    ]
+                },
+                delivery: {
+                    regex: /(deliver|shipping|courier|how\s*long|lead\s*time)/i,
+                    responses: [
+                        "We deliver nationwide! Standard delivery is 3-5 business days in Gauteng, 5-7 days to other provinces. Express options available.",
+                        "Delivery times vary by location. Gauteng: 3-5 days, Other provinces: 5-7 days. Need a specific delivery quote?"
+                    ]
+                },
+                thanks: {
+                    regex: /(thank|cheers|appreciate|awesome|great)/i,
+                    responses: [
+                        "You're welcome! Is there anything else I can help with?",
+                        "Happy to help! Let me know if you need anything else."
+                    ]
+                },
+                fallback: {
+                    responses: [
+                        "I understand you're asking about something specific. Could you tell me more, or would you like to speak with our sales team?",
+                        "Let me connect you with someone who can help better. Would you like to contact our team directly?",
+                        "I want to make sure I help you correctly. Could you rephrase that, or shall I get a team member to assist?"
+                    ]
+                }
+            };
+
+            // Toggle chat
+            bubble.addEventListener('click', () => {
+                container.classList.toggle('open');
+                notification.style.display = 'none';
+                if (container.classList.contains('open')) {
+                    input.focus();
+                }
+            });
+
+            closeBtn.addEventListener('click', () => {
+                container.classList.remove('open');
+            });
+
+            // Quick actions
+            quickActions.addEventListener('click', (e) => {
+                if (e.target.classList.contains('fig3-quick-btn')) {
+                    const message = e.target.dataset.message;
+                    sendMessage(message);
+                }
+            });
+
+            // Send message
+            function sendMessage(text) {
+                if (!text.trim()) return;
+
+                // Add user message
+                addMessage(text, 'user');
+                input.value = '';
+
+                // Show typing
+                showTyping();
+
+                // Process and respond
+                setTimeout(() => {
+                    hideTyping();
+                    const response = getResponse(text);
+                    addMessage(response, 'bot');
+                }, 800 + Math.random() * 700);
+            }
+
+            function addMessage(text, type) {
+                const msg = document.createElement('div');
+                msg.className = `fig3-message ${type}`;
+                msg.textContent = text;
+                messages.appendChild(msg);
+                messages.scrollTop = messages.scrollHeight;
+            }
+
+            function showTyping() {
+                const typing = document.createElement('div');
+                typing.className = 'fig3-typing';
+                typing.id = 'typingIndicator';
+                typing.innerHTML = '<span></span><span></span><span></span>';
+                messages.appendChild(typing);
+                messages.scrollTop = messages.scrollHeight;
+            }
+
+            function hideTyping() {
+                const typing = document.getElementById('typingIndicator');
+                if (typing) typing.remove();
+            }
+
+            function getResponse(text) {
+                for (const [key, pattern] of Object.entries(patterns)) {
+                    if (key === 'fallback') continue;
+                    if (pattern.regex && pattern.regex.test(text)) {
+                        const responses = pattern.responses;
+                        return responses[Math.floor(Math.random() * responses.length)];
+                    }
+                }
+                const fallback = patterns.fallback.responses;
+                return fallback[Math.floor(Math.random() * fallback.length)];
+            }
+
+            // Input handlers
+            sendBtn.addEventListener('click', () => sendMessage(input.value));
+            input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') sendMessage(input.value);
+            });
+
+            // Show notification after delay
+            setTimeout(() => {
+                if (!container.classList.contains('open')) {
+                    notification.style.display = 'flex';
+                }
+            }, 5000);
+        })();
+    </script>
+
+</body>
+</html>
