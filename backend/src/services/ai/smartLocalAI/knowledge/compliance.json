@@ -1,0 +1,333 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2025-01-01",
+  "standards": {
+    "SANS-1700": {
+      "id": "SANS-1700",
+      "name": "Fasteners - General Requirements",
+      "fullName": "SANS 1700-1: Fasteners - General requirements and dimensional tolerances",
+      "category": "fasteners",
+      "description": "Specifies general requirements for threaded fasteners including bolts, screws, and nuts",
+      "issuingBody": "SABS",
+      "industries": ["mining", "construction", "manufacturing", "general"],
+      "requirements": {
+        "materials": "Carbon steel, alloy steel, stainless steel per specification",
+        "testing": "Tensile strength, proof load, hardness testing required",
+        "marking": "Grade marking, manufacturer identification required",
+        "coating": "Zinc plating, hot-dip galvanizing per application"
+      },
+      "grades": {
+        "4.6": { "tensile": 400, "yield": 240, "use": "Low strength, non-critical" },
+        "5.8": { "tensile": 500, "yield": 400, "use": "Medium strength, general purpose" },
+        "8.8": { "tensile": 800, "yield": 640, "use": "High strength, structural" },
+        "10.9": { "tensile": 1000, "yield": 900, "use": "Very high strength, critical applications" },
+        "12.9": { "tensile": 1200, "yield": 1080, "use": "Maximum strength, specialized applications" }
+      },
+      "relatedStandards": ["ISO 898-1", "DIN 931", "ASTM A325"]
+    },
+    "SANS-719": {
+      "id": "SANS-719",
+      "name": "Steel Pipes",
+      "fullName": "SANS 719: Steel pipes and tubes for general purposes",
+      "category": "pipes",
+      "description": "Specifies requirements for carbon and alloy steel pipes for pressure and structural applications",
+      "issuingBody": "SABS",
+      "industries": ["construction", "plumbing", "industrial", "mining"],
+      "requirements": {
+        "materials": "Carbon steel, low alloy steel",
+        "testing": "Hydrostatic test, dimensional check, surface inspection",
+        "marking": "Size, grade, heat number, manufacturer",
+        "coating": "Black, galvanized, or epoxy per application"
+      },
+      "schedules": {
+        "Schedule 20": "Light duty, low pressure",
+        "Schedule 40": "Standard duty, medium pressure",
+        "Schedule 80": "Heavy duty, high pressure",
+        "Schedule 160": "Extra heavy, very high pressure"
+      },
+      "relatedStandards": ["ASTM A53", "BS EN 10255", "API 5L"]
+    },
+    "SANS-10142-1": {
+      "id": "SANS-10142-1",
+      "name": "Electrical Installations",
+      "fullName": "SANS 10142-1: The wiring of premises - Part 1: Low voltage installations",
+      "category": "electrical",
+      "description": "Safety requirements for electrical installations in buildings and premises",
+      "issuingBody": "SABS",
+      "industries": ["electrical", "construction", "industrial"],
+      "requirements": {
+        "installation": "Qualified electrician, COC required",
+        "materials": "SABS approved cables and components",
+        "testing": "Insulation resistance, earth continuity, polarity",
+        "documentation": "Test certificates, as-built drawings"
+      },
+      "cableTypes": {
+        "XLPE": "Cross-linked polyethylene, high temperature",
+        "PVC": "Polyvinyl chloride, general purpose",
+        "SWA": "Steel wire armoured, underground/industrial"
+      },
+      "relatedStandards": ["IEC 60364", "BS 7671"]
+    },
+    "SANS-1473": {
+      "id": "SANS-1473",
+      "name": "Safety Helmets",
+      "fullName": "SANS 1473: Industrial safety helmets",
+      "category": "ppe",
+      "description": "Requirements for industrial safety helmets for protection against falling objects and side impacts",
+      "issuingBody": "SABS",
+      "industries": ["mining", "construction", "industrial"],
+      "requirements": {
+        "impact": "Withstand vertical impact of 5 kg from 1m",
+        "penetration": "Resist penetration by pointed objects",
+        "retention": "Chin strap must hold under specified force",
+        "marking": "SABS mark, size, date of manufacture"
+      },
+      "classes": {
+        "Class E": "Electrical insulation (20kV)",
+        "Class G": "General purpose",
+        "Class C": "Conductive (no electrical protection)"
+      },
+      "relatedStandards": ["EN 397", "ANSI Z89.1"]
+    },
+    "SANS-1360": {
+      "id": "SANS-1360",
+      "name": "Safety Footwear",
+      "fullName": "SANS 1360: Safety footwear",
+      "category": "ppe",
+      "description": "Requirements for safety footwear with protective toecaps and other safety features",
+      "issuingBody": "SABS",
+      "industries": ["mining", "construction", "industrial", "manufacturing"],
+      "requirements": {
+        "toecap": "Withstand 200J impact, 15kN compression",
+        "penetration": "Sole protection against nail penetration",
+        "slip": "Slip-resistant sole required",
+        "marking": "SABS mark, protection class, size"
+      },
+      "categories": {
+        "SB": "Basic safety (toecap only)",
+        "S1": "SB + antistatic, energy absorption",
+        "S2": "S1 + water resistant",
+        "S3": "S2 + penetration resistance"
+      },
+      "relatedStandards": ["EN ISO 20345", "ASTM F2413"]
+    },
+    "SANS-50": {
+      "id": "SANS-50",
+      "name": "Protective Gloves",
+      "fullName": "SANS 50: Protective gloves - General requirements",
+      "category": "ppe",
+      "description": "General requirements for design and construction of protective gloves",
+      "issuingBody": "SABS",
+      "industries": ["mining", "construction", "industrial", "manufacturing"],
+      "requirements": {
+        "sizing": "Standard palm width and length measurements",
+        "dexterity": "Performance level 1-5",
+        "materials": "Leather, rubber, synthetic per application",
+        "marking": "Protection level, size, pictogram"
+      },
+      "types": {
+        "Chemical": "Resistant to chemicals and liquids",
+        "Mechanical": "Abrasion, cut, tear, puncture resistance",
+        "Thermal": "Heat and flame protection",
+        "Electrical": "Insulation for electrical work"
+      },
+      "relatedStandards": ["EN 388", "EN 374", "EN 407"]
+    }
+  },
+  "regulations": {
+    "OHSA": {
+      "id": "OHSA",
+      "name": "Occupational Health and Safety Act",
+      "fullName": "Occupational Health and Safety Act 85 of 1993",
+      "description": "Primary legislation governing workplace health and safety in South Africa",
+      "authority": "Department of Employment and Labour",
+      "applicability": "All workplaces in South Africa",
+      "keyRequirements": [
+        "Employer must provide safe working environment",
+        "Risk assessments must be conducted",
+        "PPE must be provided where required",
+        "Incidents must be reported and investigated",
+        "Safety representatives must be appointed"
+      ],
+      "penalties": "Fines up to R100,000 and/or 2 years imprisonment",
+      "relatedRegulations": ["DMR", "MHSA"]
+    },
+    "DMR": {
+      "id": "DMR",
+      "name": "Mine Health and Safety Act",
+      "fullName": "Mine Health and Safety Act 29 of 1996 (MHSA)",
+      "description": "Specific regulations for health and safety in mining operations",
+      "authority": "Department of Mineral Resources",
+      "applicability": "All mining operations (surface and underground)",
+      "keyRequirements": [
+        "Annual medicals for all mine workers",
+        "Specific PPE requirements for underground work",
+        "Regular safety inspections",
+        "Training and competency certificates",
+        "Emergency preparedness plans"
+      ],
+      "inspections": "Regular DMR inspections, Section 54 stoppage authority",
+      "relatedRegulations": ["OHSA"]
+    },
+    "NRCS": {
+      "id": "NRCS",
+      "name": "National Regulator for Compulsory Specifications",
+      "description": "Regulates products that must meet compulsory specifications for safety",
+      "authority": "Department of Trade, Industry and Competition",
+      "applicability": "Regulated products sold in South Africa",
+      "coveredProducts": [
+        "Electrical equipment and components",
+        "Safety equipment and PPE",
+        "Construction materials",
+        "Automotive components"
+      ],
+      "certification": "Letter of Authority (LoA) required for imports",
+      "marking": "NRCS mark of conformity required"
+    }
+  },
+  "industryCompliance": {
+    "mining": {
+      "industry": "mining",
+      "displayName": "Mining",
+      "mandatory": ["SANS-1473", "SANS-1360", "SANS-50"],
+      "recommended": ["SANS-1700", "SANS-719"],
+      "regulations": ["DMR", "OHSA"],
+      "specificRequirements": [
+        "All PPE must be DMR approved",
+        "Underground work requires additional certifications",
+        "Regular safety inspections mandatory",
+        "Medical fitness certificates required"
+      ],
+      "notes": "Mining has the strictest PPE requirements in South Africa"
+    },
+    "construction": {
+      "industry": "construction",
+      "displayName": "Construction",
+      "mandatory": ["SANS-1473", "SANS-1360"],
+      "recommended": ["SANS-1700", "SANS-719", "SANS-10142-1"],
+      "regulations": ["OHSA", "NHBRC"],
+      "specificRequirements": [
+        "Construction regulations apply to all sites",
+        "Safety file required for all projects",
+        "Fall protection mandatory above 2m",
+        "Site-specific risk assessments required"
+      ],
+      "notes": "NHBRC registration required for residential building"
+    },
+    "electrical": {
+      "industry": "electrical",
+      "displayName": "Electrical",
+      "mandatory": ["SANS-10142-1"],
+      "recommended": ["SANS-50"],
+      "regulations": ["NRCS", "OHSA"],
+      "specificRequirements": [
+        "Only SABS approved materials allowed",
+        "Registered electrician must install",
+        "Certificate of Compliance (COC) required",
+        "Regular testing and inspection"
+      ],
+      "notes": "All electrical products require NRCS certification"
+    },
+    "manufacturing": {
+      "industry": "manufacturing",
+      "displayName": "Manufacturing",
+      "mandatory": ["SANS-1360", "SANS-50"],
+      "recommended": ["SANS-1473", "SANS-1700"],
+      "regulations": ["OHSA"],
+      "specificRequirements": [
+        "Machine guarding required",
+        "PPE based on risk assessment",
+        "Regular safety audits",
+        "Training records maintained"
+      ],
+      "notes": "ISO 9001 certification often required by customers"
+    },
+    "general": {
+      "industry": "general",
+      "displayName": "General Industrial",
+      "mandatory": [],
+      "recommended": ["SANS-1700", "SANS-719"],
+      "regulations": ["OHSA"],
+      "specificRequirements": [
+        "Risk assessment determines PPE requirements",
+        "Basic safety training required",
+        "First aid provisions"
+      ],
+      "notes": "Minimum compliance requirements vary by activity"
+    }
+  },
+  "productCompliance": {
+    "bolts": {
+      "category": "bolts",
+      "standards": ["SANS-1700"],
+      "gradeRequirements": {
+        "mining": "Grade 8.8 minimum for structural",
+        "construction": "Grade 5.8 minimum, 8.8 for structural",
+        "general": "As per design requirements"
+      }
+    },
+    "pipes": {
+      "category": "pipes",
+      "standards": ["SANS-719"],
+      "scheduleRequirements": {
+        "low_pressure": "Schedule 20 or 40",
+        "medium_pressure": "Schedule 40 or 80",
+        "high_pressure": "Schedule 80 or 160"
+      }
+    },
+    "cables": {
+      "category": "cables",
+      "standards": ["SANS-10142-1"],
+      "typeRequirements": {
+        "indoor": "PVC suitable for most applications",
+        "outdoor": "UV stabilized or armoured",
+        "underground": "SWA (Steel Wire Armoured) required"
+      }
+    },
+    "helmets": {
+      "category": "helmets",
+      "standards": ["SANS-1473"],
+      "classRequirements": {
+        "electrical_work": "Class E mandatory",
+        "general": "Class G acceptable",
+        "welding": "Class G with face shield"
+      }
+    },
+    "boots": {
+      "category": "boots",
+      "standards": ["SANS-1360"],
+      "categoryRequirements": {
+        "mining": "S3 required (penetration resistant)",
+        "construction": "S1 minimum, S3 recommended",
+        "warehouse": "SB acceptable for light duty"
+      }
+    },
+    "gloves": {
+      "category": "gloves",
+      "standards": ["SANS-50"],
+      "typeRequirements": {
+        "handling": "Mechanical protection",
+        "chemical": "Chemical resistant",
+        "electrical": "Insulated gloves",
+        "welding": "Heat resistant"
+      }
+    }
+  },
+  "certificationBodies": {
+    "SABS": {
+      "name": "South African Bureau of Standards",
+      "function": "Standards development and certification",
+      "website": "https://www.sabs.co.za"
+    },
+    "NRCS": {
+      "name": "National Regulator for Compulsory Specifications",
+      "function": "Compulsory specification regulation",
+      "website": "https://www.nrcs.org.za"
+    },
+    "DMR": {
+      "name": "Department of Mineral Resources",
+      "function": "Mining health and safety regulation",
+      "website": "https://www.dmre.gov.za"
+    }
+  }
+}

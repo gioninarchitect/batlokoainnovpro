@@ -1,0 +1,339 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2025-01-01",
+  "patterns": [
+    {
+      "id": "PRODUCT_SEARCH_SPECIFIC",
+      "regex": "(show|find|need|looking for|search|where|get|want)\\s+(.+?)\\s*(bolt|bolts|nut|nuts|pipe|pipes|cable|cables|wire|ppe|helmet|gloves|boots|fitting|fittings|valve|valves|pump|pumps|motor|bearing|bearings)",
+      "keywords": ["find", "search", "need", "looking", "show", "bolt", "pipe", "cable", "ppe", "valve", "pump"],
+      "intent": "PRODUCT_SEARCH",
+      "priority": 10,
+      "examples": [
+        "I need high tensile bolts",
+        "Show me steel pipes",
+        "Looking for M12 bolts",
+        "Find me safety helmets"
+      ]
+    },
+    {
+      "id": "PRODUCT_SEARCH_GENERIC",
+      "regex": "(what|which|do you have|any|stock|sell)\\s+(.+?)\\s*(available|in stock|products)?",
+      "keywords": ["what", "which", "have", "any", "stock", "available", "sell"],
+      "intent": "PRODUCT_SEARCH",
+      "priority": 8,
+      "examples": [
+        "What bolts do you have?",
+        "Do you stock M16 nuts?",
+        "Any galvanized pipes available?"
+      ]
+    },
+    {
+      "id": "PRICE_QUOTE_DIRECT",
+      "regex": "(how much|price|cost|quote|pricing|rate)\\s+(for|of|is|per)?\\s*(.+)?",
+      "keywords": ["price", "cost", "quote", "how much", "pricing", "rate", "per unit"],
+      "intent": "PRICE_QUOTE",
+      "priority": 10,
+      "examples": [
+        "How much for M12 bolts?",
+        "What's the price of steel pipes?",
+        "Can I get a quote for 500 nuts?",
+        "Cost per unit?"
+      ]
+    },
+    {
+      "id": "PRICE_QUOTE_QUANTITY",
+      "regex": "(quote|price|cost)\\s+.*(\\d+)\\s*(units?|pcs?|pieces?|boxes?|kg|meters?|m)?",
+      "keywords": ["quote", "price", "units", "quantity", "pieces"],
+      "intent": "PRICE_QUOTE",
+      "priority": 9,
+      "examples": [
+        "Quote for 500 M12 bolts",
+        "Price for 100 meters of cable",
+        "Cost of 50 safety helmets"
+      ]
+    },
+    {
+      "id": "SPEC_QUERY_DIRECT",
+      "regex": "(specs?|specifications?|details?|technical|tell me about|info|information)\\s+(for|on|about|of)?\\s*(.+)?",
+      "keywords": ["specs", "specifications", "details", "technical", "info", "about"],
+      "intent": "SPEC_QUERY",
+      "priority": 10,
+      "examples": [
+        "What are the specs for M12 Grade 8.8?",
+        "Tell me about high tensile bolts",
+        "Technical details for steel pipes",
+        "Specifications of safety boots"
+      ]
+    },
+    {
+      "id": "SPEC_QUERY_PROPERTY",
+      "regex": "(what|what's)\\s+(is|are)?\\s+(the)?\\s*(tensile strength|grade|size|material|thickness|length|diameter|weight|capacity)",
+      "keywords": ["tensile", "strength", "grade", "size", "material", "thickness", "diameter"],
+      "intent": "SPEC_QUERY",
+      "priority": 9,
+      "examples": [
+        "What is the tensile strength?",
+        "What grade is this?",
+        "What's the diameter?"
+      ]
+    },
+    {
+      "id": "COMPLIANCE_CHECK_DIRECT",
+      "regex": "(sans|sabs|certified|certification|compliant|compliance|regulation|standard|ohsa|dmr|nrcs)\\s*(.+)?",
+      "keywords": ["SANS", "SABS", "certified", "compliant", "OHSA", "DMR", "NRCS", "standard", "regulation"],
+      "intent": "COMPLIANCE_CHECK",
+      "priority": 10,
+      "examples": [
+        "Is this SANS certified?",
+        "SANS 1700 compliance?",
+        "Does this meet OHSA standards?",
+        "DMR approved?"
+      ]
+    },
+    {
+      "id": "COMPLIANCE_CHECK_INDUSTRY",
+      "regex": "(suitable|approved|safe|legal|comply|meets?)\\s+(for|with)?\\s*(mining|construction|electrical|industrial|underground)",
+      "keywords": ["suitable", "approved", "safe", "mining", "construction", "electrical", "underground"],
+      "intent": "COMPLIANCE_CHECK",
+      "priority": 9,
+      "examples": [
+        "Is this suitable for mining?",
+        "Approved for underground work?",
+        "Does this comply with construction regulations?"
+      ]
+    },
+    {
+      "id": "DELIVERY_INQUIRY_TIME",
+      "regex": "(when|how long|delivery|ship|shipping|arrive|lead time|dispatch|turnaround|eta)",
+      "keywords": ["delivery", "shipping", "when", "arrive", "lead time", "dispatch", "how long", "eta"],
+      "intent": "DELIVERY_INQUIRY",
+      "priority": 10,
+      "examples": [
+        "When can you deliver?",
+        "How long for delivery?",
+        "What's the lead time?",
+        "Shipping to Cape Town?"
+      ]
+    },
+    {
+      "id": "DELIVERY_INQUIRY_LOCATION",
+      "regex": "(deliver|ship|send)\\s+(to)?\\s*(johannesburg|pretoria|cape town|durban|gauteng|randfontein|bloemfontein|port elizabeth|east london|nelspruit|polokwane|rustenburg|witbank|secunda|sasolburg)",
+      "keywords": ["deliver", "ship", "johannesburg", "pretoria", "cape town", "durban", "gauteng"],
+      "intent": "DELIVERY_INQUIRY",
+      "priority": 9,
+      "examples": [
+        "Deliver to Johannesburg?",
+        "Can you ship to Cape Town?",
+        "Delivery to Rustenburg mine?"
+      ]
+    },
+    {
+      "id": "COMPATIBILITY_CHECK",
+      "regex": "(compatible|work with|fit|match|use with|goes with|pair with|connect|together)",
+      "keywords": ["compatible", "work with", "fit", "match", "use with", "connect", "pair"],
+      "intent": "COMPATIBILITY_CHECK",
+      "priority": 10,
+      "examples": [
+        "Is M12 bolt compatible with M12 nut?",
+        "Will this fit with my existing setup?",
+        "Does this work with high pressure systems?"
+      ]
+    },
+    {
+      "id": "BULK_DISCOUNT_INQUIRY",
+      "regex": "(bulk|wholesale|volume|large order|discount|trade price|special price|better price)",
+      "keywords": ["bulk", "wholesale", "volume", "discount", "trade", "large order", "special"],
+      "intent": "BULK_DISCOUNT",
+      "priority": 10,
+      "examples": [
+        "Do you offer bulk discounts?",
+        "What's the wholesale price?",
+        "Volume pricing available?",
+        "Trade pricing for large orders?"
+      ]
+    },
+    {
+      "id": "BBBEE_INQUIRY_LEVEL",
+      "regex": "(bbb-?ee?|b-?bbee|bee|broad.?based|black.?(owned|women)|level\\s*1|empowerment|preferential)",
+      "keywords": ["BBB-EE", "BBBEE", "BEE", "Level 1", "black owned", "empowerment", "preferential"],
+      "intent": "BBBEE_INQUIRY",
+      "priority": 10,
+      "examples": [
+        "What's your BBB-EE level?",
+        "Are you Level 1?",
+        "Black owned company?",
+        "BEE certificate?"
+      ]
+    },
+    {
+      "id": "BBBEE_INQUIRY_CERT",
+      "regex": "(certificate|cert|proof|documentation|scorecard|status)\\s*.*(bbb-?ee?|b-?bbee|bee)?",
+      "keywords": ["certificate", "proof", "documentation", "scorecard"],
+      "intent": "BBBEE_INQUIRY",
+      "priority": 8,
+      "examples": [
+        "Can I get your BBB-EE certificate?",
+        "BEE scorecard please",
+        "Send me your certificate"
+      ]
+    },
+    {
+      "id": "PROJECT_ASSISTANCE",
+      "regex": "(project|building|constructing|installing|working on|setting up|need help|assist|recommend)",
+      "keywords": ["project", "building", "constructing", "installing", "working on", "help", "recommend", "assist"],
+      "intent": "PROJECT_ASSISTANCE",
+      "priority": 9,
+      "examples": [
+        "I'm working on a construction project",
+        "Need materials for a mining installation",
+        "Can you recommend products for electrical work?"
+      ]
+    },
+    {
+      "id": "STOCK_AVAILABILITY",
+      "regex": "(in stock|available|availability|have|got|on hand|ready)",
+      "keywords": ["stock", "available", "availability", "have", "ready", "on hand"],
+      "intent": "STOCK_CHECK",
+      "priority": 9,
+      "examples": [
+        "Is this in stock?",
+        "Do you have M12 bolts available?",
+        "Stock availability?"
+      ]
+    },
+    {
+      "id": "ORDER_STATUS",
+      "regex": "(order|track|tracking|status|where|my order|ref|reference)\\s*(number|#|no\\.?)?\\s*([A-Z0-9-]+)?",
+      "keywords": ["order", "track", "tracking", "status", "where", "reference"],
+      "intent": "ORDER_STATUS",
+      "priority": 10,
+      "examples": [
+        "Where is my order?",
+        "Track order ORD-12345",
+        "Order status please",
+        "Check reference number"
+      ]
+    },
+    {
+      "id": "QUOTE_STATUS",
+      "regex": "(quote|quotation)\\s*(status|update|progress|ref|reference|number)?\\s*([A-Z0-9-]+)?",
+      "keywords": ["quote", "quotation", "status", "reference"],
+      "intent": "QUOTE_STATUS",
+      "priority": 9,
+      "examples": [
+        "Check my quote status",
+        "Quote reference QT-12345",
+        "What happened to my quotation?"
+      ]
+    },
+    {
+      "id": "GENERAL_INFO_COMPANY",
+      "regex": "(who are you|about|company|batlokoa|tell me about|what do you|what does|services|capabilities)",
+      "keywords": ["who", "about", "company", "batlokoa", "services", "capabilities"],
+      "intent": "GENERAL_INFO",
+      "priority": 7,
+      "examples": [
+        "Tell me about Batlokoa",
+        "What does your company do?",
+        "Who are you?",
+        "What services do you offer?"
+      ]
+    },
+    {
+      "id": "CONTACT_REQUEST",
+      "regex": "(contact|call|phone|speak|talk|human|agent|sales|rep|representative|email|reach)",
+      "keywords": ["contact", "call", "phone", "speak", "human", "agent", "sales", "email"],
+      "intent": "CONTACT_REQUEST",
+      "priority": 10,
+      "examples": [
+        "Can I speak to someone?",
+        "Contact sales please",
+        "I need to talk to a human",
+        "What's your phone number?"
+      ]
+    },
+    {
+      "id": "GREETING",
+      "regex": "^(hi|hello|hey|good morning|good afternoon|good day|howzit|hoe gaan|molo|sawubona)",
+      "keywords": ["hi", "hello", "hey", "morning", "afternoon", "howzit"],
+      "intent": "GREETING",
+      "priority": 5,
+      "examples": [
+        "Hi",
+        "Hello",
+        "Good morning",
+        "Howzit"
+      ]
+    },
+    {
+      "id": "THANKS",
+      "regex": "(thank|thanks|cheers|appreciated|dankie|ngiyabonga)",
+      "keywords": ["thank", "thanks", "cheers", "appreciated", "dankie"],
+      "intent": "THANKS",
+      "priority": 5,
+      "examples": [
+        "Thank you",
+        "Thanks!",
+        "Dankie"
+      ]
+    },
+    {
+      "id": "AFRIKAANS_PRODUCT",
+      "regex": "(soek|nodig|kry|wys|boute?|moere?|pypie?|elektries|veiligheidstoerusting)",
+      "keywords": ["soek", "nodig", "boute", "moere", "pypie", "elektries"],
+      "intent": "PRODUCT_SEARCH",
+      "priority": 8,
+      "examples": [
+        "Ek soek boute",
+        "Nodig pypie vir mynbou",
+        "Wys my die elektriese kabel"
+      ]
+    }
+  ],
+  "entityPatterns": {
+    "quantity": {
+      "regex": "(\\d+(?:,\\d{3})*(?:\\.\\d+)?)\\s*(units?|pcs?|pieces?|boxes?|packs?|kg|kgs?|tons?|meters?|m|mm|cm)?",
+      "type": "number",
+      "examples": ["500 units", "100 kg", "50 meters"]
+    },
+    "productCode": {
+      "regex": "([mM]\\d+(?:\\.\\d+)?|grade\\s*\\d+(?:\\.\\d+)?|class\\s*[a-zA-Z0-9]+|size\\s*\\d+)",
+      "type": "string",
+      "examples": ["M12", "Grade 8.8", "Class B"]
+    },
+    "orderNumber": {
+      "regex": "(ORD|QT|INV)-?\\d{4,}",
+      "type": "string",
+      "examples": ["ORD-12345", "QT-5678", "INV-9999"]
+    },
+    "location": {
+      "regex": "(johannesburg|jo'?burg|pretoria|pta|cape town|cpt|durban|dbn|gauteng|gp|western cape|kzn|kwazulu|randfontein|rustenburg|witbank|secunda|sasolburg|nelspruit|polokwane|bloemfontein|port elizabeth|pe|east london|el)",
+      "type": "location",
+      "examples": ["Johannesburg", "Cape Town", "Durban"]
+    },
+    "measurement": {
+      "regex": "(\\d+(?:\\.\\d+)?)\\s*(mm|cm|m|inch|inches|ft|feet|kg|ton|kn|mpa|bar|psi|celsius|°c)",
+      "type": "measurement",
+      "examples": ["12mm", "800 MPa", "25 bar"]
+    },
+    "sansCode": {
+      "regex": "(SANS|SABS)\\s*\\d{3,5}(?:-\\d+)?",
+      "type": "compliance",
+      "examples": ["SANS 1700", "SABS 1473", "SANS 10142-1"]
+    }
+  },
+  "fallbackPatterns": [
+    {
+      "id": "SINGLE_WORD_PRODUCT",
+      "regex": "^(bolt|bolts|nut|nuts|pipe|pipes|cable|wire|helmet|gloves|boots|valve|pump|bearing)s?$",
+      "intent": "PRODUCT_SEARCH",
+      "priority": 3
+    },
+    {
+      "id": "QUESTION_MARK",
+      "regex": "\\?$",
+      "intent": "UNKNOWN",
+      "priority": 1
+    }
+  ]
+}

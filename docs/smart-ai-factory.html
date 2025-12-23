@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Batlokoa Smart AI Factory - Technical Documentation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #1a1a2e;
+            --navy-light: #252542;
+            --navy-dark: #12121f;
+            --industrial: #0f3460;
+            --industrial-light: #164470;
+            --safety: #e94560;
+            --safety-dark: #d13350;
+            --gold: #d4af37;
+            --gold-light: #e0c45c;
+            --white: #ffffff;
+            --gray-50: #fafafa;
+            --gray-100: #f5f5f5;
+            --gray-200: #eeeeee;
+            --gray-300: #e0e0e0;
+            --gray-600: #757575;
+            --gray-700: #616161;
+            --gray-800: #424242;
+            --gray-900: #333333;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--gray-50);
+            color: var(--gray-900);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--industrial) 100%);
+            color: var(--white);
+            padding: 60px 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+        }
+
+        .header .subtitle {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto 24px;
+        }
+
+        .header .badges {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.15);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .badge.gold {
+            background: var(--gold);
+            color: var(--navy);
+        }
+
+        .badge svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Navigation */
+        .nav {
+            background: var(--white);
+            border-bottom: 1px solid var(--gray-200);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            overflow-x: auto;
+        }
+
+        .nav a {
+            padding: 16px 20px;
+            text-decoration: none;
+            color: var(--gray-700);
+            font-weight: 500;
+            white-space: nowrap;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .nav a:hover, .nav a.active {
+            color: var(--industrial);
+            border-bottom-color: var(--safety);
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        section {
+            margin-bottom: 60px;
+        }
+
+        section h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 3px solid var(--safety);
+            display: inline-block;
+        }
+
+        section h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--industrial);
+            margin: 24px 0 12px;
+        }
+
+        p {
+            margin-bottom: 16px;
+            color: var(--gray-700);
+        }
+
+        /* Cards */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-top: 24px;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--safety);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+        }
+
+        .card-icon svg {
+            width: 24px;
+            height: 24px;
+            color: var(--white);
+        }
+
+        .card h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--navy);
+            margin-bottom: 8px;
+        }
+
+        .card p {
+            font-size: 0.9375rem;
+            margin-bottom: 0;
+        }
+
+        /* Feature List */
+        .feature-list {
+            list-style: none;
+        }
+
+        .feature-list li {
+            position: relative;
+            padding-left: 28px;
+            margin-bottom: 12px;
+            color: var(--gray-700);
+        }
+
+        .feature-list li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 8px;
+            width: 12px;
+            height: 12px;
+            background: var(--safety);
+            border-radius: 50%;
+        }
+
+        /* Code Blocks */
+        .code-block {
+            background: var(--navy);
+            color: var(--gray-100);
+            border-radius: 8px;
+            padding: 20px;
+            font-family: 'Fira Code', 'Monaco', monospace;
+            font-size: 0.875rem;
+            overflow-x: auto;
+            margin: 16px 0;
+        }
+
+        .code-block .comment {
+            color: #6a9955;
+        }
+
+        .code-block .keyword {
+            color: #569cd6;
+        }
+
+        .code-block .string {
+            color: #ce9178;
+        }
+
+        .code-block .number {
+            color: #b5cea8;
+        }
+
+        /* Tables */
+        .table-wrapper {
+            overflow-x: auto;
+            margin: 16px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        th {
+            background: var(--industrial);
+            color: var(--white);
+            font-weight: 600;
+            text-align: left;
+            padding: 14px 16px;
+        }
+
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover {
+            background: var(--gray-50);
+        }
+
+        /* Info Boxes */
+        .info-box {
+            border-radius: 8px;
+            padding: 20px;
+            margin: 16px 0;
+        }
+
+        .info-box.success {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+        }
+
+        .info-box.warning {
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+        }
+
+        .info-box.info {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+        }
+
+        .info-box h4 {
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 24px 0;
+        }
+
+        .stat-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .stat-value {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--safety);
+        }
+
+        .stat-label {
+            color: var(--gray-600);
+            font-size: 0.875rem;
+            margin-top: 8px;
+        }
+
+        /* Architecture Diagram */
+        .architecture {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 32px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            margin: 24px 0;
+        }
+
+        .architecture-layers {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .arch-layer {
+            background: var(--gray-50);
+            border: 2px solid var(--gray-200);
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .arch-layer h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            color: var(--industrial);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .arch-components {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .arch-component {
+            background: var(--white);
+            border: 1px solid var(--gray-300);
+            border-radius: 6px;
+            padding: 8px 14px;
+            font-size: 0.875rem;
+            color: var(--gray-700);
+        }
+
+        .arch-component.primary {
+            background: var(--industrial);
+            color: var(--white);
+            border-color: var(--industrial);
+        }
+
+        .arch-component.highlight {
+            background: var(--safety);
+            color: var(--white);
+            border-color: var(--safety);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--navy);
+            color: var(--white);
+            padding: 40px;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .footer p {
+            color: rgba(255,255,255,0.7);
+            max-width: 500px;
+            margin: 0 auto 24px;
+        }
+
+        .footer-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--gold);
+            color: var(--navy);
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.75rem;
+            }
+
+            .header .subtitle {
+                font-size: 1rem;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            .nav {
+                display: none;
+            }
+
+            .header {
+                background: var(--navy) !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <h1>Batlokoa Smart AI Factory</h1>
+        <p class="subtitle">Zero-Cost, Offline-Capable AI Assistant for Industrial Engineering Excellence</p>
+        <div class="badges">
+            <span class="badge">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                &lt;50ms Response
+            </span>
+            <span class="badge">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"/></svg>
+                100% Offline
+            </span>
+            <span class="badge gold">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                Level 1 BBB-EE
+            </span>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="#overview" class="active">Overview</a>
+            <a href="#features">Features</a>
+            <a href="#architecture">Architecture</a>
+            <a href="#intents">Intent System</a>
+            <a href="#lead-scoring">Lead Scoring</a>
+            <a href="#compliance">Compliance</a>
+            <a href="#integration">Integration</a>
+            <a href="#api">API Reference</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <!-- Overview Section -->
+        <section id="overview">
+            <h2>System Overview</h2>
+            <p>
+                The Batlokoa Smart AI Factory is a production-ready, pattern-matching AI assistant designed specifically
+                for industrial engineering sales. Unlike cloud-based AI solutions, it operates entirely within your
+                infrastructure with zero external API dependencies, ensuring data privacy and instant response times.
+            </p>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value">&lt;50ms</div>
+                    <div class="stat-label">Response Time</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">R0</div>
+                    <div class="stat-label">API Costs</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">100%</div>
+                    <div class="stat-label">Offline Capable</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">24</div>
+                    <div class="stat-label">Intent Types</div>
+                </div>
+            </div>
+
+            <div class="info-box success">
+                <h4>Why Pattern Matching Over LLM?</h4>
+                <p>
+                    For industrial B2B sales, customers ask predictable questions about products, pricing, and compliance.
+                    Pattern matching delivers instant, consistent, accurate responses without the costs, latency, or
+                    unpredictability of large language models.
+                </p>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features">
+            <h2>Core Features</h2>
+
+            <div class="cards">
+                <div class="card">
+                    <div class="card-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
+                    </div>
+                    <h4>Natural Language Chat</h4>
+                    <p>Understands product inquiries, pricing requests, and compliance questions in natural language including Afrikaans and Zulu terms.</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                    </div>
+                    <h4>Smart Product Search</h4>
+                    <p>Fuzzy matching, synonym resolution, and category-aware search finds products even with typos or alternate names.</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+                    </div>
+                    <h4>Instant Pricing</h4>
+                    <p>Real-time pricing with bulk discounts, BBB-EE benefits, and location-based delivery estimates calculated locally.</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                    </div>
+                    <h4>Compliance Verification</h4>
+                    <p>Check products against SANS, OHSA, DMR, and industry-specific standards for mining, construction, and manufacturing.</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+                    </div>
+                    <h4>Lead Scoring</h4>
+                    <p>Silent behavior tracking assigns scores to visitors, identifying hot leads for sales follow-up with tier classification.</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"/></svg>
+                    </div>
+                    <h4>Offline Capability</h4>
+                    <p>Service worker caches knowledge base for full offline operation. Works without internet after initial page load.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Architecture Section -->
+        <section id="architecture">
+            <h2>System Architecture</h2>
+            <p>
+                The Smart AI Factory follows a modular, layered architecture designed for performance and maintainability.
+                Each component is independently testable and can be updated without affecting others.
+            </p>
+
+            <div class="architecture">
+                <div class="architecture-layers">
+                    <div class="arch-layer">
+                        <h4>
+                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                            Frontend Layer
+                        </h4>
+                        <div class="arch-components">
+                            <span class="arch-component highlight">ChatWidget</span>
+                            <span class="arch-component">ChatContext</span>
+                            <span class="arch-component">Service Worker</span>
+                            <span class="arch-component">Theme Support</span>
+                        </div>
+                    </div>
+
+                    <div class="arch-layer">
+                        <h4>
+                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"/></svg>
+                            API Layer
+                        </h4>
+                        <div class="arch-components">
+                            <span class="arch-component primary">AI Routes</span>
+                            <span class="arch-component">Chat Endpoint</span>
+                            <span class="arch-component">Search Endpoint</span>
+                            <span class="arch-component">Compliance Endpoint</span>
+                            <span class="arch-component">Lead Scoring API</span>
+                        </div>
+                    </div>
+
+                    <div class="arch-layer">
+                        <h4>
+                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
+                            Core AI Factory
+                        </h4>
+                        <div class="arch-components">
+                            <span class="arch-component highlight">AIFactory</span>
+                            <span class="arch-component">PatternMatcher</span>
+                            <span class="arch-component">IntentClassifier</span>
+                            <span class="arch-component">ContextManager</span>
+                            <span class="arch-component">ResponseGenerator</span>
+                            <span class="arch-component">ScoringEngine</span>
+                        </div>
+                    </div>
+
+                    <div class="arch-layer">
+                        <h4>
+                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                            Domain Engines
+                        </h4>
+                        <div class="arch-components">
+                            <span class="arch-component primary">ProductEngine</span>
+                            <span class="arch-component primary">QuoteEngine</span>
+                            <span class="arch-component primary">ComplianceEngine</span>
+                        </div>
+                    </div>
+
+                    <div class="arch-layer">
+                        <h4>
+                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"/></svg>
+                            Data Layer
+                        </h4>
+                        <div class="arch-components">
+                            <span class="arch-component">patterns.json</span>
+                            <span class="arch-component">responses.json</span>
+                            <span class="arch-component">synonyms.json</span>
+                            <span class="arch-component">compliance.json</span>
+                            <span class="arch-component">PostgreSQL</span>
+                            <span class="arch-component">Prisma ORM</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Intent System Section -->
+        <section id="intents">
+            <h2>Intent Classification System</h2>
+            <p>
+                The AI recognizes 24 distinct intents, each with optimized regex patterns and entity extraction rules.
+                Patterns support English, Afrikaans, and common South African terminology.
+            </p>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Intent</th>
+                            <th>Description</th>
+                            <th>Example Queries</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>PRODUCT_SEARCH</strong></td>
+                            <td>Find products by name, category, or code</td>
+                            <td>"I need M12 bolts", "Ek soek boute", "Show safety helmets"</td>
+                        </tr>
+                        <tr>
+                            <td><strong>PRICE_QUOTE</strong></td>
+                            <td>Get pricing for specific products</td>
+                            <td>"How much for 500 units?", "Price on safety boots"</td>
+                        </tr>
+                        <tr>
+                            <td><strong>COMPLIANCE_CHECK</strong></td>
+                            <td>Verify product meets industry standards</td>
+                            <td>"Is this SANS 1473 certified?", "Mining compliant?"</td>
+                        </tr>
+                        <tr>
+                            <td><strong>SPEC_QUERY</strong></td>
+                            <td>Get technical specifications</td>
+                            <td>"What size is this bolt?", "Material specs"</td>
+                        </tr>
+                        <tr>
+                            <td><strong>DELIVERY_INQUIRY</strong></td>
+                            <td>Delivery times and costs</td>
+                            <td>"Delivery to Johannesburg?", "Ship to Durban"</td>
+                        </tr>
+                        <tr>
+                            <td><strong>BULK_DISCOUNT</strong></td>
+                            <td>Volume pricing information</td>
+                            <td>"Discount for 1000 units?", "Bulk pricing"</td>
+                        </tr>
+                        <tr>
+                            <td><strong>BBBEE_INQUIRY</strong></td>
+                            <td>BBB-EE certification questions</td>
+                            <td>"What's your BEE level?", "BBB-EE certificate"</td>
+                        </tr>
+                        <tr>
+                            <td><strong>STOCK_CHECK</strong></td>
+                            <td>Product availability</td>
+                            <td>"Is this in stock?", "Availability"</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ORDER_STATUS</strong></td>
+                            <td>Track existing orders</td>
+                            <td>"Where is my order ORD-001234?"</td>
+                        </tr>
+                        <tr>
+                            <td><strong>CONTACT_REQUEST</strong></td>
+                            <td>Request human contact</td>
+                            <td>"Speak to sales", "Contact us"</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>Entity Extraction</h3>
+            <p>The system automatically extracts structured data from natural language:</p>
+
+            <ul class="feature-list">
+                <li><strong>Quantities:</strong> "500 units", "100 pieces", "50"</li>
+                <li><strong>Product Codes:</strong> SKU-001, M12-HEX-ZN, BOL-001</li>
+                <li><strong>Order Numbers:</strong> ORD-123456, #12345</li>
+                <li><strong>Locations:</strong> Johannesburg, Gauteng, Cape Town</li>
+                <li><strong>SANS Codes:</strong> SANS 1700, SANS-1473, ISO 9001</li>
+                <li><strong>Industries:</strong> Mining, Construction, Electrical</li>
+            </ul>
+        </section>
+
+        <!-- Lead Scoring Section -->
+        <section id="lead-scoring">
+            <h2>Lead Scoring System</h2>
+            <p>
+                The scoring engine silently tracks visitor behavior and assigns points to calculate lead quality.
+                Scores are persisted to the database and available for the sales dashboard.
+            </p>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Event Type</th>
+                            <th>Points</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>quote_submitted</td>
+                            <td><strong>+50</strong></td>
+                            <td>Customer submitted a quote request</td>
+                        </tr>
+                        <tr>
+                            <td>contact_form_filled</td>
+                            <td><strong>+40</strong></td>
+                            <td>Contact form completed</td>
+                        </tr>
+                        <tr>
+                            <td>bbbee_cert_request</td>
+                            <td><strong>+30</strong></td>
+                            <td>Requested BBB-EE certificate</td>
+                        </tr>
+                        <tr>
+                            <td>compliance_check</td>
+                            <td><strong>+25</strong></td>
+                            <td>Checked product compliance</td>
+                        </tr>
+                        <tr>
+                            <td>chat_price_inquiry</td>
+                            <td><strong>+20</strong></td>
+                            <td>Asked about pricing in chat</td>
+                        </tr>
+                        <tr>
+                            <td>product_added_to_cart</td>
+                            <td><strong>+15</strong></td>
+                            <td>Added product to quote cart</td>
+                        </tr>
+                        <tr>
+                            <td>chat_product_inquiry</td>
+                            <td><strong>+10</strong></td>
+                            <td>Asked about products in chat</td>
+                        </tr>
+                        <tr>
+                            <td>page_view</td>
+                            <td><strong>+1</strong></td>
+                            <td>Viewed a page</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>Lead Tier Classification</h3>
+            <div class="cards">
+                <div class="card" style="border-left: 4px solid #e94560;">
+                    <h4>HOT (80+ points)</h4>
+                    <p>High-intent buyer ready for sales contact. Multiple price inquiries, quote submissions, or BBB-EE requests.</p>
+                </div>
+                <div class="card" style="border-left: 4px solid #ff9800;">
+                    <h4>WARM (40-79 points)</h4>
+                    <p>Engaged prospect with product interest. Has asked about specs, pricing, or compliance.</p>
+                </div>
+                <div class="card" style="border-left: 4px solid #2196f3;">
+                    <h4>COOL (20-39 points)</h4>
+                    <p>Early-stage interest. Browsing products, initial chat interactions.</p>
+                </div>
+                <div class="card" style="border-left: 4px solid #9e9e9e;">
+                    <h4>COLD (&lt;20 points)</h4>
+                    <p>New or inactive visitor. Minimal engagement so far.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Compliance Section -->
+        <section id="compliance">
+            <h2>Compliance Verification</h2>
+            <p>
+                Products are verified against South African standards and industry-specific regulations.
+                The system maintains a database of SANS standards, OHSA requirements, and DMR specifications.
+            </p>
+
+            <h3>Supported Standards</h3>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Standard</th>
+                            <th>Name</th>
+                            <th>Applicable To</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>SANS 1700</strong></td>
+                            <td>Threaded Fasteners</td>
+                            <td>Bolts, Nuts, Screws</td>
+                        </tr>
+                        <tr>
+                            <td><strong>SANS 719</strong></td>
+                            <td>Steel Pipes</td>
+                            <td>Pipes, Fittings</td>
+                        </tr>
+                        <tr>
+                            <td><strong>SANS 10142-1</strong></td>
+                            <td>Electrical Installations</td>
+                            <td>Cables, Conduits</td>
+                        </tr>
+                        <tr>
+                            <td><strong>SANS 1473</strong></td>
+                            <td>Industrial Safety Helmets</td>
+                            <td>Hard Hats, Bump Caps</td>
+                        </tr>
+                        <tr>
+                            <td><strong>SANS 1360</strong></td>
+                            <td>Safety Footwear</td>
+                            <td>Safety Boots, Shoes</td>
+                        </tr>
+                        <tr>
+                            <td><strong>SANS 50</strong></td>
+                            <td>Welding Products</td>
+                            <td>Rods, Wire, Flux</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>Industry Requirements</h3>
+            <div class="cards">
+                <div class="card">
+                    <h4>Mining (DMR/OHSA)</h4>
+                    <p>SANS 1473, SANS 1360, SANS 1700 mandatory. All PPE must meet Mine Health & Safety Act requirements.</p>
+                </div>
+                <div class="card">
+                    <h4>Construction (NHBRC)</h4>
+                    <p>SANS 1700, SANS 719 for structural components. CIDB grading compliance for contractors.</p>
+                </div>
+                <div class="card">
+                    <h4>Electrical (NRCS)</h4>
+                    <p>SANS 10142-1, NRCS Letter of Authority required. Cables must meet IEC standards.</p>
+                </div>
+            </div>
+
+            <div class="info-box info">
+                <h4>BBB-EE Level 1 Certification</h4>
+                <p>
+                    Batlokoa Innovative Projects is a Level 1 BBB-EE contributor, 100% Black Women-Owned.
+                    Clients receive 135% procurement recognition, maximizing their BEE scorecard points.
+                    Certificate available for download through the chat assistant.
+                </p>
+            </div>
+        </section>
+
+        <!-- Integration Section -->
+        <section id="integration">
+            <h2>Integration Guide</h2>
+            <p>
+                The Smart AI Factory integrates seamlessly with the existing Batlokoa platform.
+                All components are designed to work together without breaking existing functionality.
+            </p>
+
+            <h3>Frontend Integration</h3>
+            <div class="code-block">
+<span class="comment">// App.jsx - Add ChatProvider and ChatWidget</span>
+<span class="keyword">import</span> { ChatProvider } <span class="keyword">from</span> <span class="string">'@/context/ChatContext'</span>
+<span class="keyword">import</span> ChatWidget <span class="keyword">from</span> <span class="string">'@ui/ChatWidget'</span>
+
+<span class="keyword">function</span> App() {
+  <span class="keyword">return</span> (
+    &lt;ThemeProvider&gt;
+      &lt;ChatProvider&gt;
+        {<span class="comment">/* Your app routes */</span>}
+        &lt;ChatWidget /&gt;
+      &lt;/ChatProvider&gt;
+    &lt;/ThemeProvider&gt;
+  )
+}
+            </div>
+
+            <h3>Backend Routes</h3>
+            <div class="code-block">
+<span class="comment">// routes/index.js - Register AI routes</span>
+<span class="keyword">import</span> aiRoutes <span class="keyword">from</span> <span class="string">'./ai.routes.js'</span>
+
+router.use(<span class="string">'/ai'</span>, aiRoutes)
+
+<span class="comment">// Available endpoints:</span>
+<span class="comment">// POST /api/v1/ai/chat - Main chat endpoint</span>
+<span class="comment">// GET  /api/v1/ai/search - Product search</span>
+<span class="comment">// POST /api/v1/ai/price - Pricing calculation</span>
+<span class="comment">// GET  /api/v1/ai/compliance/check - Compliance check</span>
+<span class="comment">// GET  /api/v1/ai/bbbee - BBB-EE information</span>
+            </div>
+
+            <h3>Database Migration</h3>
+            <div class="code-block">
+<span class="comment"># Run Prisma migration for new AI tables</span>
+npx prisma migrate dev --name add_chat_sessions
+
+<span class="comment"># New tables created:</span>
+<span class="comment"># - chat_sessions (conversation tracking)</span>
+<span class="comment"># - chat_messages (message history)</span>
+<span class="comment"># - lead_events (scoring events)</span>
+<span class="comment"># - compliance_standards (SANS/OHSA)</span>
+            </div>
+        </section>
+
+        <!-- API Reference Section -->
+        <section id="api">
+            <h2>API Reference</h2>
+
+            <h3>POST /api/v1/ai/chat</h3>
+            <p>Process a user message and return AI response.</p>
+            <div class="code-block">
+<span class="comment">// Request</span>
+{
+  <span class="string">"message"</span>: <span class="string">"I need 100 M12 bolts for mining"</span>,
+  <span class="string">"visitorId"</span>: <span class="string">"visitor_123"</span>,
+  <span class="string">"customerId"</span>: <span class="string">"cust_456"</span> <span class="comment">// optional</span>
+}
+
+<span class="comment">// Response</span>
+{
+  <span class="string">"success"</span>: <span class="keyword">true</span>,
+  <span class="string">"response"</span>: {
+    <span class="string">"text"</span>: <span class="string">"I found M12 Hex Bolts (SANS 1700 certified)..."</span>,
+    <span class="string">"quickReplies"</span>: [<span class="string">"Get quote"</span>, <span class="string">"Check specs"</span>],
+    <span class="string">"data"</span>: { <span class="comment">/* product/pricing data */</span> }
+  },
+  <span class="string">"intent"</span>: <span class="string">"PRODUCT_SEARCH"</span>,
+  <span class="string">"confidence"</span>: <span class="number">0.95</span>,
+  <span class="string">"responseTime"</span>: <span class="number">32</span>
+}
+            </div>
+
+            <h3>GET /api/v1/ai/leads/hot</h3>
+            <p>Get hot leads for sales dashboard.</p>
+            <div class="code-block">
+<span class="comment">// Response</span>
+{
+  <span class="string">"leads"</span>: [
+    {
+      <span class="string">"sessionId"</span>: <span class="string">"sess_abc123"</span>,
+      <span class="string">"score"</span>: <span class="number">85</span>,
+      <span class="string">"tier"</span>: <span class="string">"HOT"</span>,
+      <span class="string">"lastActivity"</span>: <span class="string">"2024-01-15T10:30:00Z"</span>,
+      <span class="string">"topEvents"</span>: [<span class="string">"quote_submitted"</span>, <span class="string">"price_inquiry"</span>]
+    }
+  ]
+}
+            </div>
+
+            <h3>GET /api/v1/ai/compliance/check</h3>
+            <p>Check product compliance for an industry.</p>
+            <div class="code-block">
+<span class="comment">// Request: ?productId=prod_123&industry=mining</span>
+
+<span class="comment">// Response</span>
+{
+  <span class="string">"compliant"</span>: <span class="keyword">true</span>,
+  <span class="string">"standards"</span>: {
+    <span class="string">"met"</span>: [{<span class="string">"id"</span>: <span class="string">"SANS-1473"</span>, <span class="string">"name"</span>: <span class="string">"Safety Helmets"</span>}],
+    <span class="string">"missing"</span>: []
+  },
+  <span class="string">"warnings"</span>: []
+}
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-logo">Batlokoa Innovative Projects</div>
+        <p>Industrial Engineering Excellence with AI-Powered Customer Experience</p>
+        <span class="footer-badge">
+            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            Level 1 BBB-EE | 100% Black Women-Owned
+        </span>
+    </footer>
+
+    <script>
+        // Smooth scroll for navigation
+        document.querySelectorAll('.nav a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = document.querySelector(link.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+                // Update active state
+                document.querySelectorAll('.nav a').forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+            });
+        });
+
+        // Update nav active state on scroll
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section');
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                if (scrollY >= sectionTop) {
+                    current = section.getAttribute('id');
+                }
+            });
+            document.querySelectorAll('.nav a').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

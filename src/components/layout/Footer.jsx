@@ -57,20 +57,42 @@ function Footer() {
             </ul>
           </div>
 
-          {/* Services */}
+          {/* Customer Portal */}
           <div>
-            <h4 className="font-heading font-semibold text-lg mb-4">Our Services</h4>
+            <h4 className="font-heading font-semibold text-lg mb-4">Customer</h4>
             <ul className="space-y-2">
-              {services.map((service) => (
-                <li key={service}>
-                  <Link
-                    to="/services"
-                    className="text-gray-300 hover:text-white transition-colors duration-200"
-                  >
-                    {service}
-                  </Link>
-                </li>
-              ))}
+              <li>
+                <Link
+                  to="/portal/login"
+                  className="text-gray-300 hover:text-white transition-colors duration-200"
+                >
+                  My Account
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/portal/orders"
+                  className="text-gray-300 hover:text-white transition-colors duration-200"
+                >
+                  Track Orders
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/portal/invoices"
+                  className="text-gray-300 hover:text-white transition-colors duration-200"
+                >
+                  View Invoices
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/portal/register"
+                  className="text-gray-300 hover:text-white transition-colors duration-200"
+                >
+                  Register
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -113,17 +135,26 @@ function Footer() {
         <div className="container-custom py-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-400">
             <p>&copy; {currentYear} Batlokoa Innovative Projects. All rights reserved.</p>
-            <p>
-              Website by{' '}
-              <a
-                href="https://lulonkesolutions.co.za"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gold hover:text-gold-light transition-colors"
+            <div className="flex items-center gap-4">
+              <Link
+                to="/admin/login"
+                className="text-gray-500 hover:text-gray-300 transition-colors text-xs"
               >
-                Lulonke Solutions
-              </a>
-            </p>
+                Staff Login
+              </Link>
+              <span className="text-gray-600">|</span>
+              <p>
+                Website by{' '}
+                <a
+                  href="https://lulonkesolutions.co.za"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gold hover:text-gold-light transition-colors"
+                >
+                  Lulonke Solutions
+                </a>
+              </p>
+            </div>
           </div>
         </div>
       </div>

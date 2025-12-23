@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useAuth } from '@/context/AuthContext'
 import { useTheme } from '@/context/ThemeContext'
 
@@ -25,6 +25,62 @@ export default function Settings() {
     newPassword: '',
     confirmPassword: ''
   })
+
+  // Email notification settings
+  const [emailSettings, setEmailSettings] = useState({
+    adminEmail: '',
+    orderNotifyEmails: '',
+    lowStockNotifyEmails: '',
+    sendOrderConfirmation: true,
+    sendDispatchNotification: true,
+    sendInvoiceEmail: true,
+  })
+
+  useEffect(() => {
+    if (activeTab === 'notifications') {
+      fetchEmailSettings()
+    }
+  }, [activeTab])
+
+  const fetchEmailSettings = async () => {
+    try {
+      const res = await fetch(`${API_URL}/settings`, {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+      if (res.ok) {
+        const data = await res.json()
+        // Data is already a key-value object with parsed values
+        setEmailSettings(prev => ({ ...prev, ...data }))
+      }
+    } catch (err) {
+      console.error('Failed to fetch settings:', err)
+    }
+  }
+
+  const handleSaveEmailSettings = async (e) => {
+    e.preventDefault()
+    setSaving(true)
+    setMessage(null)
+    try {
+      const res = await fetch(`${API_URL}/settings`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(emailSettings)
+      })
+      if (res.ok) {
+        setMessage({ type: 'success', text: 'Email settings saved successfully' })
+      } else {
+        setMessage({ type: 'error', text: 'Failed to save email settings' })
+      }
+    } catch (err) {
+      setMessage({ type: 'error', text: 'Failed to save email settings' })
+    } finally {
+      setSaving(false)
+    }
+  }
 
   const handleUpdateProfile = async (e) => {
     e.preventDefault()
@@ -92,6 +148,7 @@ export default function Settings() {
 
   const tabs = [
     { id: 'profile', label: 'Profile' },
+    { id: 'notifications', label: 'Notifications' },
     { id: 'security', label: 'Security' },
     { id: 'appearance', label: 'Appearance' }
   ]
@@ -172,6 +229,125 @@ export default function Settings() {
               className="px-4 py-2 bg-safety text-white rounded-lg hover:bg-safety-dark disabled:opacity-50"
             >
               {saving ? 'Saving...' : 'Save Changes'}
+            </button>
+          </form>
+        </div>
+      )}
+
+      {/* Notifications Tab */}
+      {activeTab === 'notifications' && (
+        <div className="bg-white dark:bg-navy rounded-xl shadow-card p-6">
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Email Notifications</h2>
+          <form onSubmit={handleSaveEmailSettings} className="space-y-6">
+            {/* Email Recipients */}
+            <div className="space-y-4">
+              <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wide">Email Recipients</h3>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Admin Email
+                </label>
+                <input
+                  type="email"
+                  value={emailSettings.adminEmail}
+                  onChange={(e) => setEmailSettings(prev => ({ ...prev, adminEmail: e.target.value }))}
+                  placeholder="admin@batlokoainnovpro.co.za"
+                  className="w-full max-w-md px-3 py-2 rounded-lg border border-gray-300 dark:border-navy-light bg-white dark:bg-navy-light text-gray-900 dark:text-white"
+                />
+                <p className="text-xs text-gray-500 mt-1">Primary admin email for system notifications</p>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Order Notification Emails
+                </label>
+                <input
+                  type="text"
+                  value={emailSettings.orderNotifyEmails}
+                  onChange={(e) => setEmailSettings(prev => ({ ...prev, orderNotifyEmails: e.target.value }))}
+                  placeholder="orders@example.com, sales@example.com"
+                  className="w-full max-w-md px-3 py-2 rounded-lg border border-gray-300 dark:border-navy-light bg-white dark:bg-navy-light text-gray-900 dark:text-white"
+                />
+                <p className="text-xs text-gray-500 mt-1">Comma-separated list of emails to receive new order notifications</p>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Low Stock Alert Emails
+                </label>
+                <input
+                  type="text"
+                  value={emailSettings.lowStockNotifyEmails}
+                  onChange={(e) => setEmailSettings(prev => ({ ...prev, lowStockNotifyEmails: e.target.value }))}
+                  placeholder="inventory@example.com"
+                  className="w-full max-w-md px-3 py-2 rounded-lg border border-gray-300 dark:border-navy-light bg-white dark:bg-navy-light text-gray-900 dark:text-white"
+                />
+                <p className="text-xs text-gray-500 mt-1">Comma-separated list of emails to receive low stock alerts</p>
+              </div>
+            </div>
+
+            {/* Email Toggles */}
+            <div className="space-y-4 pt-4 border-t border-gray-200 dark:border-navy-light">
+              <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wide">Customer Emails</h3>
+
+              <div className="flex items-center justify-between p-4 border border-gray-200 dark:border-navy-light rounded-lg max-w-md">
+                <div>
+                  <p className="font-medium text-gray-900 dark:text-white">Order Confirmation</p>
+                  <p className="text-sm text-gray-500">Send confirmation email when order is created</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setEmailSettings(prev => ({ ...prev, sendOrderConfirmation: !prev.sendOrderConfirmation }))}
+                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                    emailSettings.sendOrderConfirmation ? 'bg-safety' : 'bg-gray-200 dark:bg-navy-light'
+                  }`}
+                >
+                  <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                    emailSettings.sendOrderConfirmation ? 'translate-x-6' : 'translate-x-1'
+                  }`} />
+                </button>
+              </div>
+
+              <div className="flex items-center justify-between p-4 border border-gray-200 dark:border-navy-light rounded-lg max-w-md">
+                <div>
+                  <p className="font-medium text-gray-900 dark:text-white">Dispatch Notification</p>
+                  <p className="text-sm text-gray-500">Send email when order is dispatched</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setEmailSettings(prev => ({ ...prev, sendDispatchNotification: !prev.sendDispatchNotification }))}
+                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                    emailSettings.sendDispatchNotification ? 'bg-safety' : 'bg-gray-200 dark:bg-navy-light'
+                  }`}
+                >
+                  <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                    emailSettings.sendDispatchNotification ? 'translate-x-6' : 'translate-x-1'
+                  }`} />
+                </button>
+              </div>
+
+              <div className="flex items-center justify-between p-4 border border-gray-200 dark:border-navy-light rounded-lg max-w-md">
+                <div>
+                  <p className="font-medium text-gray-900 dark:text-white">Invoice Email</p>
+                  <p className="text-sm text-gray-500">Send invoice PDF when invoice is generated</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setEmailSettings(prev => ({ ...prev, sendInvoiceEmail: !prev.sendInvoiceEmail }))}
+                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                    emailSettings.sendInvoiceEmail ? 'bg-safety' : 'bg-gray-200 dark:bg-navy-light'
+                  }`}
+                >
+                  <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                    emailSettings.sendInvoiceEmail ? 'translate-x-6' : 'translate-x-1'
+                  }`} />
+                </button>
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              disabled={saving}
+              className="px-4 py-2 bg-safety text-white rounded-lg hover:bg-safety-dark disabled:opacity-50"
+            >
+              {saving ? 'Saving...' : 'Save Email Settings'}
             </button>
           </form>
         </div>

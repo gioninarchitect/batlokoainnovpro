@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { useAuth } from '@/context/AuthContext'
 
@@ -18,6 +18,13 @@ export default function Products() {
   const [showLowStock, setShowLowStock] = useState(searchParams.get('filter') === 'low-stock')
   const [editingStock, setEditingStock] = useState(null)
   const [stockValue, setStockValue] = useState('')
+
+  // Bulk import state
+  const [showImportModal, setShowImportModal] = useState(false)
+  const [importFile, setImportFile] = useState(null)
+  const [importing, setImporting] = useState(false)
+  const [importResult, setImportResult] = useState(null)
+  const fileInputRef = useRef(null)
 
   useEffect(() => {
     fetchCategories()
@@ -109,23 +116,138 @@ export default function Products() {
 
   const totalPages = Math.ceil(pagination.total / pagination.limit)
 
+  // Download CSV template
+  const downloadTemplate = () => {
+    const headers = ['sku', 'name', 'description', 'price', 'costPrice', 'stockQty', 'lowStockThreshold', 'category', 'unit']
+    const sampleData = [
+      ['SKU-001', 'Sample Product Name', 'Product description here', '99.95', '45.00', '100', '10', 'Fasteners', 'piece'],
+      ['SKU-002', 'Another Product', 'Another description', '149.95', '75.00', '50', '5', 'Bearings', 'piece'],
+    ]
+
+    const csvContent = [
+      headers.join(','),
+      ...sampleData.map(row => row.join(','))
+    ].join('\n')
+
+    const blob = new Blob([csvContent], { type: 'text/csv' })
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = url
+    link.download = 'product_import_template.csv'
+    link.click()
+    URL.revokeObjectURL(url)
+  }
+
+  // Handle file selection
+  const handleFileSelect = (e) => {
+    const file = e.target.files[0]
+    if (file) {
+      if (!file.name.endsWith('.csv') && !file.name.endsWith('.xlsx') && !file.name.endsWith('.xls')) {
+        setImportResult({ error: 'Please upload a CSV or Excel file' })
+        return
+      }
+      setImportFile(file)
+      setImportResult(null)
+    }
+  }
+
+  // Handle bulk import
+  const handleBulkImport = async () => {
+    if (!importFile) return
+
+    setImporting(true)
+    setImportResult(null)
+
+    const formData = new FormData()
+    formData.append('file', importFile)
+
+    try {
+      const res = await fetch(`${API_URL}/products/bulk-import`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` },
+        body: formData
+      })
+
+      const data = await res.json()
+
+      if (res.ok) {
+        setImportResult({
+          success: true,
+          created: data.created || 0,
+          updated: data.updated || 0,
+          errors: data.errors || []
+        })
+        // Refresh products list
+        showLowStock ? fetchLowStock() : fetchProducts()
+      } else {
+        setImportResult({ error: data.error || 'Import failed' })
+      }
+    } catch (error) {
+      setImportResult({ error: 'Failed to upload file. Please try again.' })
+    } finally {
+      setImporting(false)
+    }
+  }
+
+  // Export current inventory
+  const exportInventory = async () => {
+    try {
+      const res = await fetch(`${API_URL}/products/export`, {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+
+      if (res.ok) {
+        const blob = await res.blob()
+        const url = URL.createObjectURL(blob)
+        const link = document.createElement('a')
+        link.href = url
+        link.download = `inventory_export_${new Date().toISOString().split('T')[0]}.csv`
+        link.click()
+        URL.revokeObjectURL(url)
+      }
+    } catch (error) {
+      console.error('Export failed:', error)
+    }
+  }
+
   return (
     <div className="space-y-4">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">Products</h1>
-          <p className="text-sm text-gray-500 dark:text-gray-400">{pagination.total} products</p>
+          <h1 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">Inventory Management</h1>
+          <p className="text-sm text-gray-500 dark:text-gray-400">{pagination.total} products in stock</p>
         </div>
-        <Link
-          to="/admin/products/new"
-          className="inline-flex items-center justify-center px-4 py-2 bg-safety text-white rounded-lg hover:bg-safety-dark transition-colors"
-        >
-          <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-          </svg>
-          Add Product
-        </Link>
+        <div className="flex flex-wrap items-center gap-2">
+          {/* Import/Export Buttons */}
+          <button
+            onClick={() => setShowImportModal(true)}
+            className="inline-flex items-center px-3 py-2 border border-gray-300 dark:border-navy-light text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-navy-light transition-colors"
+          >
+            <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+            </svg>
+            Import
+          </button>
+          <button
+            onClick={exportInventory}
+            className="inline-flex items-center px-3 py-2 border border-gray-300 dark:border-navy-light text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-navy-light transition-colors"
+          >
+            <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+            </svg>
+            Export
+          </button>
+          <Link
+            to="/admin/products/new"
+            className="inline-flex items-center justify-center px-4 py-2 bg-safety text-white rounded-lg hover:bg-safety-dark transition-colors"
+          >
+            <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+            </svg>
+            Add Product
+          </Link>
+        </div>
       </div>
 
       {/* Filters */}
@@ -355,6 +477,171 @@ export default function Products() {
           </>
         )}
       </div>
+
+      {/* Import Modal */}
+      {showImportModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
+          <div className="bg-white dark:bg-navy rounded-2xl shadow-xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-6 border-b border-gray-200 dark:border-navy-light">
+              <div className="flex items-center justify-between">
+                <h2 className="text-xl font-bold text-gray-900 dark:text-white">Bulk Import Products</h2>
+                <button
+                  onClick={() => {
+                    setShowImportModal(false)
+                    setImportFile(null)
+                    setImportResult(null)
+                  }}
+                  className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <div className="p-6 space-y-6">
+              {/* Instructions */}
+              <div className="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-4">
+                <h3 className="font-semibold text-blue-900 dark:text-blue-300 mb-2">Instructions</h3>
+                <ul className="text-sm text-blue-700 dark:text-blue-400 space-y-1 list-disc list-inside">
+                  <li>Download the template file below</li>
+                  <li>Fill in your product data (keep headers)</li>
+                  <li>SKU is required and must be unique</li>
+                  <li>Existing products (same SKU) will be updated</li>
+                  <li>Category must match existing category name</li>
+                </ul>
+              </div>
+
+              {/* Download Template */}
+              <div className="flex items-center justify-between p-4 border border-dashed border-gray-300 dark:border-navy-light rounded-xl">
+                <div>
+                  <p className="font-medium text-gray-900 dark:text-white">Product Template</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">CSV file with sample data</p>
+                </div>
+                <button
+                  onClick={downloadTemplate}
+                  className="px-4 py-2 bg-industrial text-white rounded-lg hover:bg-industrial-dark transition-colors"
+                >
+                  Download Template
+                </button>
+              </div>
+
+              {/* File Upload */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Upload File
+                </label>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept=".csv,.xlsx,.xls"
+                  onChange={handleFileSelect}
+                  className="hidden"
+                />
+                <div
+                  onClick={() => fileInputRef.current?.click()}
+                  className="border-2 border-dashed border-gray-300 dark:border-navy-light rounded-xl p-6 text-center cursor-pointer hover:border-safety transition-colors"
+                >
+                  {importFile ? (
+                    <div className="flex items-center justify-center gap-3">
+                      <svg className="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <div className="text-left">
+                        <p className="font-medium text-gray-900 dark:text-white">{importFile.name}</p>
+                        <p className="text-sm text-gray-500">{(importFile.size / 1024).toFixed(1)} KB</p>
+                      </div>
+                    </div>
+                  ) : (
+                    <>
+                      <svg className="w-10 h-10 text-gray-400 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                      </svg>
+                      <p className="text-gray-600 dark:text-gray-400">Click to upload CSV or Excel file</p>
+                      <p className="text-sm text-gray-400">Max file size: 5MB</p>
+                    </>
+                  )}
+                </div>
+              </div>
+
+              {/* Import Result */}
+              {importResult && (
+                <div className={`rounded-xl p-4 ${importResult.error ? 'bg-red-50 dark:bg-red-900/20' : 'bg-green-50 dark:bg-green-900/20'}`}>
+                  {importResult.error ? (
+                    <div className="flex items-center gap-2 text-red-700 dark:text-red-400">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <p>{importResult.error}</p>
+                    </div>
+                  ) : (
+                    <div className="space-y-2">
+                      <div className="flex items-center gap-2 text-green-700 dark:text-green-400">
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <p className="font-medium">Import Complete</p>
+                      </div>
+                      <p className="text-sm text-green-600 dark:text-green-400">
+                        Created: {importResult.created} | Updated: {importResult.updated}
+                      </p>
+                      {importResult.errors?.length > 0 && (
+                        <div className="mt-2 text-sm text-red-600 dark:text-red-400">
+                          <p className="font-medium">Errors ({importResult.errors.length}):</p>
+                          <ul className="list-disc list-inside mt-1">
+                            {importResult.errors.slice(0, 5).map((err, idx) => (
+                              <li key={idx}>{err}</li>
+                            ))}
+                            {importResult.errors.length > 5 && (
+                              <li>...and {importResult.errors.length - 5} more</li>
+                            )}
+                          </ul>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* Footer */}
+            <div className="p-6 border-t border-gray-200 dark:border-navy-light flex justify-end gap-3">
+              <button
+                onClick={() => {
+                  setShowImportModal(false)
+                  setImportFile(null)
+                  setImportResult(null)
+                }}
+                className="px-4 py-2 border border-gray-300 dark:border-navy-light rounded-lg hover:bg-gray-100 dark:hover:bg-navy-light transition-colors"
+              >
+                {importResult?.success ? 'Close' : 'Cancel'}
+              </button>
+              {!importResult?.success && (
+                <button
+                  onClick={handleBulkImport}
+                  disabled={!importFile || importing}
+                  className="px-4 py-2 bg-safety text-white rounded-lg hover:bg-safety-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                >
+                  {importing ? (
+                    <>
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                      Importing...
+                    </>
+                  ) : (
+                    <>
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                      </svg>
+                      Import Products
+                    </>
+                  )}
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

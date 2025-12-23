@@ -1,5 +1,6 @@
 import nodemailer from 'nodemailer';
 import config from '../config/index.js';
+import prisma from '../config/database.js';
 
 // Create transporter
 const transporter = nodemailer.createTransport({
@@ -37,133 +38,212 @@ export const sendEmail = async ({ to, subject, html, text, attachments }) => {
   }
 };
 
+// Helper to get customer display name
+const getCustomerName = (customer) => {
+  if (!customer) return 'Valued Customer';
+  return customer.company || `${customer.firstName || ''} ${customer.lastName || ''}`.trim() || 'Valued Customer';
+};
+
 // Email templates
 export const emailTemplates = {
-  orderConfirmation: (order) => ({
-    subject: `Order Confirmation - ${order.orderNumber}`,
-    html: `
-      <!DOCTYPE html>
-      <html>
-      <head>
-        <style>
-          body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-          .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-          .header { background: #1a1a2e; color: white; padding: 20px; text-align: center; }
-          .content { padding: 20px; background: #f9f9f9; }
-          .footer { padding: 20px; text-align: center; font-size: 12px; color: #666; }
-          .button { display: inline-block; padding: 12px 24px; background: #e94560; color: white; text-decoration: none; border-radius: 4px; }
-          table { width: 100%; border-collapse: collapse; margin: 20px 0; }
-          th, td { padding: 10px; text-align: left; border-bottom: 1px solid #ddd; }
-          th { background: #1a1a2e; color: white; }
-        </style>
-      </head>
-      <body>
-        <div class="container">
-          <div class="header">
-            <h1>Order Confirmation</h1>
-          </div>
-          <div class="content">
-            <p>Dear ${order.customer.companyName},</p>
-            <p>Thank you for your order. Your order <strong>${order.orderNumber}</strong> has been confirmed.</p>
+  orderConfirmation: (order) => {
+    const customerName = getCustomerName(order.customer);
+    const subtotal = Number(order.subtotal) || 0;
+    const vat = Number(order.vatAmount) || subtotal * 0.15;
+    const total = Number(order.total) || subtotal + vat;
 
-            <h3>Order Details</h3>
-            <table>
-              <tr><th>Product</th><th>Qty</th><th>Price</th><th>Total</th></tr>
-              ${order.items.map(item => `
-                <tr>
-                  <td>${item.product?.name || 'Product'}</td>
-                  <td>${item.quantity}</td>
-                  <td>R${item.unitPrice.toFixed(2)}</td>
-                  <td>R${item.total.toFixed(2)}</td>
-                </tr>
-              `).join('')}
-            </table>
-
-            <p><strong>Subtotal:</strong> R${order.subtotal.toFixed(2)}</p>
-            <p><strong>VAT (15%):</strong> R${order.tax.toFixed(2)}</p>
-            <p><strong>Total:</strong> R${order.total.toFixed(2)}</p>
-
-            <p>We will notify you when your order ships.</p>
-          </div>
-          <div class="footer">
-            <p>Batlokoa Innovative Projects</p>
-            <p>Industrial Engineering Supplies</p>
-          </div>
-        </div>
-      </body>
-      </html>
-    `,
-  }),
-
-  invoiceSent: (invoice) => ({
-    subject: `Invoice ${invoice.invoiceNumber} - Batlokoa Innovative Projects`,
-    html: `
-      <!DOCTYPE html>
-      <html>
-      <head>
-        <style>
-          body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-          .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-          .header { background: #1a1a2e; color: white; padding: 20px; text-align: center; }
-          .content { padding: 20px; background: #f9f9f9; }
-          .footer { padding: 20px; text-align: center; font-size: 12px; color: #666; }
-          .highlight { background: #e94560; color: white; padding: 15px; border-radius: 4px; margin: 20px 0; }
-        </style>
-      </head>
-      <body>
-        <div class="container">
-          <div class="header">
-            <h1>Invoice</h1>
-          </div>
-          <div class="content">
-            <p>Dear ${invoice.customer.companyName},</p>
-            <p>Please find attached your invoice <strong>${invoice.invoiceNumber}</strong>.</p>
-
-            <div class="highlight">
-              <p><strong>Amount Due:</strong> R${invoice.amountDue.toFixed(2)}</p>
-              <p><strong>Due Date:</strong> ${new Date(invoice.dueDate).toLocaleDateString('en-ZA')}</p>
+    return {
+      subject: `Order Confirmation - ${order.orderNumber}`,
+      html: `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <style>
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+            .header { background: #1a1a2e; color: white; padding: 20px; text-align: center; }
+            .content { padding: 20px; background: #f9f9f9; }
+            .footer { padding: 20px; text-align: center; font-size: 12px; color: #666; }
+            .button { display: inline-block; padding: 12px 24px; background: #e94560; color: white; text-decoration: none; border-radius: 4px; }
+            table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+            th, td { padding: 10px; text-align: left; border-bottom: 1px solid #ddd; }
+            th { background: #1a1a2e; color: white; }
+            .highlight { background: #e94560; color: white; padding: 15px; border-radius: 4px; margin: 20px 0; text-align: center; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h1>Order Confirmation</h1>
             </div>
+            <div class="content">
+              <p>Dear ${customerName},</p>
+              <p>Thank you for your order. Your order <strong>${order.orderNumber}</strong> has been received and is being processed.</p>
 
-            <h3>Payment Details</h3>
-            <p><strong>Bank:</strong> First National Bank</p>
-            <p><strong>Account Name:</strong> Batlokoa Innovative Projects</p>
-            <p><strong>Account Number:</strong> XXXXXXXXXX</p>
-            <p><strong>Branch Code:</strong> 250655</p>
-            <p><strong>Reference:</strong> ${invoice.invoiceNumber}</p>
+              <h3>Order Details</h3>
+              <table>
+                <tr><th>Product</th><th>Qty</th><th>Price</th><th>Total</th></tr>
+                ${(order.items || []).map(item => `
+                  <tr>
+                    <td>${item.description || item.product?.name || 'Product'}</td>
+                    <td>${item.quantity}</td>
+                    <td>R${Number(item.unitPrice).toFixed(2)}</td>
+                    <td>R${Number(item.total).toFixed(2)}</td>
+                  </tr>
+                `).join('')}
+              </table>
 
-            <p>Please ensure payment is made by the due date to avoid any delays in future orders.</p>
-          </div>
-          <div class="footer">
-            <p>Batlokoa Innovative Projects</p>
-            <p>Questions? Contact us at accounts@batlokoa.co.za</p>
-          </div>
-        </div>
-      </body>
-      </html>
-    `,
-  }),
+              <p><strong>Subtotal:</strong> R${subtotal.toFixed(2)}</p>
+              <p><strong>VAT (15%):</strong> R${vat.toFixed(2)}</p>
+              <p><strong>Total:</strong> R${total.toFixed(2)}</p>
 
-  paymentReceived: (invoice, payment) => ({
-    subject: `Payment Received - Invoice ${invoice.invoiceNumber}`,
-    html: `
-      <!DOCTYPE html>
-      <html>
-      <head>
-        <style>
-          body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-          .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-          .header { background: #1a1a2e; color: white; padding: 20px; text-align: center; }
-          .content { padding: 20px; background: #f9f9f9; }
-          .success { background: #28a745; color: white; padding: 15px; border-radius: 4px; margin: 20px 0; text-align: center; }
-        </style>
-      </head>
-      <body>
-        <div class="container">
-          <div class="header">
-            <h1>Payment Received</h1>
+              <div class="highlight">
+                <p style="margin:0;"><strong>Payment Reference:</strong> ${order.orderNumber}</p>
+              </div>
+
+              <p>Please make payment using the reference above. We will notify you when your order is dispatched.</p>
+
+              <h3>Payment Details</h3>
+              <p><strong>Bank:</strong> First National Bank</p>
+              <p><strong>Account Name:</strong> Batlokoa Innovative Projects</p>
+              <p><strong>Reference:</strong> ${order.orderNumber}</p>
+            </div>
+            <div class="footer">
+              <p>Batlokoa Innovative Projects</p>
+              <p>+27 73 974 8317 | info@batlokoainnovpro.co.za</p>
+            </div>
           </div>
-          <div class="content">
-            <p>Dear ${invoice.customer.companyName},</p>
+        </body>
+        </html>
+      `,
+    };
+  },
+
+  orderDispatched: (order, dispatchInfo = {}) => {
+    const customerName = getCustomerName(order.customer);
+    return {
+      subject: `Your Order ${order.orderNumber} Has Been Dispatched`,
+      html: `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <style>
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+            .header { background: #28a745; color: white; padding: 20px; text-align: center; }
+            .content { padding: 20px; background: #f9f9f9; }
+            .footer { padding: 20px; text-align: center; font-size: 12px; color: #666; }
+            .tracking { background: #1a1a2e; color: white; padding: 15px; border-radius: 4px; margin: 20px 0; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h1>Order Dispatched</h1>
+            </div>
+            <div class="content">
+              <p>Dear ${customerName},</p>
+              <p>Great news! Your order <strong>${order.orderNumber}</strong> has been dispatched and is on its way to you.</p>
+
+              ${dispatchInfo.courier || dispatchInfo.trackingNumber ? `
+                <div class="tracking">
+                  <h3 style="margin-top:0;">Delivery Information</h3>
+                  ${dispatchInfo.courier ? `<p><strong>Courier:</strong> ${dispatchInfo.courier}</p>` : ''}
+                  ${dispatchInfo.trackingNumber ? `<p><strong>Tracking Number:</strong> ${dispatchInfo.trackingNumber}</p>` : ''}
+                </div>
+              ` : ''}
+
+              <h3>Delivery Address</h3>
+              <p>${order.deliveryAddress || 'As per order details'}</p>
+              ${order.deliveryCity ? `<p>${order.deliveryCity}</p>` : ''}
+
+              <p>If you have any questions about your delivery, please contact us.</p>
+            </div>
+            <div class="footer">
+              <p>Batlokoa Innovative Projects</p>
+              <p>+27 73 974 8317 | info@batlokoainnovpro.co.za</p>
+            </div>
+          </div>
+        </body>
+        </html>
+      `,
+    };
+  },
+
+  invoiceSent: (invoice) => {
+    const customerName = getCustomerName(invoice.customer);
+    const amountDue = Number(invoice.amountDue) || Number(invoice.balance) || 0;
+    return {
+      subject: `Invoice ${invoice.invoiceNumber} - Batlokoa Innovative Projects`,
+      html: `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <style>
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+            .header { background: #1a1a2e; color: white; padding: 20px; text-align: center; }
+            .content { padding: 20px; background: #f9f9f9; }
+            .footer { padding: 20px; text-align: center; font-size: 12px; color: #666; }
+            .highlight { background: #e94560; color: white; padding: 15px; border-radius: 4px; margin: 20px 0; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h1>Invoice</h1>
+            </div>
+            <div class="content">
+              <p>Dear ${customerName},</p>
+              <p>Please find attached your invoice <strong>${invoice.invoiceNumber}</strong>.</p>
+
+              <div class="highlight">
+                <p><strong>Amount Due:</strong> R${amountDue.toFixed(2)}</p>
+                <p><strong>Due Date:</strong> ${new Date(invoice.dueDate).toLocaleDateString('en-ZA')}</p>
+              </div>
+
+              <h3>Payment Details</h3>
+              <p><strong>Bank:</strong> First National Bank</p>
+              <p><strong>Account Name:</strong> Batlokoa Innovative Projects</p>
+              <p><strong>Reference:</strong> ${invoice.invoiceNumber}</p>
+
+              <p>Please ensure payment is made by the due date to avoid any delays in future orders.</p>
+            </div>
+            <div class="footer">
+              <p>Batlokoa Innovative Projects</p>
+              <p>+27 73 974 8317 | info@batlokoainnovpro.co.za</p>
+            </div>
+          </div>
+        </body>
+        </html>
+      `,
+    };
+  },
+
+  paymentReceived: (invoice, payment) => {
+    const customerName = getCustomerName(invoice.customer);
+    const paymentAmount = Number(payment.amount) || 0;
+    return {
+      subject: `Payment Received - Invoice ${invoice.invoiceNumber}`,
+      html: `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <style>
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+            .header { background: #1a1a2e; color: white; padding: 20px; text-align: center; }
+            .content { padding: 20px; background: #f9f9f9; }
+            .success { background: #28a745; color: white; padding: 15px; border-radius: 4px; margin: 20px 0; text-align: center; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h1>Payment Received</h1>
+            </div>
+            <div class="content">
+              <p>Dear ${customerName},</p>
 
             <div class="success">
               <h2>Thank You!</h2>
@@ -185,11 +265,12 @@ export const emailTemplates = {
         </div>
       </body>
       </html>
-    `,
-  }),
+      `,
+    };
+  },
 
-  quoteSent: (quote) => ({
-    subject: `Quote ${quote.quoteNumber} - Batlokoa Innovative Projects`,
+  lowStockAlert: (products) => ({
+    subject: `Low Stock Alert - ${products.length} Product${products.length > 1 ? 's' : ''} Need Attention`,
     html: `
       <!DOCTYPE html>
       <html>
@@ -197,54 +278,164 @@ export const emailTemplates = {
         <style>
           body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
           .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-          .header { background: #1a1a2e; color: white; padding: 20px; text-align: center; }
+          .header { background: #e94560; color: white; padding: 20px; text-align: center; }
           .content { padding: 20px; background: #f9f9f9; }
           table { width: 100%; border-collapse: collapse; margin: 20px 0; }
           th, td { padding: 10px; text-align: left; border-bottom: 1px solid #ddd; }
           th { background: #1a1a2e; color: white; }
-          .button { display: inline-block; padding: 12px 24px; background: #e94560; color: white; text-decoration: none; border-radius: 4px; }
-          .warning { background: #ffc107; padding: 10px; border-radius: 4px; margin: 20px 0; }
+          .low { color: #dc3545; font-weight: bold; }
+          .out { color: #fff; background: #dc3545; padding: 2px 8px; border-radius: 4px; }
+          .button { display: inline-block; padding: 12px 24px; background: #0f3460; color: white; text-decoration: none; border-radius: 4px; margin-top: 20px; }
         </style>
       </head>
       <body>
         <div class="container">
           <div class="header">
-            <h1>Quotation</h1>
+            <h1>Low Stock Alert</h1>
           </div>
           <div class="content">
-            <p>Dear ${quote.customer.companyName},</p>
-            <p>Thank you for your enquiry. Please find our quotation below:</p>
-
-            <p><strong>Quote Number:</strong> ${quote.quoteNumber}</p>
+            <p>The following products are running low on stock and need attention:</p>
 
             <table>
-              <tr><th>Item</th><th>Qty</th><th>Price</th><th>Total</th></tr>
-              ${quote.items.map(item => `
+              <tr><th>SKU</th><th>Product</th><th>Stock</th><th>Threshold</th></tr>
+              ${products.map(p => `
                 <tr>
-                  <td>${item.description || item.product?.name || 'Item'}</td>
-                  <td>${item.quantity}</td>
-                  <td>R${item.unitPrice.toFixed(2)}</td>
-                  <td>R${item.total.toFixed(2)}</td>
+                  <td>${p.sku || 'N/A'}</td>
+                  <td>${p.name}</td>
+                  <td class="${p.stockQty <= 0 ? 'out' : 'low'}">${p.stockQty}</td>
+                  <td>${p.lowStockThreshold}</td>
                 </tr>
               `).join('')}
             </table>
 
-            <p><strong>Subtotal:</strong> R${quote.subtotal.toFixed(2)}</p>
-            ${quote.discountAmount > 0 ? `<p><strong>Discount:</strong> -R${quote.discountAmount.toFixed(2)}</p>` : ''}
-            <p><strong>VAT (15%):</strong> R${quote.tax.toFixed(2)}</p>
-            <p><strong>Total:</strong> R${quote.total.toFixed(2)}</p>
+            <p>Please reorder these items to avoid stockouts.</p>
 
-            <div class="warning">
-              <p><strong>Valid Until:</strong> ${new Date(quote.validUntil).toLocaleDateString('en-ZA')}</p>
-            </div>
-
-            ${quote.terms ? `<p><strong>Terms:</strong> ${quote.terms}</p>` : ''}
-
-            <p>To proceed with this quote, please reply to this email or contact us directly.</p>
+            <a href="${process.env.FRONTEND_URL || 'https://batlokoa.cleva-ai.co.za'}/admin/products" class="button">View Inventory</a>
           </div>
         </div>
       </body>
       </html>
     `,
   }),
+
+  quoteSent: (quote) => {
+    const customerName = quote.customerName || quote.customer?.company ||
+      `${quote.customer?.firstName || ''} ${quote.customer?.lastName || ''}`.trim() || 'Valued Customer';
+    const subtotal = Number(quote.subtotal) || 0;
+    const discount = Number(quote.discountAmount) || Number(quote.discount) || 0;
+    const vat = Number(quote.tax) || Number(quote.vatAmount) || 0;
+    const total = Number(quote.total) || 0;
+
+    return {
+      subject: `Quote ${quote.quoteNumber} - Batlokoa Innovative Projects`,
+      html: `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <style>
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+            .header { background: #1a1a2e; color: white; padding: 20px; text-align: center; }
+            .content { padding: 20px; background: #f9f9f9; }
+            .footer { padding: 20px; text-align: center; font-size: 12px; color: #666; }
+            table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+            th, td { padding: 10px; text-align: left; border-bottom: 1px solid #ddd; }
+            th { background: #1a1a2e; color: white; }
+            .warning { background: #ffc107; padding: 10px; border-radius: 4px; margin: 20px 0; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h1>Quotation</h1>
+            </div>
+            <div class="content">
+              <p>Dear ${customerName},</p>
+              <p>Thank you for your enquiry. Please find our quotation below:</p>
+
+              <p><strong>Quote Number:</strong> ${quote.quoteNumber}</p>
+
+              <table>
+                <tr><th>Item</th><th>Qty</th><th>Price</th><th>Total</th></tr>
+                ${(quote.items || []).map(item => `
+                  <tr>
+                    <td>${item.description || item.product?.name || 'Item'}</td>
+                    <td>${item.quantity}</td>
+                    <td>R${Number(item.unitPrice).toFixed(2)}</td>
+                    <td>R${Number(item.total).toFixed(2)}</td>
+                  </tr>
+                `).join('')}
+              </table>
+
+              <p><strong>Subtotal:</strong> R${subtotal.toFixed(2)}</p>
+              ${discount > 0 ? `<p><strong>Discount:</strong> -R${discount.toFixed(2)}</p>` : ''}
+              <p><strong>VAT (15%):</strong> R${vat.toFixed(2)}</p>
+              <p><strong>Total:</strong> R${total.toFixed(2)}</p>
+
+              <div class="warning">
+                <p><strong>Valid Until:</strong> ${new Date(quote.validUntil).toLocaleDateString('en-ZA')}</p>
+              </div>
+
+              ${quote.terms ? `<p><strong>Terms:</strong> ${quote.terms}</p>` : ''}
+
+              <p>To proceed with this quote, please reply to this email or contact us directly.</p>
+            </div>
+            <div class="footer">
+              <p>Batlokoa Innovative Projects</p>
+              <p>+27 73 974 8317 | info@batlokoainnovpro.co.za</p>
+            </div>
+          </div>
+        </body>
+        </html>
+      `,
+    };
+  },
+};
+
+// Check for low stock products and send alert
+export const checkAndSendLowStockAlert = async () => {
+  try {
+    // Find products where stock is at or below threshold
+    const lowStockProducts = await prisma.product.findMany({
+      where: {
+        isActive: true,
+        stockQty: { lte: prisma.product.fields.lowStockThreshold }
+      },
+      select: {
+        id: true,
+        name: true,
+        sku: true,
+        stockQty: true,
+        lowStockThreshold: true
+      },
+      orderBy: { stockQty: 'asc' }
+    });
+
+    // Alternative query if the above doesn't work with Prisma
+    const lowStock = await prisma.$queryRaw`
+      SELECT id, name, sku, "stockQty", "lowStockThreshold"
+      FROM products
+      WHERE "isActive" = true AND "stockQty" <= "lowStockThreshold"
+      ORDER BY "stockQty" ASC
+    `;
+
+    if (lowStock.length === 0) {
+      return { sent: false, message: 'No low stock products found' };
+    }
+
+    // Get admin email from config or env
+    const adminEmail = process.env.ADMIN_EMAIL || config.email.user || 'admin@batlokoainnovpro.co.za';
+
+    const template = emailTemplates.lowStockAlert(lowStock);
+    await sendEmail({
+      to: adminEmail,
+      subject: template.subject,
+      html: template.html
+    });
+
+    return { sent: true, count: lowStock.length, products: lowStock };
+  } catch (error) {
+    console.error('Low stock alert error:', error);
+    throw error;
+  }
 };

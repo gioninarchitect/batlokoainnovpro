@@ -122,6 +122,16 @@
             margin-bottom: 1.5rem;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             overflow: hidden;
+            border: 1px solid #e2e8f0;
+            transition: box-shadow 0.3s;
+        }
+
+        .section:hover {
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+        }
+
+        .section.open {
+            border-color: var(--industrial);
         }
 
         .section-header {
@@ -131,6 +141,13 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            cursor: pointer;
+            user-select: none;
+            transition: background 0.2s;
+        }
+
+        .section-header:hover {
+            background: var(--industrial);
         }
 
         .section-header h2 {
@@ -140,6 +157,12 @@
             gap: 0.75rem;
         }
 
+        .section-header-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
         .section-badge {
             background: rgba(255,255,255,0.2);
             padding: 0.25rem 0.75rem;
@@ -147,8 +170,26 @@
             font-size: 0.75rem;
         }
 
+        .section-arrow {
+            width: 20px;
+            height: 20px;
+            transition: transform 0.3s;
+        }
+
+        .section.open .section-arrow {
+            transform: rotate(180deg);
+        }
+
         .section-content {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, padding 0.3s;
+        }
+
+        .section.open .section-content {
             padding: 1.5rem;
+            max-height: 2000px;
         }
 
         .test-group {
@@ -407,7 +448,31 @@
         }
 
         @media (max-width: 640px) {
+            .header {
+                padding: 1.5rem 1rem;
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .header p {
+                font-size: 1rem;
+            }
+
             .container {
+                padding: 1rem;
+            }
+
+            .progress-bar {
+                padding: 1rem;
+            }
+
+            .stats {
+                gap: 0.75rem;
+            }
+
+            .section-header {
                 padding: 1rem;
             }
 
@@ -455,13 +520,17 @@
             <h3>Quick Reference</h3>
             <div class="ref-grid">
                 <div class="ref-item">
-                    <strong>Test Login</strong>
-                    <code>admin@batlokoa.co.za</code><br>
-                    <code>Admin123!</code>
+                    <strong>Admin Login</strong>
+                    <code>admin@batlokoainnovpro.co.za</code><br>
+                    <code>Admin@2026!</code>
                 </div>
                 <div class="ref-item">
                     <strong>Admin URL</strong>
-                    <code>/admin</code>
+                    <a href="https://batlokoa.cleva-ai.co.za/admin" target="_blank" style="color:#0f3460;">batlokoa.cleva-ai.co.za/admin</a>
+                </div>
+                <div class="ref-item">
+                    <strong>Portal URL</strong>
+                    <a href="https://batlokoa.cleva-ai.co.za/portal" target="_blank" style="color:#0f3460;">batlokoa.cleva-ai.co.za/portal</a>
                 </div>
                 <div class="ref-item">
                     <strong>API Base</strong>
@@ -475,10 +544,15 @@
         </div>
 
         <!-- Authentication Section -->
-        <div class="section">
-            <div class="section-header">
+        <div class="section open">
+            <div class="section-header" onclick="toggleSection(this)">
                 <h2>1. Authentication</h2>
-                <span class="section-badge" id="badge-auth">0/5</span>
+                <div class="section-header-right">
+                    <span class="section-badge" id="badge-auth">0/5</span>
+                    <svg class="section-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"/>
+                    </svg>
+                </div>
             </div>
             <div class="section-content">
                 <div class="test-group">
@@ -545,9 +619,14 @@
 
         <!-- Dashboard Section -->
         <div class="section">
-            <div class="section-header">
+            <div class="section-header" onclick="toggleSection(this)">
                 <h2>2. Dashboard</h2>
-                <span class="section-badge" id="badge-dashboard">0/4</span>
+                <div class="section-header-right">
+                    <span class="section-badge" id="badge-dashboard">0/4</span>
+                    <svg class="section-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"/>
+                    </svg>
+                </div>
             </div>
             <div class="section-content">
                 <div class="test-group">
@@ -603,9 +682,14 @@
 
         <!-- Products CRUD Section -->
         <div class="section">
-            <div class="section-header">
+            <div class="section-header" onclick="toggleSection(this)">
                 <h2>3. Products CRUD</h2>
-                <span class="section-badge" id="badge-products">0/6</span>
+                <div class="section-header-right">
+                    <span class="section-badge" id="badge-products">0/6</span>
+                    <svg class="section-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"/>
+                    </svg>
+                </div>
             </div>
             <div class="section-content">
                 <div class="test-group">
@@ -683,9 +767,14 @@
 
         <!-- Customers CRUD Section -->
         <div class="section">
-            <div class="section-header">
+            <div class="section-header" onclick="toggleSection(this)">
                 <h2>4. Customers CRUD</h2>
-                <span class="section-badge" id="badge-customers">0/5</span>
+                <div class="section-header-right">
+                    <span class="section-badge" id="badge-customers">0/5</span>
+                    <svg class="section-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"/>
+                    </svg>
+                </div>
             </div>
             <div class="section-content">
                 <div class="test-group">
@@ -752,9 +841,14 @@
 
         <!-- Orders CRUD Section -->
         <div class="section">
-            <div class="section-header">
+            <div class="section-header" onclick="toggleSection(this)">
                 <h2>5. Orders CRUD</h2>
-                <span class="section-badge" id="badge-orders">0/7</span>
+                <div class="section-header-right">
+                    <span class="section-badge" id="badge-orders">0/7</span>
+                    <svg class="section-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"/>
+                    </svg>
+                </div>
             </div>
             <div class="section-content">
                 <div class="test-group">
@@ -843,9 +937,14 @@
 
         <!-- Quotes CRUD Section -->
         <div class="section">
-            <div class="section-header">
+            <div class="section-header" onclick="toggleSection(this)">
                 <h2>6. Quotes CRUD</h2>
-                <span class="section-badge" id="badge-quotes">0/6</span>
+                <div class="section-header-right">
+                    <span class="section-badge" id="badge-quotes">0/6</span>
+                    <svg class="section-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"/>
+                    </svg>
+                </div>
             </div>
             <div class="section-content">
                 <div class="test-group">
@@ -921,11 +1020,101 @@
             </div>
         </div>
 
+        <!-- Invoices Section -->
+        <div class="section">
+            <div class="section-header" onclick="toggleSection(this)">
+                <h2>7. Invoices</h2>
+                <div class="section-header-right">
+                    <span class="section-badge" id="badge-invoices">0/6</span>
+                    <svg class="section-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"/>
+                    </svg>
+                </div>
+            </div>
+            <div class="section-content">
+                <div class="test-group">
+                    <h4>Invoice Operations</h4>
+                    <div class="test-item" data-section="invoices">
+                        <input type="checkbox" class="checkbox" id="inv-1">
+                        <div class="test-label">
+                            <strong>Generate invoice from order</strong>
+                            <small>Click Invoice on order, modal shows with order summary and due date</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('inv-1')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('inv-1')">Fail</button>
+                        </div>
+                    </div>
+                    <div class="test-item" data-section="invoices">
+                        <input type="checkbox" class="checkbox" id="inv-2">
+                        <div class="test-label">
+                            <strong>Invoice number generated</strong>
+                            <small>New invoice gets INV-YYYY-XXXXX format number</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('inv-2')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('inv-2')">Fail</button>
+                        </div>
+                    </div>
+                    <div class="test-item" data-section="invoices">
+                        <input type="checkbox" class="checkbox" id="inv-3">
+                        <div class="test-label">
+                            <strong>Download invoice PDF</strong>
+                            <small>PDF downloads with correct invoice details and branding</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('inv-3')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('inv-3')">Fail</button>
+                        </div>
+                    </div>
+                    <div class="test-item" data-section="invoices">
+                        <input type="checkbox" class="checkbox" id="inv-4">
+                        <div class="test-label">
+                            <strong>Record payment</strong>
+                            <small>Record partial or full payment, balance updates correctly</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('inv-4')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('inv-4')">Fail</button>
+                        </div>
+                    </div>
+                    <div class="test-item" data-section="invoices">
+                        <input type="checkbox" class="checkbox" id="inv-5">
+                        <div class="test-label">
+                            <strong>Invoice status updates</strong>
+                            <small>Status changes from DRAFT to SENT to PAID correctly</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('inv-5')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('inv-5')">Fail</button>
+                        </div>
+                    </div>
+                    <div class="test-item" data-section="invoices">
+                        <input type="checkbox" class="checkbox" id="inv-6">
+                        <div class="test-label">
+                            <strong>View overdue invoices</strong>
+                            <small>Overdue filter shows invoices past due date</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('inv-6')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('inv-6')">Fail</button>
+                        </div>
+                    </div>
+                </div>
+                <textarea class="notes-field" placeholder="Notes for Invoices testing..."></textarea>
+            </div>
+        </div>
+
         <!-- Categories Section -->
         <div class="section">
-            <div class="section-header">
-                <h2>7. Categories</h2>
-                <span class="section-badge" id="badge-categories">0/4</span>
+            <div class="section-header" onclick="toggleSection(this)">
+                <h2>8. Categories</h2>
+                <div class="section-header-right">
+                    <span class="section-badge" id="badge-categories">0/4</span>
+                    <svg class="section-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"/>
+                    </svg>
+                </div>
             </div>
             <div class="section-content">
                 <div class="test-group">
@@ -981,9 +1170,14 @@
 
         <!-- Responsive/UI Section -->
         <div class="section">
-            <div class="section-header">
-                <h2>8. UI/Responsive</h2>
-                <span class="section-badge" id="badge-ui">0/5</span>
+            <div class="section-header" onclick="toggleSection(this)">
+                <h2>9. UI/Responsive</h2>
+                <div class="section-header-right">
+                    <span class="section-badge" id="badge-ui">0/5</span>
+                    <svg class="section-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"/>
+                    </svg>
+                </div>
             </div>
             <div class="section-content">
                 <div class="test-group">
@@ -1048,6 +1242,398 @@
             </div>
         </div>
 
+        <!-- Suppliers Section -->
+        <div class="section">
+            <div class="section-header" onclick="toggleSection(this)">
+                <h2>10. Suppliers</h2>
+                <div class="section-header-right">
+                    <span class="section-badge" id="badge-suppliers">0/5</span>
+                    <svg class="section-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"/>
+                    </svg>
+                </div>
+            </div>
+            <div class="section-content">
+                <div class="test-group">
+                    <h4>Supplier Operations</h4>
+                    <div class="test-item" data-section="suppliers">
+                        <input type="checkbox" class="checkbox" id="sup-1">
+                        <div class="test-label">
+                            <strong>View suppliers list</strong>
+                            <small>Suppliers page loads with all suppliers and status badges</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('sup-1')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('sup-1')">Fail</button>
+                        </div>
+                    </div>
+                    <div class="test-item" data-section="suppliers">
+                        <input type="checkbox" class="checkbox" id="sup-2">
+                        <div class="test-label">
+                            <strong>Create new supplier</strong>
+                            <small>Add supplier with company name, contact, email, phone, address</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('sup-2')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('sup-2')">Fail</button>
+                        </div>
+                    </div>
+                    <div class="test-item" data-section="suppliers">
+                        <input type="checkbox" class="checkbox" id="sup-3">
+                        <div class="test-label">
+                            <strong>Edit supplier details</strong>
+                            <small>Modify supplier info, payment terms, bank details - changes persist</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('sup-3')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('sup-3')">Fail</button>
+                        </div>
+                    </div>
+                    <div class="test-item" data-section="suppliers">
+                        <input type="checkbox" class="checkbox" id="sup-4">
+                        <div class="test-label">
+                            <strong>Change supplier status</strong>
+                            <small>Set to Active, On Hold, or Inactive</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('sup-4')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('sup-4')">Fail</button>
+                        </div>
+                    </div>
+                    <div class="test-item" data-section="suppliers">
+                        <input type="checkbox" class="checkbox" id="sup-5">
+                        <div class="test-label">
+                            <strong>Delete supplier</strong>
+                            <small>Delete supplier (only if no purchase orders linked)</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('sup-5')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('sup-5')">Fail</button>
+                        </div>
+                    </div>
+                </div>
+                <textarea class="notes-field" placeholder="Notes for Suppliers testing..."></textarea>
+            </div>
+        </div>
+
+        <!-- Purchase Orders Section -->
+        <div class="section">
+            <div class="section-header" onclick="toggleSection(this)">
+                <h2>11. Purchase Orders</h2>
+                <div class="section-header-right">
+                    <span class="section-badge" id="badge-po">0/7</span>
+                    <svg class="section-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"/>
+                    </svg>
+                </div>
+            </div>
+            <div class="section-content">
+                <div class="test-group">
+                    <h4>Purchase Order Operations</h4>
+                    <div class="test-item" data-section="po">
+                        <input type="checkbox" class="checkbox" id="po-1">
+                        <div class="test-label">
+                            <strong>View purchase orders list</strong>
+                            <small>PO page loads with all orders and status badges</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('po-1')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('po-1')">Fail</button>
+                        </div>
+                    </div>
+                    <div class="test-item" data-section="po">
+                        <input type="checkbox" class="checkbox" id="po-2">
+                        <div class="test-label">
+                            <strong>Create new purchase order</strong>
+                            <small>Select supplier, add line items, set expected delivery date</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('po-2')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('po-2')">Fail</button>
+                        </div>
+                    </div>
+                    <div class="test-item" data-section="po">
+                        <input type="checkbox" class="checkbox" id="po-3">
+                        <div class="test-label">
+                            <strong>PO number generated</strong>
+                            <small>New PO gets PO-YYYY-XXXXX format number</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('po-3')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('po-3')">Fail</button>
+                        </div>
+                    </div>
+                    <div class="test-item" data-section="po">
+                        <input type="checkbox" class="checkbox" id="po-4">
+                        <div class="test-label">
+                            <strong>Edit draft PO</strong>
+                            <small>Modify line items, quantities, prices on DRAFT orders</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('po-4')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('po-4')">Fail</button>
+                        </div>
+                    </div>
+                    <div class="test-item" data-section="po">
+                        <input type="checkbox" class="checkbox" id="po-5">
+                        <div class="test-label">
+                            <strong>Send PO to supplier</strong>
+                            <small>Change status from DRAFT to SENT</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('po-5')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('po-5')">Fail</button>
+                        </div>
+                    </div>
+                    <div class="test-item" data-section="po">
+                        <input type="checkbox" class="checkbox" id="po-6">
+                        <div class="test-label">
+                            <strong>Receive stock</strong>
+                            <small>Record received quantities, stock levels update automatically</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('po-6')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('po-6')">Fail</button>
+                        </div>
+                    </div>
+                    <div class="test-item" data-section="po">
+                        <input type="checkbox" class="checkbox" id="po-7">
+                        <div class="test-label">
+                            <strong>Cancel purchase order</strong>
+                            <small>Cancel DRAFT or SENT orders (not RECEIVED)</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('po-7')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('po-7')">Fail</button>
+                        </div>
+                    </div>
+                </div>
+                <textarea class="notes-field" placeholder="Notes for Purchase Orders testing..."></textarea>
+            </div>
+        </div>
+
+        <!-- Customer Portal Section -->
+        <div class="section">
+            <div class="section-header" onclick="toggleSection(this)">
+                <h2>12. Customer Portal</h2>
+                <div class="section-header-right">
+                    <span class="section-badge" id="badge-portal">0/7</span>
+                    <svg class="section-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"/>
+                    </svg>
+                </div>
+            </div>
+            <div class="section-content">
+                <div class="test-group">
+                    <h4>Portal Authentication</h4>
+                    <div class="test-item" data-section="portal">
+                        <input type="checkbox" class="checkbox" id="portal-1">
+                        <div class="test-label">
+                            <strong>Customer login works</strong>
+                            <small>Login at /portal/login with customer credentials</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('portal-1')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('portal-1')">Fail</button>
+                        </div>
+                    </div>
+                    <div class="test-item" data-section="portal">
+                        <input type="checkbox" class="checkbox" id="portal-2">
+                        <div class="test-label">
+                            <strong>Portal dashboard loads</strong>
+                            <small>Shows order count, quote count, invoice summary</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('portal-2')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('portal-2')">Fail</button>
+                        </div>
+                    </div>
+                    <div class="test-item" data-section="portal">
+                        <input type="checkbox" class="checkbox" id="portal-3">
+                        <div class="test-label">
+                            <strong>View orders history</strong>
+                            <small>Customer sees only their orders with status tracking</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('portal-3')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('portal-3')">Fail</button>
+                        </div>
+                    </div>
+                    <div class="test-item" data-section="portal">
+                        <input type="checkbox" class="checkbox" id="portal-4">
+                        <div class="test-label">
+                            <strong>View quotes</strong>
+                            <small>Customer sees quotes sent to them</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('portal-4')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('portal-4')">Fail</button>
+                        </div>
+                    </div>
+                    <div class="test-item" data-section="portal">
+                        <input type="checkbox" class="checkbox" id="portal-5">
+                        <div class="test-label">
+                            <strong>View invoices</strong>
+                            <small>Customer sees invoices with payment status</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('portal-5')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('portal-5')">Fail</button>
+                        </div>
+                    </div>
+                    <div class="test-item" data-section="portal">
+                        <input type="checkbox" class="checkbox" id="portal-6">
+                        <div class="test-label">
+                            <strong>Update profile</strong>
+                            <small>Customer can update contact and company details</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('portal-6')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('portal-6')">Fail</button>
+                        </div>
+                    </div>
+                    <div class="test-item" data-section="portal">
+                        <input type="checkbox" class="checkbox" id="portal-7">
+                        <div class="test-label">
+                            <strong>Portal logout works</strong>
+                            <small>Logout redirects to login page, session cleared</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('portal-7')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('portal-7')">Fail</button>
+                        </div>
+                    </div>
+                </div>
+                <textarea class="notes-field" placeholder="Notes for Customer Portal testing..."></textarea>
+            </div>
+        </div>
+
+        <!-- Settings Section -->
+        <div class="section">
+            <div class="section-header" onclick="toggleSection(this)">
+                <h2>13. Settings</h2>
+                <div class="section-header-right">
+                    <span class="section-badge" id="badge-settings">0/4</span>
+                    <svg class="section-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"/>
+                    </svg>
+                </div>
+            </div>
+            <div class="section-content">
+                <div class="test-group">
+                    <h4>Settings Operations</h4>
+                    <div class="test-item" data-section="settings">
+                        <input type="checkbox" class="checkbox" id="set-1">
+                        <div class="test-label">
+                            <strong>Settings page loads</strong>
+                            <small>Company settings form displays with current values</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('set-1')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('set-1')">Fail</button>
+                        </div>
+                    </div>
+                    <div class="test-item" data-section="settings">
+                        <input type="checkbox" class="checkbox" id="set-2">
+                        <div class="test-label">
+                            <strong>Update company details</strong>
+                            <small>Modify company name, address, VAT number - changes save</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('set-2')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('set-2')">Fail</button>
+                        </div>
+                    </div>
+                    <div class="test-item" data-section="settings">
+                        <input type="checkbox" class="checkbox" id="set-3">
+                        <div class="test-label">
+                            <strong>Update bank details</strong>
+                            <small>Modify bank account info for invoices</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('set-3')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('set-3')">Fail</button>
+                        </div>
+                    </div>
+                    <div class="test-item" data-section="settings">
+                        <input type="checkbox" class="checkbox" id="set-4">
+                        <div class="test-label">
+                            <strong>Settings persist after reload</strong>
+                            <small>Refresh page, verify saved values display</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('set-4')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('set-4')">Fail</button>
+                        </div>
+                    </div>
+                </div>
+                <textarea class="notes-field" placeholder="Notes for Settings testing..."></textarea>
+            </div>
+        </div>
+
+        <!-- Audit Log Section -->
+        <div class="section">
+            <div class="section-header" onclick="toggleSection(this)">
+                <h2>14. Audit Log</h2>
+                <div class="section-header-right">
+                    <span class="section-badge" id="badge-audit">0/4</span>
+                    <svg class="section-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"/>
+                    </svg>
+                </div>
+            </div>
+            <div class="section-content">
+                <div class="test-group">
+                    <h4>Audit Log Operations</h4>
+                    <div class="test-item" data-section="audit">
+                        <input type="checkbox" class="checkbox" id="aud-1">
+                        <div class="test-label">
+                            <strong>Audit log page loads</strong>
+                            <small>Displays list of system actions with timestamps</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('aud-1')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('aud-1')">Fail</button>
+                        </div>
+                    </div>
+                    <div class="test-item" data-section="audit">
+                        <input type="checkbox" class="checkbox" id="aud-2">
+                        <div class="test-label">
+                            <strong>Actions are logged</strong>
+                            <small>Create/edit actions appear in log after performing them</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('aud-2')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('aud-2')">Fail</button>
+                        </div>
+                    </div>
+                    <div class="test-item" data-section="audit">
+                        <input type="checkbox" class="checkbox" id="aud-3">
+                        <div class="test-label">
+                            <strong>Filter by action type</strong>
+                            <small>Filter to show specific action types (login, create, update)</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('aud-3')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('aud-3')">Fail</button>
+                        </div>
+                    </div>
+                    <div class="test-item" data-section="audit">
+                        <input type="checkbox" class="checkbox" id="aud-4">
+                        <div class="test-label">
+                            <strong>Filter by date range</strong>
+                            <small>Date filters show only entries within selected period</small>
+                        </div>
+                        <div class="test-actions">
+                            <button class="btn-pass" onclick="markPass('aud-4')">Pass</button>
+                            <button class="btn-fail" onclick="markFail('aud-4')">Fail</button>
+                        </div>
+                    </div>
+                </div>
+                <textarea class="notes-field" placeholder="Notes for Audit Log testing..."></textarea>
+            </div>
+        </div>
+
         <div class="action-buttons">
             <button class="btn btn-primary" onclick="exportResults()">Export Results</button>
             <button class="btn btn-secondary" onclick="saveProgress()">Save Progress</button>
@@ -1061,6 +1647,12 @@
     </div>
 
     <script>
+        // Toggle accordion section
+        function toggleSection(header) {
+            const section = header.closest('.section');
+            section.classList.toggle('open');
+        }
+
         // Track test states
         const testStates = {};
 
@@ -1152,8 +1744,14 @@
             updateSectionBadge('customers', 5);
             updateSectionBadge('orders', 7);
             updateSectionBadge('quotes', 6);
+            updateSectionBadge('invoices', 6);
             updateSectionBadge('categories', 4);
             updateSectionBadge('ui', 5);
+            updateSectionBadge('suppliers', 5);
+            updateSectionBadge('po', 7);
+            updateSectionBadge('portal', 7);
+            updateSectionBadge('settings', 4);
+            updateSectionBadge('audit', 4);
         }
 
         function updateSectionBadge(section, total) {

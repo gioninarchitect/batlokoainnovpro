@@ -1,5 +1,7 @@
 import prisma from '../config/database.js';
 import { sendAdminAlert } from '../services/whatsapp.service.js';
+import { logAudit, AuditActions } from '../services/audit.service.js';
+import { sendEmail, emailTemplates } from '../services/email.service.js';
 
 const generateOrderNumber = async () => {
   const year = new Date().getFullYear();
@@ -61,6 +63,31 @@ export const getOrder = async (req, res, next) => {
         invoices: true,
         statusHistory: { orderBy: { createdAt: 'desc' } },
         createdBy: { select: { firstName: true, lastName: true } },
+      },
+    });
+
+    if (!order) return res.status(404).json({ error: 'Order not found' });
+    res.json(order);
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Public endpoint for order payment page (no auth required)
+export const lookupOrder = async (req, res, next) => {
+  try {
+    const { orderNumber } = req.params;
+
+    const order = await prisma.order.findFirst({
+      where: { orderNumber },
+      select: {
+        id: true,
+        orderNumber: true,
+        status: true,
+        total: true,
+        popFile: true,
+        popVerified: true,
+        paymentStatus: true,
       },
     });
 
@@ -159,6 +186,31 @@ export const createOrder = async (req, res, next) => {
       itemCount: order.items.length,
     });
 
+    // Audit log
+    logAudit({
+      userId: req.user?.id,
+      action: AuditActions.ORDER_CREATED,
+      entityType: 'order',
+      entityId: order.id,
+      description: `Created order ${order.orderNumber} for R${Number(order.total).toFixed(2)}`,
+      metadata: { orderNumber: order.orderNumber, total: order.total, itemCount: order.items.length },
+      ipAddress: req.ip,
+    });
+
+    // Send order confirmation email to customer
+    if (order.customer?.email) {
+      try {
+        const template = emailTemplates.orderConfirmation(order);
+        await sendEmail({
+          to: order.customer.email,
+          subject: template.subject,
+          html: template.html,
+        });
+      } catch (emailErr) {
+        console.error('Failed to send order confirmation email:', emailErr);
+      }
+    }
+
     res.status(201).json(order);
   } catch (error) {
     next(error);
@@ -205,6 +257,17 @@ export const updateOrderStatus = async (req, res, next) => {
       return updatedOrder;
     });
 
+    // Audit log
+    logAudit({
+      userId: req.user?.id,
+      action: AuditActions.ORDER_STATUS_CHANGED,
+      entityType: 'order',
+      entityId: id,
+      description: `Changed order ${updated.orderNumber} status from ${order.status} to ${status}`,
+      metadata: { orderNumber: updated.orderNumber, fromStatus: order.status, toStatus: status },
+      ipAddress: req.ip,
+    });
+
     res.json(updated);
   } catch (error) {
     next(error);
@@ -223,6 +286,45 @@ export const updateOrder = async (req, res, next) => {
     });
 
     res.json(order);
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Bulk status update
+export const bulkUpdateStatus = async (req, res, next) => {
+  try {
+    const { orderIds, status } = req.body;
+
+    if (!orderIds || !Array.isArray(orderIds) || orderIds.length === 0) {
+      return res.status(400).json({ error: 'Order IDs are required' });
+    }
+    if (!status) {
+      return res.status(400).json({ error: 'Status is required' });
+    }
+
+    const updated = await prisma.$transaction(async (tx) => {
+      // Update all orders
+      await tx.order.updateMany({
+        where: { id: { in: orderIds } },
+        data: { status }
+      });
+
+      // Create status history entries for each order
+      const historyEntries = orderIds.map(orderId => ({
+        orderId,
+        fromStatus: 'BULK_UPDATE',
+        toStatus: status,
+        notes: `Bulk status update to ${status}`,
+        changedBy: req.user?.id,
+      }));
+
+      await tx.orderStatusHistory.createMany({ data: historyEntries });
+
+      return orderIds.length;
+    });
+
+    res.json({ success: true, updated, message: `${updated} orders updated to ${status}` });
   } catch (error) {
     next(error);
   }
@@ -349,6 +451,17 @@ export const approvePOP = async (req, res, next) => {
       return updatedOrder;
     });
 
+    // Audit log
+    logAudit({
+      userId: req.user?.id,
+      action: AuditActions.POP_APPROVED,
+      entityType: 'order',
+      entityId: id,
+      description: `Approved payment for order ${updated.orderNumber}`,
+      metadata: { orderNumber: updated.orderNumber },
+      ipAddress: req.ip,
+    });
+
     res.json({ success: true, message: 'Payment approved', order: updated });
   } catch (error) {
     next(error);
@@ -386,6 +499,17 @@ export const rejectPOP = async (req, res, next) => {
       });
 
       return updatedOrder;
+    });
+
+    // Audit log
+    logAudit({
+      userId: req.user?.id,
+      action: AuditActions.POP_REJECTED,
+      entityType: 'order',
+      entityId: id,
+      description: `Rejected payment for order ${updated.orderNumber}: ${reason}`,
+      metadata: { orderNumber: updated.orderNumber, reason },
+      ipAddress: req.ip,
     });
 
     res.json({ success: true, message: 'Payment rejected', order: updated });
@@ -428,6 +552,31 @@ export const dispatchOrder = async (req, res, next) => {
 
       return updatedOrder;
     });
+
+    // Audit log
+    logAudit({
+      userId: req.user?.id,
+      action: AuditActions.ORDER_DISPATCHED,
+      entityType: 'order',
+      entityId: id,
+      description: `Dispatched order ${updated.orderNumber} via ${courier || 'courier'}`,
+      metadata: { orderNumber: updated.orderNumber, courier, trackingNumber },
+      ipAddress: req.ip,
+    });
+
+    // Send dispatch notification email to customer
+    if (updated.customer?.email) {
+      try {
+        const template = emailTemplates.orderDispatched(updated, { courier, trackingNumber });
+        await sendEmail({
+          to: updated.customer.email,
+          subject: template.subject,
+          html: template.html,
+        });
+      } catch (emailErr) {
+        console.error('Failed to send dispatch notification email:', emailErr);
+      }
+    }
 
     res.json({ success: true, message: 'Order dispatched', order: updated });
   } catch (error) {

@@ -356,8 +356,14 @@
         <li><a href="#products">4. Managing Products</a></li>
         <li><a href="#customers">5. Managing Customers</a></li>
         <li><a href="#quotes">6. Managing Quotes</a></li>
-        <li><a href="#categories">7. Managing Categories</a></li>
-        <li><a href="#quick-actions">8. Quick Actions & Tips</a></li>
+        <li><a href="#invoices">7. Managing Invoices</a></li>
+        <li><a href="#categories">8. Managing Categories</a></li>
+        <li><a href="#suppliers">9. Managing Suppliers</a></li>
+        <li><a href="#purchase-orders">10. Purchase Orders</a></li>
+        <li><a href="#portal">11. Customer Portal</a></li>
+        <li><a href="#settings">12. Settings & Configuration</a></li>
+        <li><a href="#audit">13. Audit Log</a></li>
+        <li><a href="#quick-actions">14. Quick Actions & Tips</a></li>
       </ul>
     </div>
 
@@ -639,10 +645,97 @@
       </div>
     </div>
 
+    <!-- Invoices Section -->
+    <div class="accordion" id="invoices">
+      <button class="accordion-header">
+        <span class="icon">7</span>
+        <span class="title">Managing Invoices</span>
+        <span class="arrow">&#9660;</span>
+      </button>
+      <div class="accordion-content">
+        <div class="accordion-body">
+          <h4>Generating an Invoice from an Order</h4>
+          <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <h4>Open the Order</h4>
+              <p>Go to Orders page and click "Invoice" button on the order row, or open the order details.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <h4>Review Invoice Details</h4>
+              <p>The invoice modal shows the order summary, customer details, and total amounts.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <h4>Set Due Date</h4>
+              <p>Due date is automatically set based on customer payment terms (30 days default). Adjust if needed.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+              <h4>Add Notes (Optional)</h4>
+              <p>Add any special terms, payment instructions, or notes that will appear on the invoice.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">5</div>
+            <div class="step-content">
+              <h4>Generate & Send</h4>
+              <p>Click "Generate Invoice". After creation, you can download the PDF or send directly to customer.</p>
+            </div>
+          </div>
+
+          <h4 style="margin-top: 1.5rem;">Invoice Statuses</h4>
+          <table class="shortcut-table">
+            <tr><th>Status</th><th>Meaning</th></tr>
+            <tr><td><span class="badge" style="background:#e5e7eb;color:#374151;">DRAFT</span></td><td>Created but not sent</td></tr>
+            <tr><td><span class="badge badge-blue">SENT</span></td><td>Sent to customer</td></tr>
+            <tr><td><span class="badge badge-yellow">PARTIAL</span></td><td>Partially paid</td></tr>
+            <tr><td><span class="badge badge-green">PAID</span></td><td>Fully paid</td></tr>
+            <tr><td><span class="badge badge-safety">OVERDUE</span></td><td>Past due date, unpaid</td></tr>
+          </table>
+
+          <h4 style="margin-top: 1.5rem;">Recording Payments</h4>
+          <p>When a customer pays:</p>
+          <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <h4>Click "Payment" Button</h4>
+              <p>On the invoice row, click the Payment button.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <h4>Enter Payment Details</h4>
+              <p>Enter amount, select payment method (EFT, Cash, Card), and add reference number.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <h4>Record Payment</h4>
+              <p>Click "Record Payment". The balance updates automatically and status changes to PAID or PARTIAL.</p>
+            </div>
+          </div>
+
+          <div class="tip">
+            <strong>Tip:</strong> Use the "View Overdue" button on the Invoices page to see all unpaid invoices past their due date.
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Categories Section -->
     <div class="accordion" id="categories">
       <button class="accordion-header">
-        <span class="icon">7</span>
+        <span class="icon">8</span>
         <span class="title">Managing Categories</span>
         <span class="arrow">&#9660;</span>
       </button>
@@ -670,10 +763,302 @@
       </div>
     </div>
 
+    <!-- Suppliers Section -->
+    <div class="accordion" id="suppliers">
+      <button class="accordion-header">
+        <span class="icon">9</span>
+        <span class="title">Managing Suppliers</span>
+        <span class="arrow">&#9660;</span>
+      </button>
+      <div class="accordion-content">
+        <div class="accordion-body">
+          <h4>Adding a New Supplier</h4>
+          <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <h4>Navigate to Suppliers</h4>
+              <p>Click "Suppliers" in the sidebar menu to access the suppliers list.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <h4>Click "Add Supplier"</h4>
+              <p>Use the "Add Supplier" button to open the supplier form.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <h4>Enter Supplier Details</h4>
+              <p>Fill in company name, contact person, email, phone, and address details.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+              <h4>Set Payment Terms</h4>
+              <p>Configure payment terms (e.g., 30 days), tax number, and bank details for EFT payments.</p>
+            </div>
+          </div>
+
+          <h4 style="margin-top: 1.5rem;">Supplier Status</h4>
+          <table class="shortcut-table">
+            <tr><th>Status</th><th>Meaning</th></tr>
+            <tr><td><span class="badge badge-green">ACTIVE</span></td><td>Supplier is available for purchase orders</td></tr>
+            <tr><td><span class="badge badge-yellow">ON_HOLD</span></td><td>Temporarily suspended (payment issues, quality concerns)</td></tr>
+            <tr><td><span class="badge" style="background:#e5e7eb;color:#374151;">INACTIVE</span></td><td>No longer used</td></tr>
+          </table>
+
+          <div class="tip">
+            <strong>Tip:</strong> Store supplier bank details for quick EFT payments. These are shown on purchase orders.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Purchase Orders Section -->
+    <div class="accordion" id="purchase-orders">
+      <button class="accordion-header">
+        <span class="icon">10</span>
+        <span class="title">Purchase Orders</span>
+        <span class="arrow">&#9660;</span>
+      </button>
+      <div class="accordion-content">
+        <div class="accordion-body">
+          <h4>Creating a Purchase Order</h4>
+          <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <h4>Navigate to Purchase Orders</h4>
+              <p>Click "Purchase Orders" in the sidebar to view all POs.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <h4>Click "New Purchase Order"</h4>
+              <p>Opens the PO creation form.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <h4>Select Supplier</h4>
+              <p>Choose from your list of active suppliers.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+              <h4>Add Line Items</h4>
+              <p>Add products to order, specify quantities and unit costs.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">5</div>
+            <div class="step-content">
+              <h4>Set Delivery Details</h4>
+              <p>Enter expected delivery date and any special instructions.</p>
+            </div>
+          </div>
+
+          <h4 style="margin-top: 1.5rem;">Purchase Order Statuses</h4>
+          <table class="shortcut-table">
+            <tr><th>Status</th><th>Meaning</th></tr>
+            <tr><td><span class="badge" style="background:#e5e7eb;color:#374151;">DRAFT</span></td><td>Being prepared, can be edited</td></tr>
+            <tr><td><span class="badge badge-blue">SENT</span></td><td>Sent to supplier</td></tr>
+            <tr><td><span class="badge badge-yellow">PARTIAL</span></td><td>Some items received</td></tr>
+            <tr><td><span class="badge badge-green">RECEIVED</span></td><td>All items received</td></tr>
+            <tr><td><span class="badge badge-safety">CANCELLED</span></td><td>Order cancelled</td></tr>
+          </table>
+
+          <h4 style="margin-top: 1.5rem;">Receiving Stock</h4>
+          <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <h4>Click "Receive Stock"</h4>
+              <p>On a SENT purchase order, click "Receive Stock" to record delivery.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <h4>Enter Quantities Received</h4>
+              <p>For each line item, enter the quantity actually delivered.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <h4>Confirm Receipt</h4>
+              <p>Stock levels are automatically updated when you confirm.</p>
+            </div>
+          </div>
+
+          <div class="warning">
+            <strong>Important:</strong> Receiving stock automatically increases product inventory. Always verify physical delivery before confirming.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Customer Portal Section -->
+    <div class="accordion" id="portal">
+      <button class="accordion-header">
+        <span class="icon">11</span>
+        <span class="title">Customer Portal</span>
+        <span class="arrow">&#9660;</span>
+      </button>
+      <div class="accordion-content">
+        <div class="accordion-body">
+          <p>The Customer Portal allows your customers to self-service their accounts.</p>
+
+          <h4>Portal Features</h4>
+          <table class="shortcut-table">
+            <tr><th>Feature</th><th>Description</th></tr>
+            <tr><td>Dashboard</td><td>Overview of orders, quotes, and invoices</td></tr>
+            <tr><td>Orders</td><td>View order history and track status</td></tr>
+            <tr><td>Quotes</td><td>View quotes, accept or request changes</td></tr>
+            <tr><td>Invoices</td><td>View invoices, download PDFs, see payment status</td></tr>
+            <tr><td>Profile</td><td>Update contact and company details</td></tr>
+          </table>
+
+          <h4 style="margin-top: 1.5rem;">Setting Up Customer Access</h4>
+          <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <h4>Customer Must Have Email</h4>
+              <p>The customer record must have a valid email address.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <h4>Set Password</h4>
+              <p>Use the customer edit form to set an initial password, or use "Send Portal Invite" to email login instructions.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <h4>Customer Logs In</h4>
+              <p>Customer accesses <code>/portal/login</code> with their email and password.</p>
+            </div>
+          </div>
+
+          <div class="info">
+            <strong>Portal URL:</strong> <a href="https://batlokoa.cleva-ai.co.za/portal/login" target="_blank" style="color:#0f3460;">https://batlokoa.cleva-ai.co.za/portal/login</a>
+          </div>
+
+          <div class="tip">
+            <strong>Tip:</strong> Encourage customers to use the portal to reduce support queries and improve transparency.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings Section -->
+    <div class="accordion" id="settings">
+      <button class="accordion-header">
+        <span class="icon">12</span>
+        <span class="title">Settings & Configuration</span>
+        <span class="arrow">&#9660;</span>
+      </button>
+      <div class="accordion-content">
+        <div class="accordion-body">
+          <h4>Company Settings</h4>
+          <p>Configure your business details that appear on invoices, quotes, and customer communications:</p>
+          <ul style="margin-left: 1.5rem; margin-bottom: 1rem;">
+            <li><strong>Company Name</strong> - Your registered business name</li>
+            <li><strong>Registration Number</strong> - Company registration/CIPC number</li>
+            <li><strong>VAT Number</strong> - Tax number for invoices</li>
+            <li><strong>Address</strong> - Physical and postal addresses</li>
+            <li><strong>Contact Details</strong> - Phone, email, website</li>
+            <li><strong>Bank Details</strong> - Account info for customer payments</li>
+          </ul>
+
+          <h4 style="margin-top: 1.5rem;">Email Configuration</h4>
+          <p>Set up email integration for automated notifications:</p>
+          <ul style="margin-left: 1.5rem; margin-bottom: 1rem;">
+            <li><strong>SMTP Server</strong> - Email server settings</li>
+            <li><strong>From Address</strong> - Default sender email</li>
+            <li><strong>Order Notifications</strong> - Email customers on order updates</li>
+            <li><strong>Invoice Emails</strong> - Send invoices automatically</li>
+          </ul>
+
+          <h4 style="margin-top: 1.5rem;">System Preferences</h4>
+          <table class="shortcut-table">
+            <tr><th>Setting</th><th>Description</th></tr>
+            <tr><td>VAT Rate</td><td>Default VAT percentage (15%)</td></tr>
+            <tr><td>Currency</td><td>Display currency (ZAR)</td></tr>
+            <tr><td>Date Format</td><td>How dates are displayed</td></tr>
+            <tr><td>Low Stock Threshold</td><td>Default alert level for products</td></tr>
+          </table>
+
+          <div class="warning">
+            <strong>Caution:</strong> Only administrators should modify settings. Changes affect the entire system.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Audit Log Section -->
+    <div class="accordion" id="audit">
+      <button class="accordion-header">
+        <span class="icon">13</span>
+        <span class="title">Audit Log</span>
+        <span class="arrow">&#9660;</span>
+      </button>
+      <div class="accordion-content">
+        <div class="accordion-body">
+          <p>The Audit Log tracks all important actions in the system for security and accountability.</p>
+
+          <h4>What's Logged</h4>
+          <table class="shortcut-table">
+            <tr><th>Category</th><th>Actions Tracked</th></tr>
+            <tr><td>Authentication</td><td>Login, logout, failed login attempts</td></tr>
+            <tr><td>Orders</td><td>Create, update status, cancel</td></tr>
+            <tr><td>Products</td><td>Create, edit, delete, stock changes</td></tr>
+            <tr><td>Customers</td><td>Create, edit, delete</td></tr>
+            <tr><td>Invoices</td><td>Generate, send, record payments</td></tr>
+            <tr><td>Settings</td><td>Configuration changes</td></tr>
+          </table>
+
+          <h4 style="margin-top: 1.5rem;">Using the Audit Log</h4>
+          <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <h4>Access Audit Log</h4>
+              <p>Click "Audit Log" in the sidebar (Admin/Manager only).</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <h4>Filter by Date/User/Action</h4>
+              <p>Use filters to narrow down to specific events or time periods.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <h4>View Details</h4>
+              <p>Click on any log entry to see full details including before/after values.</p>
+            </div>
+          </div>
+
+          <div class="info">
+            <strong>Note:</strong> Audit logs cannot be deleted or modified. They provide a permanent record of system activity.
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Quick Actions Section -->
     <div class="accordion" id="quick-actions">
       <button class="accordion-header">
-        <span class="icon">8</span>
+        <span class="icon">14</span>
         <span class="title">Quick Actions & Tips</span>
         <span class="arrow">&#9660;</span>
       </button>
@@ -712,7 +1097,7 @@
 
   <footer class="footer">
     <p>Batlokoa Innovative Projects - Admin Training Guide</p>
-    <p>Version 1.0 | December 2025</p>
+    <p>Version 2.0 | December 2025</p>
   </footer>
 
   <script>

@@ -1,0 +1,277 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2025-01-01",
+  "templates": {
+    "PRODUCT_SEARCH": {
+      "found": {
+        "single": "I found {productName} in our inventory.\n\nPrice: R{price} per {unit}\nStock: {stockStatus}\n\nWould you like specifications or a quote?",
+        "multiple": "I found {count} products matching your search:\n\n{productList}\n\nWould you like details on any of these?",
+        "featured": "Here's our top recommendation:\n\n{productName}\nR{price} per {unit} | {stockStatus}\n\nThis is a popular choice for {applications}."
+      },
+      "notFound": {
+        "default": "I couldn't find products matching \"{query}\" in our current inventory.\n\nWould you like me to:\n- Search with different terms?\n- Connect you with our sales team for custom orders?\n- Show similar products?",
+        "suggestion": "No exact match for \"{query}\", but you might be interested in:\n\n{suggestions}\n\nOr I can connect you with sales for custom orders."
+      },
+      "partial": {
+        "default": "I found some products that partially match \"{query}\":\n\n{productList}\n\nIs any of these what you're looking for?"
+      },
+      "quickReplies": [
+        "Show specifications",
+        "Get a quote",
+        "Check stock levels",
+        "Similar products"
+      ]
+    },
+    "PRICE_QUOTE": {
+      "found": {
+        "single": "Pricing for {productName}:\n\nUnit Price: R{unitPrice}\nQuantity: {quantity}\nSubtotal: R{subtotal}\nVAT (15%): R{vat}\n\nTotal: R{total}\n\n{bulkNote}",
+        "bulk": "Bulk pricing for {productName}:\n\nUnit Price: R{unitPrice} (includes {discount}% bulk discount)\nQuantity: {quantity}\nSubtotal: R{subtotal}\nVAT (15%): R{vat}\n\nTotal: R{total}\n\nYou're saving R{savings} with bulk pricing!",
+        "estimate": "Estimated pricing for {query}:\n\nApprox. R{estimatedPrice} per unit\n\nFor an accurate quote, please specify:\n- Exact product/size needed\n- Quantity required\n- Delivery location"
+      },
+      "notFound": {
+        "default": "I need more details to provide pricing:\n\n- Which product are you interested in?\n- What quantity do you need?\n\nOr I can connect you with our sales team for a detailed quote."
+      },
+      "quickReplies": [
+        "Request formal quote",
+        "Add more items",
+        "Check bulk discounts",
+        "Delivery cost"
+      ]
+    },
+    "SPEC_QUERY": {
+      "found": {
+        "default": "Specifications for {productName}:\n\n{specsList}\n\nCompliance: {compliance}\n\nNeed more technical details?",
+        "detailed": "Technical Specifications: {productName}\n\n{detailedSpecs}\n\nApplications:\n{applications}\n\nCompliance Standards:\n{complianceList}\n\nNeed anything else?"
+      },
+      "notFound": {
+        "default": "I don't have specifications for that exact product. Would you like to:\n\n- Search for a similar product?\n- Speak to our technical team?\n- Browse our product categories?"
+      },
+      "quickReplies": [
+        "Download datasheet",
+        "Check compliance",
+        "Get a quote",
+        "Similar products"
+      ]
+    },
+    "COMPLIANCE_CHECK": {
+      "compliant": {
+        "default": "{productName} meets the following standards:\n\n{standardsList}\n\nCertified for: {industries}\n\nNeed compliance certificates?",
+        "mining": "{productName} is DMR & OHSA compliant for mining operations:\n\n{standardsList}\n\nSuitable for both surface and underground work.",
+        "construction": "{productName} complies with construction standards:\n\n{standardsList}\n\nMeets NHBRC and municipal requirements."
+      },
+      "notCompliant": {
+        "default": "{productName} may not meet all requirements for {industry}.\n\nMissing certifications:\n{missingList}\n\nWould you like me to suggest compliant alternatives?"
+      },
+      "unknown": {
+        "default": "I'll need to verify compliance for that specific product/industry combination.\n\nFor immediate verification:\n- Contact our technical team\n- Request official compliance certificates\n\nWhich industry are you working in?"
+      },
+      "quickReplies": [
+        "Download certificate",
+        "Check alternatives",
+        "Contact technical team",
+        "View all standards"
+      ]
+    },
+    "DELIVERY_INQUIRY": {
+      "estimate": {
+        "gauteng": "Delivery to {location}:\n\nEstimated: {days} working days\nShipping cost: R{cost}\n\nNote: We're based in Randfontein, Gauteng - local deliveries are fastest!",
+        "national": "Delivery to {location}:\n\nEstimated: {days} working days\nShipping cost: R{cost}\n\nAll times include SA logistics buffer for reliability.",
+        "default": "Standard delivery times:\n\n- Gauteng: 1-2 days\n- Cape Town: 3-4 days\n- Durban: 2-3 days\n- Other areas: 3-5 days\n\nWhere do you need delivery?"
+      },
+      "express": {
+        "default": "Express delivery available!\n\nStandard: {standardDays} days (R{standardCost})\nExpress: {expressDays} days (R{expressCost})\n\nExpress includes priority handling and tracking."
+      },
+      "quickReplies": [
+        "Calculate shipping",
+        "Express options",
+        "Track my order",
+        "Pickup option"
+      ]
+    },
+    "COMPATIBILITY_CHECK": {
+      "compatible": {
+        "default": "Yes! {product1} is compatible with {product2}.\n\n{compatibilityNotes}\n\nThese items are often purchased together.",
+        "withSpecs": "{product1} + {product2} compatibility:\n\nMatch: {matchType}\nSize compatibility: {sizeMatch}\nGrade compatibility: {gradeMatch}\n\n{recommendations}"
+      },
+      "incompatible": {
+        "default": "{product1} is NOT compatible with {product2}.\n\nReason: {reason}\n\nRecommended alternative: {alternative}",
+        "warning": "These products may not be fully compatible.\n\n{warnings}\n\nI recommend consulting our technical team before ordering."
+      },
+      "quickReplies": [
+        "Show compatible products",
+        "Get recommendations",
+        "Ask technical team",
+        "View specifications"
+      ]
+    },
+    "BULK_DISCOUNT": {
+      "available": {
+        "default": "We offer bulk discounts!\n\nDiscount tiers:\n{discountTiers}\n\nBBB-EE clients receive additional benefits.\n\nWhat quantity are you considering?",
+        "product": "Bulk pricing for {productName}:\n\n{tierList}\n\nYour quantity ({quantity}): {applicableDiscount}% off\nYou save: R{savings}\n\nLarger orders = bigger savings!"
+      },
+      "contact": {
+        "default": "For large or custom orders, our sales team can offer special pricing.\n\nContact details:\nPhone: 011 762 1881\nEmail: sales@batlokoa.co.za\n\nWould you like us to call you?"
+      },
+      "quickReplies": [
+        "Calculate my discount",
+        "Request trade account",
+        "Contact sales",
+        "View all products"
+      ]
+    },
+    "BBBEE_INQUIRY": {
+      "info": {
+        "default": "Batlokoa Innovative Projects (Pty) Ltd is a proud Level 1 BBB-EE contributor!\n\n100% Black Women-Owned\nLevel 1 B-BBEE Status\n135% Procurement Recognition\n\nThis means maximum points for your procurement scorecard.",
+        "certificate": "I can provide our BBB-EE certificate.\n\n- Level 1 Contributor\n- Valid until: {validUntil}\n- Verification: {verificationNumber}\n\nDownload or email the certificate?",
+        "benefits": "Working with Batlokoa gives you:\n\n- 135% procurement recognition\n- Support for transformation goals\n- Quality industrial products\n- Competitive pricing\n\nEvery rand spent counts 1.35x on your scorecard!"
+      },
+      "quickReplies": [
+        "Download certificate",
+        "Email certificate",
+        "Procurement benefits",
+        "Request quote"
+      ]
+    },
+    "PROJECT_ASSISTANCE": {
+      "intro": {
+        "default": "I'd be happy to help with your project!\n\nTo recommend the right products, please tell me:\n\n1. What type of project? (construction/mining/electrical/industrial)\n2. What products do you need?\n3. Approximate quantities?\n\nOr describe your project and I'll suggest suitable products.",
+        "mining": "For mining projects, we supply:\n\n- PPE (helmets, boots, gloves)\n- Fasteners (all grades)\n- Pipes & fittings\n- Electrical components\n\nAll DMR compliant. What do you need?",
+        "construction": "For construction projects:\n\n- Structural fasteners\n- Plumbing supplies\n- Electrical fittings\n- Safety equipment\n\nNHBRC & SANS compliant. What are you building?"
+      },
+      "quickReplies": [
+        "Mining project",
+        "Construction project",
+        "Electrical work",
+        "Browse products"
+      ]
+    },
+    "STOCK_CHECK": {
+      "inStock": {
+        "default": "{productName} is IN STOCK!\n\nAvailable: {quantity} {unit}s\nLead time: Ready for dispatch\n\nOrder now for fastest delivery.",
+        "low": "{productName} is in stock but running low.\n\nAvailable: {quantity} {unit}s\n\nI recommend ordering soon to secure stock."
+      },
+      "outOfStock": {
+        "default": "{productName} is currently out of stock.\n\nExpected restock: {restockDate}\n\nWould you like to:\n- Pre-order?\n- See alternatives?\n- Get notified when available?"
+      },
+      "quickReplies": [
+        "Place order",
+        "Notify when available",
+        "Show alternatives",
+        "Check other products"
+      ]
+    },
+    "ORDER_STATUS": {
+      "found": {
+        "default": "Order {orderNumber} Status:\n\nStatus: {status}\nPlaced: {orderDate}\n{statusDetails}\n\n{nextAction}",
+        "dispatched": "Order {orderNumber} has been DISPATCHED!\n\nShipped: {dispatchDate}\nTracking: {trackingInfo}\nExpected delivery: {deliveryDate}\n\nTrack your delivery for live updates.",
+        "delivered": "Order {orderNumber} was DELIVERED!\n\nDelivered: {deliveryDate}\n\nThank you for your business! How was your experience?"
+      },
+      "notFound": {
+        "default": "I couldn't find order \"{reference}\".\n\nPlease check:\n- Order number format (e.g., ORD-12345)\n- You're using the correct reference\n\nOr contact us with your details and we'll help locate it."
+      },
+      "quickReplies": [
+        "Track shipment",
+        "Contact support",
+        "Reorder",
+        "View invoice"
+      ]
+    },
+    "QUOTE_STATUS": {
+      "found": {
+        "default": "Quote {quoteNumber} Status:\n\nStatus: {status}\nCreated: {createdDate}\nValid until: {validUntil}\nTotal: R{total}\n\n{actionNeeded}",
+        "expiringSoon": "Quote {quoteNumber} expires in {daysLeft} days!\n\nTotal: R{total}\n\nAccept now to lock in this pricing."
+      },
+      "notFound": {
+        "default": "I couldn't find that quote reference.\n\nNeed a new quote? Tell me what products you need!"
+      },
+      "quickReplies": [
+        "Accept quote",
+        "Request changes",
+        "New quote",
+        "Contact sales"
+      ]
+    },
+    "GENERAL_INFO": {
+      "about": {
+        "default": "Welcome to Batlokoa Innovative Projects!\n\nWe're a Level 1 BBB-EE, 100% Black Women-Owned industrial supply company based in Randfontein, Gauteng.\n\nWe supply:\n- Fasteners & hardware\n- Pipes & fittings\n- Electrical components\n- PPE & safety equipment\n\nServing mining, construction & manufacturing since 2015.",
+        "services": "Our services:\n\n- Industrial product supply\n- Bulk orders & trade accounts\n- Project-specific sourcing\n- Delivery nationwide\n- Technical support\n\nLevel 1 BBB-EE for maximum procurement benefits."
+      },
+      "quickReplies": [
+        "View products",
+        "Get a quote",
+        "BBB-EE info",
+        "Contact us"
+      ]
+    },
+    "CONTACT_REQUEST": {
+      "info": {
+        "default": "Contact Batlokoa Innovative Projects:\n\nPhone: 011 762 1881\nEmail: sales@batlokoa.co.za\nAddress: Randfontein, Gauteng\n\nOffice Hours:\nMon-Fri: 07:30 - 16:30\nSat: 08:00 - 12:00\n\nOr I can help you right here!",
+        "callback": "I'll arrange for our sales team to contact you.\n\nPlease provide:\n- Your name\n- Phone number\n- Best time to call\n\nOr call us directly: 011 762 1881"
+      },
+      "quickReplies": [
+        "Request callback",
+        "Email us",
+        "WhatsApp",
+        "Get directions"
+      ]
+    },
+    "GREETING": {
+      "default": {
+        "morning": "Good morning! Welcome to Batlokoa.\n\nHow can I help you today? I can assist with:\n- Product search\n- Pricing & quotes\n- Delivery info\n- Compliance questions",
+        "afternoon": "Good afternoon! Welcome to Batlokoa.\n\nLooking for industrial supplies? I can help with products, pricing, and more.",
+        "default": "Hello! Welcome to Batlokoa Innovative Projects.\n\nI'm here to help you find products, get quotes, and answer your questions. What do you need today?"
+      },
+      "quickReplies": [
+        "Browse products",
+        "Get a quote",
+        "Track order",
+        "Contact sales"
+      ]
+    },
+    "THANKS": {
+      "default": {
+        "default": "You're welcome! Is there anything else I can help you with?\n\nRemember, we're Level 1 BBB-EE - your order supports transformation goals.",
+        "closing": "Thank you for considering Batlokoa!\n\nIf you need anything else, I'm here to help. Have a great day!"
+      },
+      "quickReplies": [
+        "New search",
+        "Get quote",
+        "Contact us",
+        "Done for now"
+      ]
+    },
+    "UNKNOWN": {
+      "default": {
+        "default": "I'm not sure I understood that correctly.\n\nI can help you with:\n- Product search & specifications\n- Pricing & quotes\n- Delivery information\n- Compliance & certifications\n- Order tracking\n\nCould you rephrase your question?",
+        "suggestion": "I didn't quite catch that. Did you mean:\n\n{suggestions}\n\nOr try asking in a different way."
+      },
+      "quickReplies": [
+        "Browse products",
+        "Get a quote",
+        "Talk to human",
+        "Help"
+      ]
+    },
+    "ERROR": {
+      "default": {
+        "default": "I apologize, but I encountered an issue processing your request.\n\nPlease try again, or contact our team directly:\nPhone: 011 762 1881\nEmail: sales@batlokoa.co.za",
+        "retry": "Something went wrong. Let me try that again..."
+      },
+      "quickReplies": [
+        "Try again",
+        "Contact support",
+        "Start over"
+      ]
+    }
+  },
+  "variables": {
+    "companyName": "Batlokoa Innovative Projects",
+    "phone": "011 762 1881",
+    "email": "sales@batlokoa.co.za",
+    "address": "Randfontein, Gauteng",
+    "bbbeeLevel": "Level 1",
+    "vatRate": 0.15,
+    "currency": "ZAR",
+    "currencySymbol": "R"
+  }
+}

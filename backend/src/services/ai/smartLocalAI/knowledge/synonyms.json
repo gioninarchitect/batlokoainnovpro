@@ -1,0 +1,234 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2025-01-01",
+  "languages": ["en", "af", "zu"],
+  "synonyms": {
+    "bolt": {
+      "canonical": "bolt",
+      "variations": ["bolts", "bout", "boute", "skroef", "skroewe", "hex bolt", "hexagon bolt", "cap screw", "machine bolt", "fastener"],
+      "typos": ["boltts", "bollt", "boult", "bolte"]
+    },
+    "nut": {
+      "canonical": "nut",
+      "variations": ["nuts", "moer", "moere", "hex nut", "hexagon nut", "lock nut", "flange nut"],
+      "typos": ["nutts", "nutt"]
+    },
+    "washer": {
+      "canonical": "washer",
+      "variations": ["washers", "wasser", "wassers", "flat washer", "spring washer", "lock washer"],
+      "typos": ["washr", "washre"]
+    },
+    "pipe": {
+      "canonical": "pipe",
+      "variations": ["pipes", "pyp", "pype", "pypie", "tube", "tubes", "buis", "buise", "conduit", "tubing"],
+      "typos": ["pype", "piep", "pypie"]
+    },
+    "cable": {
+      "canonical": "cable",
+      "variations": ["cables", "kabel", "kabels", "wire", "wires", "draad", "drade", "conductor", "electrical cable"],
+      "typos": ["cabble", "cabel", "caple"]
+    },
+    "helmet": {
+      "canonical": "safety helmet",
+      "variations": ["helmets", "helm", "helms", "hard hat", "hardhat", "safety hat", "head protection", "veiligheidshelm"],
+      "typos": ["helmit", "helmat"]
+    },
+    "gloves": {
+      "canonical": "safety gloves",
+      "variations": ["glove", "handskoene", "handskoen", "work gloves", "protective gloves", "leather gloves", "rubber gloves"],
+      "typos": ["glooves", "glovs"]
+    },
+    "boots": {
+      "canonical": "safety boots",
+      "variations": ["boot", "stewels", "stewel", "veiligheidstewels", "safety shoes", "work boots", "steel toe", "steel cap"],
+      "typos": ["bootes", "bootss"]
+    },
+    "valve": {
+      "canonical": "valve",
+      "variations": ["valves", "klep", "kleppe", "gate valve", "ball valve", "check valve", "control valve", "stop valve"],
+      "typos": ["valv", "valfe"]
+    },
+    "pump": {
+      "canonical": "pump",
+      "variations": ["pumps", "pomp", "pompe", "water pump", "submersible pump", "centrifugal pump"],
+      "typos": ["pummp", "pmp"]
+    },
+    "fitting": {
+      "canonical": "fitting",
+      "variations": ["fittings", "koppelstuk", "koppelstukke", "connector", "connectors", "coupling", "joint", "elbow", "tee"],
+      "typos": ["fiting", "fitings"]
+    },
+    "bearing": {
+      "canonical": "bearing",
+      "variations": ["bearings", "laer", "laers", "ball bearing", "roller bearing", "thrust bearing"],
+      "typos": ["berring", "bering"]
+    },
+    "motor": {
+      "canonical": "motor",
+      "variations": ["motors", "enjin", "engine", "electric motor", "drive"],
+      "typos": ["moter", "mottor"]
+    },
+    "switch": {
+      "canonical": "switch",
+      "variations": ["switches", "skakelaar", "skakelaars", "breaker", "isolator", "circuit breaker"],
+      "typos": ["swich", "swith"]
+    },
+    "ppe": {
+      "canonical": "PPE",
+      "variations": ["personal protective equipment", "safety equipment", "protective gear", "veiligheidstoerusting", "safety gear"],
+      "typos": ["pppe", "p.p.e"]
+    },
+    "mining": {
+      "canonical": "mining",
+      "variations": ["mine", "mines", "mynbou", "myn", "myne", "underground", "surface mining"],
+      "typos": ["minning", "minig"]
+    },
+    "construction": {
+      "canonical": "construction",
+      "variations": ["building", "konstruksie", "bou", "civil", "structural"],
+      "typos": ["contruction", "constuction"]
+    },
+    "electrical": {
+      "canonical": "electrical",
+      "variations": ["electric", "elektries", "elektriese", "power", "wiring"],
+      "typos": ["electical", "electrial", "eletrical"]
+    },
+    "price": {
+      "canonical": "price",
+      "variations": ["prys", "cost", "koste", "rate", "tarief", "quote", "pricing"],
+      "typos": ["prise", "pirce"]
+    },
+    "delivery": {
+      "canonical": "delivery",
+      "variations": ["aflewering", "shipping", "versending", "dispatch", "send", "ship", "transport"],
+      "typos": ["delivary", "delivey"]
+    },
+    "stock": {
+      "canonical": "stock",
+      "variations": ["voorraad", "inventory", "available", "beskikbaar", "in stock", "on hand"],
+      "typos": ["stok", "stockk"]
+    },
+    "quote": {
+      "canonical": "quote",
+      "variations": ["quotation", "kwotasie", "estimate", "pricing", "offer"],
+      "typos": ["qoute", "quoate"]
+    },
+    "order": {
+      "canonical": "order",
+      "variations": ["bestelling", "purchase", "koop", "buy"],
+      "typos": ["ordor", "oder"]
+    },
+    "specifications": {
+      "canonical": "specifications",
+      "variations": ["specs", "spesifikasies", "details", "besonderhede", "technical", "tegnies"],
+      "typos": ["specfications", "spesifications"]
+    },
+    "high tensile": {
+      "canonical": "high tensile",
+      "variations": ["hi-tensile", "high strength", "hoe sterkte", "grade 8.8", "grade 10.9", "grade 12.9"],
+      "typos": ["hightensile", "high tensil"]
+    },
+    "galvanized": {
+      "canonical": "galvanized",
+      "variations": ["galvanised", "gegalvaniseerd", "zinc coated", "hot dip", "hdg"],
+      "typos": ["galvenized", "galvanzied"]
+    },
+    "stainless": {
+      "canonical": "stainless steel",
+      "variations": ["stainless", "vlekvrye staal", "inox", "ss", "304", "316"],
+      "typos": ["stainles", "stanless"]
+    }
+  },
+  "greetings": {
+    "en": ["hello", "hi", "hey", "good morning", "good afternoon", "good day", "good evening"],
+    "af": ["hallo", "goeie more", "goeie middag", "goeie dag", "goeie naand", "howzit", "hoe gaan dit"],
+    "zu": ["sawubona", "sanibonani", "molo", "molweni", "unjani", "ninjani"]
+  },
+  "thanks": {
+    "en": ["thank you", "thanks", "cheers", "appreciated", "much appreciated"],
+    "af": ["dankie", "baie dankie"],
+    "zu": ["ngiyabonga", "siyabonga"]
+  },
+  "affirmative": {
+    "en": ["yes", "yeah", "yep", "correct", "right", "exactly", "sure", "okay", "ok"],
+    "af": ["ja", "reg", "korrek"],
+    "zu": ["yebo", "impela"]
+  },
+  "negative": {
+    "en": ["no", "nope", "not really", "wrong", "incorrect"],
+    "af": ["nee", "verkeerd"],
+    "zu": ["cha", "qha"]
+  },
+  "industries": {
+    "mining": {
+      "canonical": "mining",
+      "keywords": ["mine", "mining", "mynbou", "underground", "surface", "shaft", "opencast", "dmr"],
+      "regulations": ["DMR", "OHSA", "MHSA"]
+    },
+    "construction": {
+      "canonical": "construction",
+      "keywords": ["construction", "building", "civil", "structural", "contractor", "site"],
+      "regulations": ["OHSA", "NHBRC", "SANS 10400"]
+    },
+    "electrical": {
+      "canonical": "electrical",
+      "keywords": ["electrical", "electric", "power", "wiring", "installation"],
+      "regulations": ["NRCS", "SANS 10142-1"]
+    },
+    "manufacturing": {
+      "canonical": "manufacturing",
+      "keywords": ["manufacturing", "factory", "production", "industrial", "plant"],
+      "regulations": ["OHSA", "ISO 9001"]
+    },
+    "plumbing": {
+      "canonical": "plumbing",
+      "keywords": ["plumbing", "pipes", "water", "drainage", "sanitation"],
+      "regulations": ["SANS 10252", "SANS 10254"]
+    }
+  },
+  "units": {
+    "quantity": ["unit", "units", "pc", "pcs", "piece", "pieces", "each", "ea", "stuk", "stuks"],
+    "weight": ["kg", "kgs", "kilogram", "kilograms", "ton", "tons", "g", "gram", "grams"],
+    "length": ["m", "meter", "meters", "metre", "metres", "mm", "millimeter", "cm", "centimeter", "inch", "inches", "ft", "feet", "foot"],
+    "volume": ["l", "liter", "liters", "litre", "litres", "ml", "gallon", "gallons"],
+    "packaging": ["box", "boxes", "pack", "packs", "bag", "bags", "roll", "rolls", "bundle", "bundles"]
+  },
+  "locations": {
+    "gauteng": {
+      "canonical": "Gauteng",
+      "variations": ["gp", "jhb", "joburg", "johannesburg", "pretoria", "pta", "randfontein", "soweto", "sandton", "midrand", "centurion", "ekurhuleni", "germiston", "benoni", "boksburg", "springs", "vereeniging", "vanderbijlpark"]
+    },
+    "western_cape": {
+      "canonical": "Western Cape",
+      "variations": ["wc", "cpt", "cape town", "capetown", "paarl", "stellenbosch", "somerset west", "george"]
+    },
+    "kwazulu_natal": {
+      "canonical": "KwaZulu-Natal",
+      "variations": ["kzn", "durban", "dbn", "pietermaritzburg", "pmb", "richards bay", "newcastle"]
+    },
+    "mpumalanga": {
+      "canonical": "Mpumalanga",
+      "variations": ["mp", "nelspruit", "mbombela", "witbank", "emalahleni", "secunda", "middelburg"]
+    },
+    "limpopo": {
+      "canonical": "Limpopo",
+      "variations": ["lp", "polokwane", "tzaneen", "phalaborwa", "musina"]
+    },
+    "north_west": {
+      "canonical": "North West",
+      "variations": ["nw", "rustenburg", "mahikeng", "potchefstroom", "klerksdorp", "brits"]
+    },
+    "free_state": {
+      "canonical": "Free State",
+      "variations": ["fs", "bloemfontein", "bloem", "welkom", "sasolburg", "kroonstad"]
+    },
+    "eastern_cape": {
+      "canonical": "Eastern Cape",
+      "variations": ["ec", "port elizabeth", "pe", "gqeberha", "east london", "el", "uitenhage"]
+    },
+    "northern_cape": {
+      "canonical": "Northern Cape",
+      "variations": ["nc", "kimberley", "upington", "springbok"]
+    }
+  }
+}

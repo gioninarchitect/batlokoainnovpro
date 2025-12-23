@@ -31,8 +31,12 @@ export default function CustomerEdit() {
     country: 'South Africa',
     source: '',
     paymentTerms: '0',
-    creditLimit: ''
+    creditLimit: '',
+    tags: []
   })
+  const [tagInput, setTagInput] = useState('')
+
+  const predefinedTags = ['VIP', 'Mining', 'Construction', 'Engineering', 'Agriculture', 'Manufacturing', 'Retail', 'Government']
 
   useEffect(() => {
     if (!isNew) fetchCustomer()
@@ -60,7 +64,8 @@ export default function CustomerEdit() {
         country: customer.country || 'South Africa',
         source: customer.source || '',
         paymentTerms: customer.paymentTerms?.toString() || '0',
-        creditLimit: customer.creditLimit?.toString() || ''
+        creditLimit: customer.creditLimit?.toString() || '',
+        tags: customer.tags || []
       })
     } catch (error) {
       setError('Failed to load customer')
@@ -83,7 +88,8 @@ export default function CustomerEdit() {
       const payload = {
         ...form,
         paymentTerms: parseInt(form.paymentTerms) || 0,
-        creditLimit: form.creditLimit ? parseFloat(form.creditLimit) : null
+        creditLimit: form.creditLimit ? parseFloat(form.creditLimit) : null,
+        tags: form.tags || []
       }
 
       const url = isNew ? `${API_URL}/customers` : `${API_URL}/customers/${id}`
@@ -230,6 +236,77 @@ export default function CustomerEdit() {
               <input type="text" name="country" value={form.country} onChange={handleChange}
                 className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-navy-light bg-white dark:bg-navy-light text-gray-900 dark:text-white focus:ring-2 focus:ring-safety focus:border-transparent" />
             </div>
+          </div>
+        </div>
+
+        {/* Tags */}
+        <div className="border-t border-gray-200 dark:border-navy-light pt-5">
+          <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Tags</h3>
+
+          {/* Selected Tags */}
+          {form.tags.length > 0 && (
+            <div className="flex flex-wrap gap-2 mb-3">
+              {form.tags.map((tag, idx) => (
+                <span key={idx} className="inline-flex items-center gap-1 px-3 py-1 bg-safety/10 text-safety rounded-full text-sm">
+                  {tag}
+                  <button
+                    type="button"
+                    onClick={() => setForm(prev => ({ ...prev, tags: prev.tags.filter((_, i) => i !== idx) }))}
+                    className="ml-1 hover:text-safety-dark"
+                  >
+                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </span>
+              ))}
+            </div>
+          )}
+
+          {/* Predefined Tag Pills */}
+          <div className="flex flex-wrap gap-2 mb-3">
+            {predefinedTags.filter(t => !form.tags.includes(t)).map((tag) => (
+              <button
+                key={tag}
+                type="button"
+                onClick={() => setForm(prev => ({ ...prev, tags: [...prev.tags, tag] }))}
+                className="px-3 py-1 border border-gray-300 dark:border-navy-light text-gray-600 dark:text-gray-400 rounded-full text-sm hover:border-safety hover:text-safety transition-colors"
+              >
+                + {tag}
+              </button>
+            ))}
+          </div>
+
+          {/* Custom Tag Input */}
+          <div className="flex gap-2">
+            <input
+              type="text"
+              value={tagInput}
+              onChange={(e) => setTagInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && tagInput.trim()) {
+                  e.preventDefault()
+                  if (!form.tags.includes(tagInput.trim())) {
+                    setForm(prev => ({ ...prev, tags: [...prev.tags, tagInput.trim()] }))
+                  }
+                  setTagInput('')
+                }
+              }}
+              placeholder="Add custom tag..."
+              className="flex-1 px-4 py-2 rounded-lg border border-gray-300 dark:border-navy-light bg-white dark:bg-navy-light text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-safety focus:border-transparent"
+            />
+            <button
+              type="button"
+              onClick={() => {
+                if (tagInput.trim() && !form.tags.includes(tagInput.trim())) {
+                  setForm(prev => ({ ...prev, tags: [...prev.tags, tagInput.trim()] }))
+                  setTagInput('')
+                }
+              }}
+              className="px-4 py-2 bg-gray-100 dark:bg-navy-light text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-navy transition-colors text-sm"
+            >
+              Add
+            </button>
           </div>
         </div>
 

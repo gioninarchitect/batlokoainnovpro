@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { useAuth } from '@/context/AuthContext'
+import ConfirmModal, { AlertModal } from '@/components/ui/ConfirmModal'
+import InvoiceModal from '@/components/ui/InvoiceModal'
 
 const API_URL = import.meta.env.VITE_API_URL || (
   window.location.hostname === 'localhost' ? 'http://localhost:3016/api/v1' : `${window.location.origin}/api/v1`
@@ -19,6 +21,16 @@ export default function Orders() {
   const [loading, setLoading] = useState(true)
   const [statusFilter, setStatusFilter] = useState(searchParams.get('status') || '')
   const [search, setSearch] = useState('')
+
+  // Bulk selection
+  const [selectedOrders, setSelectedOrders] = useState([])
+  const [bulkStatus, setBulkStatus] = useState('')
+  const [bulkUpdating, setBulkUpdating] = useState(false)
+
+  // Modal states
+  const [confirmModal, setConfirmModal] = useState({ open: false, action: null, orderId: null })
+  const [alertModal, setAlertModal] = useState({ open: false, title: '', message: '', variant: 'info' })
+  const [invoiceModal, setInvoiceModal] = useState({ open: false, order: null })
 
   useEffect(() => {
     fetchOrders()
@@ -65,6 +77,47 @@ export default function Orders() {
     }
   }
 
+  // Bulk selection handlers
+  const toggleSelectOrder = (orderId) => {
+    setSelectedOrders(prev =>
+      prev.includes(orderId)
+        ? prev.filter(id => id !== orderId)
+        : [...prev, orderId]
+    )
+  }
+
+  const toggleSelectAll = () => {
+    if (selectedOrders.length === orders.length) {
+      setSelectedOrders([])
+    } else {
+      setSelectedOrders(orders.map(o => o.id))
+    }
+  }
+
+  const handleBulkStatusUpdate = async () => {
+    if (!bulkStatus || selectedOrders.length === 0) return
+    setBulkUpdating(true)
+    try {
+      await fetch(`${API_URL}/orders/bulk-status`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ orderIds: selectedOrders, status: bulkStatus })
+      })
+      setSelectedOrders([])
+      setBulkStatus('')
+      setAlertModal({ open: true, title: 'Success', message: `${selectedOrders.length} orders updated to ${bulkStatus}`, variant: 'success' })
+      fetchOrders()
+    } catch (error) {
+      console.error('Failed to bulk update:', error)
+      setAlertModal({ open: true, title: 'Error', message: 'Failed to update orders.', variant: 'danger' })
+    } finally {
+      setBulkUpdating(false)
+    }
+  }
+
   const formatCurrency = (amount) => {
     return new Intl.NumberFormat('en-ZA', {
       style: 'currency',
@@ -100,18 +153,25 @@ export default function Orders() {
 
   // POP Actions
   const approvePOP = async (orderId) => {
-    if (!confirm('Approve this payment?')) return
+    setConfirmModal({ open: true, action: 'approvePOP', orderId })
+  }
+
+  const handleApprovePOP = async () => {
     try {
-      await fetch(`${API_URL}/orders/${orderId}/pop/approve`, {
+      await fetch(`${API_URL}/orders/${confirmModal.orderId}/pop/approve`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`
         }
       })
+      setConfirmModal({ open: false, action: null, orderId: null })
+      setAlertModal({ open: true, title: 'Payment Approved', message: 'The payment has been approved successfully.', variant: 'success' })
       fetchOrders()
     } catch (error) {
       console.error('Failed to approve POP:', error)
+      setConfirmModal({ open: false, action: null, orderId: null })
+      setAlertModal({ open: true, title: 'Error', message: 'Failed to approve payment.', variant: 'danger' })
     }
   }
 
@@ -134,28 +194,23 @@ export default function Orders() {
   }
 
   const generateInvoice = async (orderId) => {
-    if (!confirm('Generate invoice for this order?')) return
+    // Fetch full order details for the invoice modal
     try {
-      const res = await fetch(`${API_URL}/invoices`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`
-        },
-        body: JSON.stringify({ orderId })
+      const res = await fetch(`${API_URL}/orders/${orderId}`, {
+        headers: { Authorization: `Bearer ${token}` }
       })
       if (res.ok) {
-        const invoice = await res.json()
-        alert(`Invoice ${invoice.invoiceNumber} created!`)
-        fetchOrders()
-      } else {
-        const error = await res.json()
-        alert(error.error || 'Failed to generate invoice')
+        const order = await res.json()
+        setInvoiceModal({ open: true, order })
       }
     } catch (error) {
-      console.error('Failed to generate invoice:', error)
-      alert('Failed to generate invoice')
+      console.error('Failed to fetch order:', error)
+      setAlertModal({ open: true, title: 'Error', message: 'Failed to load order details.', variant: 'danger' })
     }
+  }
+
+  const handleInvoiceSuccess = () => {
+    fetchOrders()
   }
 
   const totalPages = Math.ceil(pagination.total / pagination.limit)
@@ -205,6 +260,39 @@ export default function Orders() {
           ))}
         </select>
       </div>
+
+      {/* Bulk Action Bar */}
+      {selectedOrders.length > 0 && (
+        <div className="flex items-center gap-3 p-3 bg-industrial/10 dark:bg-industrial/20 rounded-lg border border-industrial/30">
+          <span className="text-sm font-medium text-industrial dark:text-industrial-light">
+            {selectedOrders.length} order{selectedOrders.length > 1 ? 's' : ''} selected
+          </span>
+          <select
+            value={bulkStatus}
+            onChange={(e) => setBulkStatus(e.target.value)}
+            className="px-3 py-1.5 text-sm rounded-lg border border-gray-300 dark:border-navy-light bg-white dark:bg-navy text-gray-900 dark:text-white"
+          >
+            <option value="">Change status to...</option>
+            {statusOptions.map(status => (
+              <option key={status} value={status}>{status.replace(/_/g, ' ')}</option>
+            ))}
+          </select>
+          <button
+            onClick={handleBulkStatusUpdate}
+            disabled={!bulkStatus || bulkUpdating}
+            className="px-4 py-1.5 text-sm bg-safety text-white rounded-lg hover:bg-safety-dark disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+          >
+            {bulkUpdating && <div className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin" />}
+            Apply
+          </button>
+          <button
+            onClick={() => setSelectedOrders([])}
+            className="px-3 py-1.5 text-sm text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
+          >
+            Clear
+          </button>
+        </div>
+      )}
 
       {/* Orders Table */}
       <div className="bg-white dark:bg-navy rounded-xl shadow-card overflow-hidden">
@@ -258,6 +346,14 @@ export default function Orders() {
               <table className="w-full">
                 <thead className="bg-gray-50 dark:bg-navy-light">
                   <tr>
+                    <th className="px-4 py-3 w-10">
+                      <input
+                        type="checkbox"
+                        checked={selectedOrders.length === orders.length && orders.length > 0}
+                        onChange={toggleSelectAll}
+                        className="w-4 h-4 rounded border-gray-300 text-safety focus:ring-safety"
+                      />
+                    </th>
                     <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Order</th>
                     <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Customer</th>
                     <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Status</th>
@@ -268,7 +364,15 @@ export default function Orders() {
                 </thead>
                 <tbody className="divide-y divide-gray-200 dark:divide-navy-light">
                   {orders.map((order) => (
-                    <tr key={order.id} className={`hover:bg-gray-50 dark:hover:bg-navy-light ${order.popFile && !order.popVerified ? 'bg-orange-50 dark:bg-orange-900/10' : ''}`}>
+                    <tr key={order.id} className={`hover:bg-gray-50 dark:hover:bg-navy-light ${order.popFile && !order.popVerified ? 'bg-orange-50 dark:bg-orange-900/10' : ''} ${selectedOrders.includes(order.id) ? 'bg-safety/5' : ''}`}>
+                      <td className="px-4 py-4">
+                        <input
+                          type="checkbox"
+                          checked={selectedOrders.includes(order.id)}
+                          onChange={() => toggleSelectOrder(order.id)}
+                          className="w-4 h-4 rounded border-gray-300 text-safety focus:ring-safety"
+                        />
+                      </td>
                       <td className="px-4 py-4">
                         <Link to={`/admin/orders/${order.id}`} className="text-sm font-medium text-industrial dark:text-industrial-light hover:underline">
                           #{order.orderNumber}
@@ -363,6 +467,35 @@ export default function Orders() {
           </>
         )}
       </div>
+
+      {/* Confirm Modal */}
+      <ConfirmModal
+        isOpen={confirmModal.open}
+        onClose={() => setConfirmModal({ open: false, action: null, orderId: null })}
+        onConfirm={handleApprovePOP}
+        title="Approve Payment"
+        message="Are you sure you want to approve this payment?"
+        confirmText="Approve"
+        variant="success"
+      />
+
+      {/* Alert Modal */}
+      <AlertModal
+        isOpen={alertModal.open}
+        onClose={() => setAlertModal({ open: false, title: '', message: '', variant: 'info' })}
+        title={alertModal.title}
+        message={alertModal.message}
+        variant={alertModal.variant}
+      />
+
+      {/* Invoice Modal */}
+      <InvoiceModal
+        isOpen={invoiceModal.open}
+        onClose={() => setInvoiceModal({ open: false, order: null })}
+        order={invoiceModal.order}
+        token={token}
+        onSuccess={handleInvoiceSuccess}
+      />
     </div>
   )
 }

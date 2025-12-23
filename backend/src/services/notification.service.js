@@ -173,7 +173,7 @@ export const sendQuoteNotification = async (quote, type) => {
 export const sendLowStockAlert = async (products) => {
   try {
     // TODO: Get admin emails from settings
-    const adminEmail = process.env.ADMIN_EMAIL || 'admin@batlokoa.co.za';
+    const adminEmail = process.env.ADMIN_EMAIL || 'admin@batlokoainnovpro.co.za';
 
     await sendEmail({
       to: adminEmail,

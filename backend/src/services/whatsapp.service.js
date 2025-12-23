@@ -1,7 +1,7 @@
 import config from '../config/index.js';
 
 // Admin dashboard URL for deep linking
-const ADMIN_URL = process.env.ADMIN_URL || 'https://admin.batlokoa.co.za';
+const ADMIN_URL = process.env.ADMIN_URL || 'https://batlokoa.cleva-ai.co.za/admin';
 
 // Send WhatsApp message using Cloud API
 export const sendWhatsAppMessage = async (phone, data) => {

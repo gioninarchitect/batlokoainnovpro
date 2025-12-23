@@ -1,9 +1,9 @@
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { Phone, Send } from 'lucide-react'
+import { Phone, Send, CheckCircle } from 'lucide-react'
 import { Button } from '@ui'
 
 const schema = z.object({
@@ -16,6 +16,7 @@ const schema = z.object({
 function ContactCTA() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: '-100px' })
+  const [showSuccess, setShowSuccess] = useState(false)
 
   const {
     register,
@@ -31,7 +32,8 @@ function ContactCTA() {
     console.log('Form data:', data)
     // TODO: Integrate with Formspree
     reset()
-    alert('Thank you! We will contact you soon.')
+    setShowSuccess(true)
+    setTimeout(() => setShowSuccess(false), 5000)
   }
 
   return (

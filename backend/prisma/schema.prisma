@@ -45,6 +45,7 @@ enum UserRole {
 model Customer {
   id              String    @id @default(uuid())
   email           String    @unique
+  password        String?   // For self-service portal login
   phone           String
   firstName       String
   lastName        String
@@ -569,4 +570,272 @@ model Setting {
   updatedAt DateTime  @updatedAt
 
   @@map("settings")
+}
+
+// ==========================================
+// SUPPLIERS & PURCHASE ORDERS
+// ==========================================
+
+model Supplier {
+  id              String    @id @default(uuid())
+  name            String
+  code            String    @unique // Supplier code e.g. SUP-001
+
+  // Contact
+  contactPerson   String?
+  email           String?
+  phone           String?
+  website         String?
+
+  // Address
+  addressLine1    String?
+  addressLine2    String?
+  city            String?
+  province        String?
+  postalCode      String?
+  country         String    @default("South Africa")
+
+  // Banking
+  bankName        String?
+  bankAccount     String?
+  bankBranch      String?
+
+  // Terms
+  paymentTerms    Int       @default(30) // Days
+  leadTime        Int       @default(7)  // Days
+
+  // Categories they supply
+  categories      String[]  @default([])
+
+  // Status
+  isActive        Boolean   @default(true)
+  rating          Int?      // 1-5 rating
+  notes           String?
+
+  // Stats
+  totalOrders     Int       @default(0)
+  totalSpent      Decimal   @default(0) @db.Decimal(12, 2)
+  lastOrderDate   DateTime?
+
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  // Relations
+  purchaseOrders  PurchaseOrder[]
+
+  @@map("suppliers")
+}
+
+model PurchaseOrder {
+  id              String          @id @default(uuid())
+  poNumber        String          @unique
+
+  supplierId      String
+  supplier        Supplier        @relation(fields: [supplierId], references: [id])
+
+  // Amounts
+  subtotal        Decimal         @db.Decimal(12, 2)
+  vatAmount       Decimal         @db.Decimal(12, 2)
+  total           Decimal         @db.Decimal(12, 2)
+
+  // Status
+  status          POStatus        @default(DRAFT)
+
+  // Dates
+  orderDate       DateTime        @default(now())
+  expectedDate    DateTime?
+  receivedDate    DateTime?
+
+  // Notes
+  notes           String?
+  internalNotes   String?
+
+  // Tracking
+  sentAt          DateTime?
+  confirmedAt     DateTime?
+
+  createdById     String?
+
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  // Relations
+  items           PurchaseOrderItem[]
+  receivings      StockReceiving[]
+
+  @@map("purchase_orders")
+}
+
+model PurchaseOrderItem {
+  id              String          @id @default(uuid())
+  purchaseOrderId String
+  purchaseOrder   PurchaseOrder   @relation(fields: [purchaseOrderId], references: [id], onDelete: Cascade)
+
+  productId       String?
+
+  description     String
+  sku             String?
+  quantity        Int
+  unitPrice       Decimal         @db.Decimal(12, 2)
+  total           Decimal         @db.Decimal(12, 2)
+
+  // Receiving tracking
+  quantityReceived Int            @default(0)
+
+  notes           String?
+
+  @@map("purchase_order_items")
+}
+
+model StockReceiving {
+  id              String          @id @default(uuid())
+  purchaseOrderId String
+  purchaseOrder   PurchaseOrder   @relation(fields: [purchaseOrderId], references: [id], onDelete: Cascade)
+
+  receivedDate    DateTime        @default(now())
+  receivedById    String?
+
+  notes           String?
+
+  createdAt       DateTime        @default(now())
+
+  // Relations
+  items           StockReceivingItem[]
+
+  @@map("stock_receivings")
+}
+
+model StockReceivingItem {
+  id                String          @id @default(uuid())
+  stockReceivingId  String
+  stockReceiving    StockReceiving  @relation(fields: [stockReceivingId], references: [id], onDelete: Cascade)
+
+  productId         String?
+  description       String
+  quantityReceived  Int
+
+  // Quality check
+  quantityAccepted  Int
+  quantityRejected  Int             @default(0)
+  rejectionReason   String?
+
+  @@map("stock_receiving_items")
+}
+
+enum POStatus {
+  DRAFT           // Being prepared
+  SENT            // Sent to supplier
+  CONFIRMED       // Supplier confirmed
+  PARTIAL         // Partially received
+  RECEIVED        // Fully received
+  CANCELLED       // Cancelled
+}
+
+// ==========================================
+// AI CHAT & LEAD SCORING
+// ==========================================
+
+model ChatSession {
+  id            String        @id @default(uuid())
+
+  customerId    String?       // Linked customer (if known)
+  visitorId     String        // Anonymous visitor ID
+
+  // Session info
+  startedAt     DateTime      @default(now())
+  lastMessageAt DateTime      @default(now())
+  isActive      Boolean       @default(true)
+
+  // Context
+  context       Json?         // Accumulated context from conversation
+
+  // Scoring
+  leadScore     Int           @default(0)
+  leadTier      LeadTier      @default(COLD)
+
+  // Conversion tracking
+  convertedTo   String?       // quote, order, call, etc.
+  convertedAt   DateTime?
+
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  // Relations
+  messages      ChatMessage[]
+  events        LeadEvent[]
+
+  @@map("chat_sessions")
+}
+
+model ChatMessage {
+  id            String        @id @default(uuid())
+  sessionId     String
+  session       ChatSession   @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  role          MessageRole   // USER or BOT
+  content       String
+
+  // AI processing
+  intent        String?       // Detected intent
+  confidence    Float?        // Intent confidence score
+  entities      Json?         // Extracted entities
+
+  // Response metadata
+  responseTime  Int?          // Response time in ms
+  usedFallback  Boolean       @default(false)
+
+  createdAt     DateTime      @default(now())
+
+  @@map("chat_messages")
+}
+
+model LeadEvent {
+  id            String        @id @default(uuid())
+  sessionId     String
+  session       ChatSession   @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  eventType     String        // page_view, product_view, quote_request, etc.
+  points        Int           // Points awarded
+  metadata      Json?         // Additional event data
+
+  createdAt     DateTime      @default(now())
+
+  @@map("lead_events")
+}
+
+model ComplianceStandard {
+  id            String        @id @default(uuid())
+  code          String        @unique // e.g., SANS-1700
+  name          String
+  description   String?
+  category      String        // fasteners, electrical, ppe, etc.
+
+  // Industries this applies to
+  industries    String[]      @default([])
+
+  // Requirements
+  requirements  Json?         // Detailed requirements
+
+  // Source
+  issuingBody   String?       // SABS, NRCS, etc.
+  documentUrl   String?
+
+  isActive      Boolean       @default(true)
+
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@map("compliance_standards")
+}
+
+enum MessageRole {
+  USER
+  BOT
+}
+
+enum LeadTier {
+  HOT       // Score >= 80
+  WARM      // Score >= 40
+  COOL      // Score >= 20
+  COLD      // Score < 20
 }

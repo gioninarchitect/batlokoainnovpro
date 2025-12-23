@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useAuth } from '@/context/AuthContext'
+import ConfirmModal from '@/components/ui/ConfirmModal'
 
 const API_URL = import.meta.env.VITE_API_URL || (
   window.location.hostname === 'localhost' ? 'http://localhost:3016/api/v1' : `${window.location.origin}/api/v1`
@@ -13,6 +14,7 @@ export default function Categories() {
   const [editingCategory, setEditingCategory] = useState(null)
   const [formData, setFormData] = useState({ name: '', description: '', slug: '' })
   const [saving, setSaving] = useState(false)
+  const [deleteModal, setDeleteModal] = useState({ open: false, categoryId: null })
 
   useEffect(() => {
     fetchCategories()
@@ -73,18 +75,23 @@ export default function Categories() {
     }
   }
 
-  const handleDelete = async (categoryId) => {
-    if (!confirm('Are you sure you want to delete this category?')) return
+  const handleDelete = (categoryId) => {
+    setDeleteModal({ open: true, categoryId })
+  }
+
+  const doDelete = async () => {
     try {
-      const res = await fetch(`${API_URL}/categories/${categoryId}`, {
+      const res = await fetch(`${API_URL}/categories/${deleteModal.categoryId}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` }
       })
+      setDeleteModal({ open: false, categoryId: null })
       if (res.ok) {
         fetchCategories()
       }
     } catch (error) {
       console.error('Failed to delete category:', error)
+      setDeleteModal({ open: false, categoryId: null })
     }
   }
 
@@ -248,6 +255,17 @@ export default function Categories() {
           </div>
         </div>
       )}
+
+      {/* Delete Confirm Modal */}
+      <ConfirmModal
+        isOpen={deleteModal.open}
+        onClose={() => setDeleteModal({ open: false, categoryId: null })}
+        onConfirm={doDelete}
+        title="Delete Category"
+        message="Are you sure you want to delete this category? This action cannot be undone."
+        confirmText="Delete"
+        variant="danger"
+      />
     </div>
   )
 }

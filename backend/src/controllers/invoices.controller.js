@@ -1,5 +1,6 @@
 import prisma from '../config/database.js';
 import { generateInvoicePDF } from '../services/pdf.service.js';
+import { sendEmail, emailTemplates } from '../services/email.service.js';
 
 const generateInvoiceNumber = async () => {
   const year = new Date().getFullYear();
@@ -113,15 +114,56 @@ export const sendInvoice = async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    const invoice = await prisma.invoice.update({
+    // Get full invoice with order items for PDF
+    const invoice = await prisma.invoice.findUnique({
+      where: { id },
+      include: {
+        customer: true,
+        order: { include: { items: { include: { product: true } } } },
+        payments: true,
+      },
+    });
+
+    if (!invoice) return res.status(404).json({ error: 'Invoice not found' });
+
+    // Generate PDF
+    const pdfBuffer = await generateInvoicePDF(invoice);
+
+    // Prepare email template data
+    const emailData = {
+      invoiceNumber: invoice.invoiceNumber,
+      customer: {
+        companyName: invoice.customer?.company ||
+          `${invoice.customer?.firstName || ''} ${invoice.customer?.lastName || ''}`.trim() ||
+          'Customer'
+      },
+      amountDue: invoice.balance || invoice.total,
+      dueDate: invoice.dueDate,
+    };
+
+    // Send email with PDF attachment
+    const template = emailTemplates.invoiceSent(emailData);
+    await sendEmail({
+      to: invoice.customer.email,
+      subject: template.subject,
+      html: template.html,
+      attachments: [
+        {
+          filename: `${invoice.invoiceNumber}.pdf`,
+          content: pdfBuffer,
+          contentType: 'application/pdf',
+        },
+      ],
+    });
+
+    // Update invoice status
+    const updatedInvoice = await prisma.invoice.update({
       where: { id },
       data: { status: 'SENT', sentAt: new Date() },
       include: { customer: true, order: true },
     });
 
-    // TODO: Send email with invoice PDF
-
-    res.json(invoice);
+    res.json({ ...updatedInvoice, emailSent: true });
   } catch (error) {
     next(error);
   }

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '@/context/AuthContext'
+import ConfirmModal, { AlertModal } from '@/components/ui/ConfirmModal'
 
 const API_URL = import.meta.env.VITE_API_URL || (
   window.location.hostname === 'localhost' ? 'http://localhost:3016/api/v1' : `${window.location.origin}/api/v1`
@@ -14,6 +15,8 @@ export default function Quotes() {
   const [pagination, setPagination] = useState({ page: 1, limit: 20, total: 0 })
   const [loading, setLoading] = useState(true)
   const [statusFilter, setStatusFilter] = useState('')
+  const [confirmModal, setConfirmModal] = useState({ open: false, quoteId: null })
+  const [alertModal, setAlertModal] = useState({ open: false, title: '', message: '', variant: 'info' })
 
   useEffect(() => {
     fetchQuotes()
@@ -55,18 +58,28 @@ export default function Quotes() {
     }
   }
 
-  const handleConvertToOrder = async (quoteId) => {
-    if (!confirm('Convert this quote to an order?')) return
+  const handleConvertToOrder = (quoteId) => {
+    setConfirmModal({ open: true, quoteId })
+  }
+
+  const doConvertToOrder = async () => {
     try {
-      const res = await fetch(`${API_URL}/quotes/${quoteId}/convert`, {
+      const res = await fetch(`${API_URL}/quotes/${confirmModal.quoteId}/convert`, {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}` }
       })
+      setConfirmModal({ open: false, quoteId: null })
       if (res.ok) {
+        setAlertModal({ open: true, title: 'Order Created', message: 'The quote has been converted to an order.', variant: 'success' })
         fetchQuotes()
+      } else {
+        const error = await res.json()
+        setAlertModal({ open: true, title: 'Error', message: error.error || 'Failed to convert quote.', variant: 'danger' })
       }
     } catch (error) {
       console.error('Failed to convert quote:', error)
+      setConfirmModal({ open: false, quoteId: null })
+      setAlertModal({ open: true, title: 'Error', message: 'Failed to convert quote to order.', variant: 'danger' })
     }
   }
 
@@ -284,6 +297,26 @@ export default function Quotes() {
           </>
         )}
       </div>
+
+      {/* Confirm Modal */}
+      <ConfirmModal
+        isOpen={confirmModal.open}
+        onClose={() => setConfirmModal({ open: false, quoteId: null })}
+        onConfirm={doConvertToOrder}
+        title="Approve Quote"
+        message="Convert this quote to an order? This will create a new order from this quote."
+        confirmText="Approve"
+        variant="success"
+      />
+
+      {/* Alert Modal */}
+      <AlertModal
+        isOpen={alertModal.open}
+        onClose={() => setAlertModal({ open: false, title: '', message: '', variant: 'info' })}
+        title={alertModal.title}
+        message={alertModal.message}
+        variant={alertModal.variant}
+      />
     </div>
   )
 }

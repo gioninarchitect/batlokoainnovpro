@@ -94,9 +94,9 @@ function QuoteCart() {
       ? 'http://localhost:3016/api/v1'
       : `${window.location.origin}/api/v1`
 
-    const adminUrl = window.location.hostname === 'localhost'
-      ? 'http://localhost:5173/admin/quotes'
-      : `${window.location.origin}/admin/quotes`
+    const adminUrl = (quoteId) => window.location.hostname === 'localhost'
+      ? `http://localhost:5173/admin/quotes/${quoteId}`
+      : `${window.location.origin}/admin/quotes/${quoteId}`
 
     const isQuote = items.length > 0
 
@@ -146,7 +146,7 @@ ${itemsList}
 Please send me a quote. Thanks!
 
 ---
-Admin: ${adminUrl}`
+Admin: ${adminUrl(data.quoteId || data.id)}`
       } else {
         message = `*ENQUIRY*
 *Ref:* ${data.quoteNumber || 'Pending'}
@@ -160,7 +160,7 @@ Admin: ${adminUrl}`
 ${formData.notes || 'No message provided'}
 
 ---
-Admin: ${adminUrl}`
+Admin: ${adminUrl(data.quoteId || data.id)}`
       }
 
       // Open WhatsApp

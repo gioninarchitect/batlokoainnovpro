@@ -1,4 +1,5 @@
 import prisma from '../config/database.js';
+import { checkAndSendLowStockAlert } from '../services/email.service.js';
 
 export const listProducts = async (req, res, next) => {
   try {
@@ -143,6 +144,171 @@ export const updateStock = async (req, res, next) => {
     });
 
     res.json(product);
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Export all products as CSV
+export const exportProducts = async (req, res, next) => {
+  try {
+    const products = await prisma.product.findMany({
+      where: { isActive: true },
+      include: { category: { select: { name: true } } },
+      orderBy: { name: 'asc' },
+    });
+
+    const headers = ['sku', 'name', 'description', 'price', 'costPrice', 'stockQty', 'lowStockThreshold', 'category', 'unit'];
+    const rows = products.map(p => [
+      p.sku || '',
+      (p.name || '').replace(/,/g, ';'),
+      (p.description || '').replace(/,/g, ';').replace(/\n/g, ' '),
+      p.price || 0,
+      p.costPrice || 0,
+      p.stockQty || 0,
+      p.lowStockThreshold || 10,
+      p.category?.name || '',
+      p.unit || 'piece',
+    ]);
+
+    const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+
+    res.setHeader('Content-Type', 'text/csv');
+    res.setHeader('Content-Disposition', `attachment; filename=products_export_${new Date().toISOString().split('T')[0]}.csv`);
+    res.send(csv);
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Bulk import products from CSV
+export const bulkImportProducts = async (req, res, next) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: 'No file uploaded' });
+    }
+
+    const content = req.file.buffer.toString('utf-8');
+    const lines = content.split('\n').filter(line => line.trim());
+
+    if (lines.length < 2) {
+      return res.status(400).json({ error: 'File is empty or has no data rows' });
+    }
+
+    // Parse header
+    const headers = lines[0].toLowerCase().split(',').map(h => h.trim());
+    const skuIndex = headers.indexOf('sku');
+    const nameIndex = headers.indexOf('name');
+    const descIndex = headers.indexOf('description');
+    const priceIndex = headers.indexOf('price');
+    const costPriceIndex = headers.indexOf('costprice');
+    const stockIndex = headers.indexOf('stockqty');
+    const thresholdIndex = headers.indexOf('lowstockthreshold');
+    const categoryIndex = headers.indexOf('category');
+    const unitIndex = headers.indexOf('unit');
+
+    if (skuIndex === -1) {
+      return res.status(400).json({ error: 'SKU column is required' });
+    }
+
+    // Get all categories for lookup
+    const categories = await prisma.category.findMany();
+    const categoryMap = {};
+    categories.forEach(c => {
+      categoryMap[c.name.toLowerCase()] = c.id;
+    });
+
+    let created = 0;
+    let updated = 0;
+    const errors = [];
+
+    for (let i = 1; i < lines.length; i++) {
+      try {
+        const values = lines[i].split(',').map(v => v.trim());
+        const sku = values[skuIndex];
+
+        if (!sku) {
+          errors.push(`Row ${i + 1}: SKU is required`);
+          continue;
+        }
+
+        const name = nameIndex !== -1 ? values[nameIndex] : null;
+        const description = descIndex !== -1 ? values[descIndex] : null;
+        const price = priceIndex !== -1 ? parseFloat(values[priceIndex]) || 0 : 0;
+        const costPrice = costPriceIndex !== -1 ? parseFloat(values[costPriceIndex]) || 0 : 0;
+        const stockQty = stockIndex !== -1 ? parseInt(values[stockIndex]) || 0 : 0;
+        const lowStockThreshold = thresholdIndex !== -1 ? parseInt(values[thresholdIndex]) || 10 : 10;
+        const categoryName = categoryIndex !== -1 ? values[categoryIndex] : null;
+        const unit = unitIndex !== -1 ? values[unitIndex] || 'piece' : 'piece';
+
+        // Look up category
+        let categoryId = null;
+        if (categoryName && categoryMap[categoryName.toLowerCase()]) {
+          categoryId = categoryMap[categoryName.toLowerCase()];
+        }
+
+        // Check if product exists
+        const existing = await prisma.product.findFirst({ where: { sku } });
+
+        if (existing) {
+          // Update existing product
+          await prisma.product.update({
+            where: { id: existing.id },
+            data: {
+              name: name || existing.name,
+              description: description || existing.description,
+              price: price || existing.price,
+              costPrice: costPrice || existing.costPrice,
+              stockQty: stockQty,
+              lowStockThreshold: lowStockThreshold,
+              categoryId: categoryId || existing.categoryId,
+              unit: unit || existing.unit,
+            },
+          });
+          updated++;
+        } else {
+          // Create new product
+          if (!name) {
+            errors.push(`Row ${i + 1}: Name is required for new product`);
+            continue;
+          }
+          await prisma.product.create({
+            data: {
+              sku,
+              name,
+              slug: name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, ''),
+              description: description || '',
+              price,
+              costPrice,
+              stockQty,
+              lowStockThreshold,
+              categoryId,
+              unit,
+            },
+          });
+          created++;
+        }
+      } catch (err) {
+        errors.push(`Row ${i + 1}: ${err.message}`);
+      }
+    }
+
+    res.json({
+      success: true,
+      created,
+      updated,
+      errors: errors.slice(0, 20), // Limit errors returned
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Trigger low stock email alert
+export const sendLowStockAlert = async (req, res, next) => {
+  try {
+    const result = await checkAndSendLowStockAlert();
+    res.json(result);
   } catch (error) {
     next(error);
   }

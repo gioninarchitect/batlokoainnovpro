@@ -4,7 +4,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import {
   listOrders, getOrder, createOrder, updateOrder, updateOrderStatus, getOrderStats,
-  uploadPOP, approvePOP, rejectPOP, dispatchOrder
+  uploadPOP, approvePOP, rejectPOP, dispatchOrder, lookupOrder, bulkUpdateStatus
 } from '../controllers/orders.controller.js';
 import { authenticate, authorize } from '../middleware/auth.js';
 
@@ -36,10 +36,17 @@ const upload = multer({
 
 const router = Router();
 
+// Public routes (for customer POP upload page)
+router.get('/lookup/:orderNumber', lookupOrder);
+router.post('/:id/pop', upload.single('popFile'), uploadPOP);
+
 router.use(authenticate);
 
 // Stats
 router.get('/stats', authorize('ADMIN', 'MANAGER'), getOrderStats);
+
+// Bulk operations (must be before /:id routes)
+router.put('/bulk-status', authorize('ADMIN', 'MANAGER', 'STAFF'), bulkUpdateStatus);
 
 // CRUD
 router.get('/', listOrders);
@@ -48,8 +55,7 @@ router.post('/', authorize('ADMIN', 'MANAGER', 'STAFF'), createOrder);
 router.put('/:id', authorize('ADMIN', 'MANAGER', 'STAFF'), updateOrder);
 router.put('/:id/status', authorize('ADMIN', 'MANAGER', 'STAFF'), updateOrderStatus);
 
-// POP (Proof of Payment)
-router.post('/:id/pop', upload.single('popFile'), uploadPOP);
+// POP (Proof of Payment) - Approval/Rejection (upload is public)
 router.post('/:id/pop/approve', authorize('ADMIN', 'MANAGER'), approvePOP);
 router.post('/:id/pop/reject', authorize('ADMIN', 'MANAGER'), rejectPOP);
 

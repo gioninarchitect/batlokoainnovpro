@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '@/context/AuthContext'
 
 const API_URL = import.meta.env.VITE_API_URL || (
@@ -8,6 +8,7 @@ const API_URL = import.meta.env.VITE_API_URL || (
 
 export default function Customers() {
   const { token } = useAuth()
+  const navigate = useNavigate()
   const [customers, setCustomers] = useState([])
   const [pagination, setPagination] = useState({ page: 1, limit: 20, total: 0 })
   const [loading, setLoading] = useState(true)
@@ -286,7 +287,7 @@ export default function Customers() {
                 const tags = getCustomerTags(customer)
                 const score = getLeadScore(customer)
                 return (
-                  <div key={customer.id} className="p-4">
+                  <div key={customer.id} onClick={() => navigate(`/admin/customers/${customer.id}`)} className="p-4 cursor-pointer">
                     <div className="flex items-start gap-3">
                       <div className="w-10 h-10 rounded-full bg-industrial flex items-center justify-center flex-shrink-0">
                         <span className="text-white font-medium">
@@ -374,7 +375,7 @@ export default function Customers() {
                     const tags = getCustomerTags(customer)
                     const score = getLeadScore(customer)
                     return (
-                      <tr key={customer.id} className="hover:bg-gray-50 dark:hover:bg-navy-light">
+                      <tr key={customer.id} onClick={() => navigate(`/admin/customers/${customer.id}`)} className="hover:bg-gray-50 dark:hover:bg-navy-light cursor-pointer">
                         <td className="px-4 py-4">
                           <div className="flex items-center gap-3">
                             <div className="w-10 h-10 rounded-full bg-industrial flex items-center justify-center flex-shrink-0">
@@ -417,7 +418,7 @@ export default function Customers() {
                             {customer.phone && (
                               <>
                                 <button
-                                  onClick={() => openWhatsApp(customer.phone, customer.firstName)}
+                                  onClick={(e) => { e.stopPropagation(); openWhatsApp(customer.phone, customer.firstName); }}
                                   className="p-1.5 text-green-600 hover:bg-green-50 dark:hover:bg-green-900/20 rounded transition-colors"
                                   title="WhatsApp"
                                 >
@@ -426,7 +427,7 @@ export default function Customers() {
                                   </svg>
                                 </button>
                                 <button
-                                  onClick={() => makeCall(customer.phone)}
+                                  onClick={(e) => { e.stopPropagation(); makeCall(customer.phone); }}
                                   className="p-1.5 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded transition-colors"
                                   title="Call"
                                 >
@@ -438,7 +439,7 @@ export default function Customers() {
                             )}
                             {customer.email && (
                               <button
-                                onClick={() => sendEmail(customer.email, customer.firstName)}
+                                onClick={(e) => { e.stopPropagation(); sendEmail(customer.email, customer.firstName); }}
                                 className="p-1.5 text-purple-600 hover:bg-purple-50 dark:hover:bg-purple-900/20 rounded transition-colors"
                                 title="Email"
                               >

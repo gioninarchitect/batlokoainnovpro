@@ -66,14 +66,20 @@ export const generateInvoicePDF = async (invoice) => {
       // Bill To section
       doc.fontSize(12).text('BILL TO:', 50, 150);
       doc.fontSize(10);
-      doc.text(invoice.customer.companyName, 50, 170);
-      if (invoice.customer.addresses?.[0]) {
-        const addr = invoice.customer.addresses[0];
-        doc.text(addr.line1);
-        if (addr.line2) doc.text(addr.line2);
-        doc.text(`${addr.city}, ${addr.province} ${addr.postalCode}`);
+      const customerName = invoice.customer?.company ||
+        `${invoice.customer?.firstName || ''} ${invoice.customer?.lastName || ''}`.trim() ||
+        'Customer';
+      doc.text(customerName, 50, 170);
+      if (invoice.customer?.email) {
+        doc.text(invoice.customer.email);
       }
-      if (invoice.customer.vatNumber) {
+      if (invoice.customer?.phone) {
+        doc.text(invoice.customer.phone);
+      }
+      if (invoice.customer?.address) {
+        doc.text(invoice.customer.address);
+      }
+      if (invoice.customer?.vatNumber) {
         doc.text(`VAT: ${invoice.customer.vatNumber}`);
       }
 
@@ -131,29 +137,34 @@ export const generateInvoicePDF = async (invoice) => {
       // Totals
       yPos += 20;
       const totalsX = 350;
+      const subtotal = invoice.subtotal || 0;
+      const tax = invoice.tax || 0;
+      const total = invoice.total || 0;
+      const amountPaid = invoice.amountPaid || 0;
+      const amountDue = invoice.amountDue || total;
 
       doc.text('Subtotal:', totalsX, yPos);
-      doc.text(`R ${invoice.subtotal.toFixed(2)}`, totalsX + 100, yPos, { align: 'right', width: 100 });
+      doc.text(`R ${subtotal.toFixed(2)}`, totalsX + 100, yPos, { align: 'right', width: 100 });
       yPos += 20;
 
       doc.text('VAT (15%):', totalsX, yPos);
-      doc.text(`R ${invoice.tax.toFixed(2)}`, totalsX + 100, yPos, { align: 'right', width: 100 });
+      doc.text(`R ${tax.toFixed(2)}`, totalsX + 100, yPos, { align: 'right', width: 100 });
       yPos += 20;
 
       doc.fontSize(14).font('Helvetica-Bold');
       doc.text('TOTAL:', totalsX, yPos);
-      doc.text(`R ${invoice.total.toFixed(2)}`, totalsX + 100, yPos, { align: 'right', width: 100 });
+      doc.text(`R ${total.toFixed(2)}`, totalsX + 100, yPos, { align: 'right', width: 100 });
       doc.font('Helvetica').fontSize(10);
 
       // Amount paid/due
-      if (invoice.amountPaid > 0) {
+      if (amountPaid > 0) {
         yPos += 25;
         doc.text('Amount Paid:', totalsX, yPos);
-        doc.text(`R ${invoice.amountPaid.toFixed(2)}`, totalsX + 100, yPos, { align: 'right', width: 100 });
+        doc.text(`R ${amountPaid.toFixed(2)}`, totalsX + 100, yPos, { align: 'right', width: 100 });
         yPos += 20;
         doc.fontSize(12).fillColor('#dc3545');
         doc.text('Amount Due:', totalsX, yPos);
-        doc.text(`R ${invoice.amountDue.toFixed(2)}`, totalsX + 100, yPos, { align: 'right', width: 100 });
+        doc.text(`R ${amountDue.toFixed(2)}`, totalsX + 100, yPos, { align: 'right', width: 100 });
         doc.fillColor('#000000').fontSize(10);
       }
 

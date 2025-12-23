@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Batlokoa Innovative Projects - System Overview</title>
+    <style>
+        :root {
+            --navy: #1a1a2e;
+            --navy-light: #2d2d44;
+            --industrial: #0f3460;
+            --safety: #e94560;
+            --safety-dark: #d13350;
+            --gold: #d4af37;
+            --white: #ffffff;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-500: #6b7280;
+            --gray-700: #374151;
+            --gray-900: #111827;
+            --green: #10b981;
+            --blue: #3b82f6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--gray-50);
+            color: var(--gray-700);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--white);
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+
+        .nav-logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--safety);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--gray-300);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--white);
+        }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--industrial) 50%, var(--navy-light) 100%);
+            color: var(--white);
+            padding: 8rem 2rem 6rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.5;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(233, 69, 96, 0.2);
+            border: 1px solid var(--safety);
+            color: var(--safety);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+        }
+
+        .hero h1 span {
+            color: var(--gold);
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 4rem;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .hero-stat {
+            text-align: center;
+        }
+
+        .hero-stat-value {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--gold);
+        }
+
+        .hero-stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Sections */
+        .section {
+            padding: 5rem 2rem;
+        }
+
+        .section-dark {
+            background: var(--navy);
+            color: var(--white);
+        }
+
+        .section-alt {
+            background: var(--white);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--navy);
+            margin-bottom: 1rem;
+        }
+
+        .section-dark .section-header h2 {
+            color: var(--white);
+        }
+
+        .section-header p {
+            font-size: 1.1rem;
+            color: var(--gray-500);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .section-dark .section-header p {
+            color: var(--gray-300);
+        }
+
+        /* Feature Grid */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid var(--gray-200);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--safety) 0%, var(--safety-dark) 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.25rem;
+            color: var(--navy);
+            margin-bottom: 0.75rem;
+        }
+
+        .feature-card p {
+            color: var(--gray-500);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-list {
+            list-style: none;
+        }
+
+        .feature-list li {
+            padding: 0.5rem 0;
+            color: var(--gray-700);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .feature-list li::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: var(--green);
+            border-radius: 50%;
+        }
+
+        /* Module Cards */
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .module-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: background 0.3s, border-color 0.3s;
+        }
+
+        .module-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--gold);
+        }
+
+        .module-card h4 {
+            color: var(--gold);
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .module-card p {
+            color: var(--gray-300);
+            font-size: 0.9rem;
+        }
+
+        /* Workflow Section */
+        .workflow {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 3rem;
+        }
+
+        .workflow-step {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: var(--white);
+            padding: 1rem 1.5rem;
+            border-radius: 50px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .workflow-step-number {
+            width: 36px;
+            height: 36px;
+            background: var(--safety);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .workflow-step span {
+            color: var(--navy);
+            font-weight: 500;
+        }
+
+        .workflow-arrow {
+            color: var(--gray-300);
+            font-size: 1.5rem;
+        }
+
+        /* Benefits Grid */
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+
+        .benefit-card {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .benefit-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--industrial) 0%, var(--navy) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+        }
+
+        .benefit-card h4 {
+            color: var(--navy);
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .benefit-card p {
+            color: var(--gray-500);
+            font-size: 0.9rem;
+        }
+
+        /* Tech Stack */
+        .tech-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+
+        .tech-item {
+            background: var(--white);
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            color: var(--navy);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Timeline */
+        .timeline {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--gray-200);
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            display: flex;
+            margin-bottom: 2rem;
+        }
+
+        .timeline-item:nth-child(odd) {
+            flex-direction: row-reverse;
+        }
+
+        .timeline-content {
+            width: 45%;
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .timeline-content h4 {
+            color: var(--safety);
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-dot {
+            width: 16px;
+            height: 16px;
+            background: var(--safety);
+            border-radius: 50%;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 4px solid var(--white);
+            box-shadow: 0 0 0 4px var(--safety);
+        }
+
+        /* CTA Section */
+        .cta {
+            background: linear-gradient(135deg, var(--safety) 0%, var(--safety-dark) 100%);
+            color: var(--white);
+            text-align: center;
+            padding: 5rem 2rem;
+        }
+
+        .cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-white {
+            background: var(--white);
+            color: var(--safety);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--white);
+            border: 2px solid var(--white);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--navy);
+            color: var(--gray-300);
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .footer p {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .footer-links a {
+            color: var(--gold);
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .benefits-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav {
+                padding: 0.75rem 1rem;
+            }
+
+            .nav-logo {
+                font-size: 1rem;
+            }
+
+            .nav-logo-icon {
+                width: 32px;
+                height: 32px;
+                font-size: 0.875rem;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--navy);
+                flex-direction: column;
+                padding: 1rem;
+                gap: 0.75rem;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-toggle {
+                display: block;
+            }
+
+            .hero {
+                padding: 4.5rem 1rem 2rem;
+                overflow: visible;
+            }
+
+            .hero::before {
+                display: none;
+            }
+
+            .hero-badge {
+                font-size: 0.7rem;
+                padding: 0.4rem 1rem;
+                margin-bottom: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 1.5rem;
+                line-height: 1.2;
+                word-wrap: break-word;
+            }
+
+            .hero h1 span {
+                display: block;
+            }
+
+            .hero p {
+                font-size: 0.9rem;
+                margin-bottom: 1rem;
+                padding: 0 0.5rem;
+            }
+
+            .hero-stats {
+                gap: 1rem;
+                margin-top: 1.5rem;
+            }
+
+            .hero-stat-value {
+                font-size: 1.5rem;
+            }
+
+            .hero-stat-label {
+                font-size: 0.65rem;
+            }
+
+            .section {
+                padding: 2rem 1rem;
+            }
+
+            .container {
+                padding: 0;
+            }
+
+            .section-header {
+                margin-bottom: 1.5rem;
+            }
+
+            .section-header h2 {
+                font-size: 1.5rem;
+            }
+
+            .section-header p {
+                font-size: 0.9rem;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .feature-card {
+                padding: 1.25rem;
+            }
+
+            .feature-card h3 {
+                font-size: 1rem;
+            }
+
+            .benefits-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .benefit-card {
+                padding: 1.25rem;
+            }
+
+            .modules-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.75rem;
+            }
+
+            .module-card {
+                padding: 0.75rem;
+                font-size: 0.8rem;
+            }
+
+            .workflow {
+                flex-direction: column;
+                align-items: center;
+                gap: 0.5rem;
+            }
+
+            .workflow-step {
+                padding: 0.75rem;
+                min-width: auto;
+                width: 100%;
+            }
+
+            .workflow-arrow {
+                transform: rotate(90deg);
+                font-size: 1rem;
+            }
+
+            .timeline::before {
+                left: 20px;
+            }
+
+            .timeline-item,
+            .timeline-item:nth-child(odd) {
+                flex-direction: row;
+            }
+
+            .timeline-content {
+                width: calc(100% - 50px);
+                margin-left: 35px;
+                padding: 1rem;
+            }
+
+            .timeline-dot {
+                left: 20px;
+                width: 12px;
+                height: 12px;
+            }
+
+            .cta {
+                padding: 2rem 1rem;
+            }
+
+            .cta h2 {
+                font-size: 1.5rem;
+            }
+
+            .cta p {
+                font-size: 0.9rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+
+            .cta-buttons .btn {
+                width: 100%;
+            }
+
+            .tech-stack {
+                gap: 0.5rem;
+            }
+
+            .tech-item {
+                padding: 0.5rem 0.75rem;
+                font-size: 0.75rem;
+            }
+
+            .footer {
+                padding: 1.5rem 1rem;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s, transform 0.6s;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Print Styles */
+        @media print {
+            .nav {
+                position: static;
+                background: var(--navy);
+            }
+
+            .hero {
+                padding-top: 2rem;
+            }
+
+            .section {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-logo">
+            <div class="nav-logo-icon">B</div>
+            <span>Batlokoa Innovative Projects</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#overview">Overview</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#modules">Modules</a></li>
+            <li><a href="#workflow">Workflow</a></li>
+            <li><a href="#benefits">Benefits</a></li>
+        </ul>
+        <button class="nav-toggle" onclick="toggleNav()">&#9776;</button>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">Enterprise Business Management System</div>
+            <h1>Complete Business <span>Operations Platform</span></h1>
+            <p>A comprehensive, custom-built system designed specifically for Batlokoa Innovative Projects to streamline operations, manage inventory, and grow your business.</p>
+
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <div class="hero-stat-value">14</div>
+                    <div class="hero-stat-label">Core Modules</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-value">100%</div>
+                    <div class="hero-stat-label">Custom Built</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-value">24/7</div>
+                    <div class="hero-stat-label">Availability</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Overview -->
+    <section id="overview" class="section">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2>System Overview</h2>
+                <p>A fully integrated platform that connects every aspect of your business operations</p>
+            </div>
+
+            <div class="feature-grid">
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <svg width="28" height="28" fill="white" viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/></svg>
+                    </div>
+                    <h3>Order Management</h3>
+                    <p>Complete order lifecycle management from quote to delivery</p>
+                    <ul class="feature-list">
+                        <li>Real-time order tracking</li>
+                        <li>Automated status updates</li>
+                        <li>Customer notifications</li>
+                        <li>Payment verification (POP)</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <svg width="28" height="28" fill="white" viewBox="0 0 24 24"><path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg>
+                    </div>
+                    <h3>Inventory Control</h3>
+                    <p>Smart inventory management with automated alerts</p>
+                    <ul class="feature-list">
+                        <li>Real-time stock levels</li>
+                        <li>Low stock alerts</li>
+                        <li>Purchase order integration</li>
+                        <li>Stock receiving workflow</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <svg width="28" height="28" fill="white" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                    </div>
+                    <h3>Customer Management</h3>
+                    <p>Build stronger relationships with comprehensive CRM</p>
+                    <ul class="feature-list">
+                        <li>Customer profiles & history</li>
+                        <li>Lead scoring system</li>
+                        <li>VIP customer tagging</li>
+                        <li>Self-service portal</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <svg width="28" height="28" fill="white" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>
+                    </div>
+                    <h3>Financial Reporting</h3>
+                    <p>Complete financial visibility and invoice management</p>
+                    <ul class="feature-list">
+                        <li>Automated invoicing</li>
+                        <li>Payment tracking</li>
+                        <li>Overdue alerts</li>
+                        <li>Revenue reporting</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modules Section -->
+    <section id="modules" class="section section-dark">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2>System Modules</h2>
+                <p>Each module is designed to work seamlessly together</p>
+            </div>
+
+            <div class="module-grid">
+                <div class="module-card fade-in">
+                    <h4>Dashboard</h4>
+                    <p>Real-time business metrics, alerts, and quick actions at a glance</p>
+                </div>
+                <div class="module-card fade-in">
+                    <h4>Products</h4>
+                    <p>Complete product catalog with categories, pricing, and inventory</p>
+                </div>
+                <div class="module-card fade-in">
+                    <h4>Orders</h4>
+                    <p>Full order lifecycle from creation to delivery</p>
+                </div>
+                <div class="module-card fade-in">
+                    <h4>Quotes</h4>
+                    <p>Professional quotes with validity tracking and conversion</p>
+                </div>
+                <div class="module-card fade-in">
+                    <h4>Invoices</h4>
+                    <p>Automated invoicing with payment tracking</p>
+                </div>
+                <div class="module-card fade-in">
+                    <h4>Customers</h4>
+                    <p>CRM with lead scoring and customer insights</p>
+                </div>
+                <div class="module-card fade-in">
+                    <h4>Suppliers</h4>
+                    <p>Supplier management with payment terms and contacts</p>
+                </div>
+                <div class="module-card fade-in">
+                    <h4>Purchase Orders</h4>
+                    <p>Streamlined procurement with stock receiving</p>
+                </div>
+                <div class="module-card fade-in">
+                    <h4>Customer Portal</h4>
+                    <p>Self-service portal for customers to track orders</p>
+                </div>
+                <div class="module-card fade-in">
+                    <h4>Settings</h4>
+                    <p>Company configuration, email, and preferences</p>
+                </div>
+                <div class="module-card fade-in">
+                    <h4>Audit Log</h4>
+                    <p>Complete activity tracking for security and compliance</p>
+                </div>
+                <div class="module-card fade-in">
+                    <h4>Reports</h4>
+                    <p>Business intelligence and performance analytics</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Workflow Section -->
+    <section id="workflow" class="section section-alt">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2>Streamlined Order Workflow</h2>
+                <p>From inquiry to delivery - every step is tracked and automated</p>
+            </div>
+
+            <div class="workflow">
+                <div class="workflow-step fade-in">
+                    <span class="workflow-step-number">1</span>
+                    <span>Quote Request</span>
+                </div>
+                <span class="workflow-arrow">&rarr;</span>
+                <div class="workflow-step fade-in">
+                    <span class="workflow-step-number">2</span>
+                    <span>Quote Sent</span>
+                </div>
+                <span class="workflow-arrow">&rarr;</span>
+                <div class="workflow-step fade-in">
+                    <span class="workflow-step-number">3</span>
+                    <span>Order Created</span>
+                </div>
+                <span class="workflow-arrow">&rarr;</span>
+                <div class="workflow-step fade-in">
+                    <span class="workflow-step-number">4</span>
+                    <span>Payment Received</span>
+                </div>
+                <span class="workflow-arrow">&rarr;</span>
+                <div class="workflow-step fade-in">
+                    <span class="workflow-step-number">5</span>
+                    <span>Invoice Generated</span>
+                </div>
+                <span class="workflow-arrow">&rarr;</span>
+                <div class="workflow-step fade-in">
+                    <span class="workflow-step-number">6</span>
+                    <span>Dispatched</span>
+                </div>
+                <span class="workflow-arrow">&rarr;</span>
+                <div class="workflow-step fade-in">
+                    <span class="workflow-step-number">7</span>
+                    <span>Delivered</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Deep Dive -->
+    <section id="features" class="section">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2>Key Capabilities</h2>
+                <p>Built-in features designed for industrial supply businesses</p>
+            </div>
+
+            <div class="feature-grid">
+                <div class="feature-card fade-in">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, var(--industrial) 0%, var(--navy) 100%);">
+                        <svg width="28" height="28" fill="white" viewBox="0 0 24 24"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg>
+                    </div>
+                    <h3>Mobile Responsive</h3>
+                    <p>Access the system from any device - desktop, tablet, or mobile</p>
+                    <ul class="feature-list">
+                        <li>Responsive admin interface</li>
+                        <li>Mobile-optimized navigation</li>
+                        <li>Touch-friendly controls</li>
+                        <li>Works on all modern browsers</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card fade-in">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, var(--green) 0%, #059669 100%);">
+                        <svg width="28" height="28" fill="white" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
+                    </div>
+                    <h3>Security & Audit</h3>
+                    <p>Enterprise-grade security with complete activity tracking</p>
+                    <ul class="feature-list">
+                        <li>Role-based access control</li>
+                        <li>Complete audit trail</li>
+                        <li>Secure authentication</li>
+                        <li>Session management</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card fade-in">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, var(--gold) 0%, #b8960f 100%);">
+                        <svg width="28" height="28" fill="white" viewBox="0 0 24 24"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+                    </div>
+                    <h3>Financial Control</h3>
+                    <p>Complete financial visibility and document generation</p>
+                    <ul class="feature-list">
+                        <li>Professional PDF invoices</li>
+                        <li>Automated VAT calculations</li>
+                        <li>Payment recording</li>
+                        <li>Overdue tracking</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card fade-in">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, var(--blue) 0%, #2563eb 100%);">
+                        <svg width="28" height="28" fill="white" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+                    </div>
+                    <h3>Customer Self-Service</h3>
+                    <p>Empower customers with their own portal access</p>
+                    <ul class="feature-list">
+                        <li>View order history</li>
+                        <li>Track order status</li>
+                        <li>Access quotes & invoices</li>
+                        <li>Update profile details</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section id="benefits" class="section section-alt">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2>Business Benefits</h2>
+                <p>Tangible improvements to your daily operations</p>
+            </div>
+
+            <div class="benefits-grid">
+                <div class="benefit-card fade-in">
+                    <div class="benefit-icon">
+                        <svg width="36" height="36" fill="white" viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+                    </div>
+                    <h4>Save Time</h4>
+                    <p>Automate repetitive tasks and reduce manual data entry</p>
+                </div>
+
+                <div class="benefit-card fade-in">
+                    <div class="benefit-icon">
+                        <svg width="36" height="36" fill="white" viewBox="0 0 24 24"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg>
+                    </div>
+                    <h4>Grow Revenue</h4>
+                    <p>Better follow-up on quotes and reduced lost opportunities</p>
+                </div>
+
+                <div class="benefit-card fade-in">
+                    <div class="benefit-icon">
+                        <svg width="36" height="36" fill="white" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                    </div>
+                    <h4>Reduce Errors</h4>
+                    <p>Automated calculations and validations prevent mistakes</p>
+                </div>
+
+                <div class="benefit-card fade-in">
+                    <div class="benefit-icon">
+                        <svg width="36" height="36" fill="white" viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+                    </div>
+                    <h4>Full Visibility</h4>
+                    <p>Real-time insights into every aspect of your business</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Stack -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2>Built With Modern Technology</h2>
+                <p>Reliable, scalable, and maintainable architecture</p>
+            </div>
+
+            <div class="tech-grid">
+                <div class="tech-item fade-in">React</div>
+                <div class="tech-item fade-in">Node.js</div>
+                <div class="tech-item fade-in">Express</div>
+                <div class="tech-item fade-in">PostgreSQL</div>
+                <div class="tech-item fade-in">Prisma ORM</div>
+                <div class="tech-item fade-in">Tailwind CSS</div>
+                <div class="tech-item fade-in">JWT Auth</div>
+                <div class="tech-item fade-in">REST API</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <h2>Ready to Transform Your Operations?</h2>
+            <p>Your complete business management system is ready for deployment</p>
+            <div class="cta-buttons">
+                <a href="https://batlokoa.cleva-ai.co.za/admin" class="btn btn-white">Access Admin Panel</a>
+                <a href="https://batlokoa.cleva-ai.co.za/portal" class="btn btn-outline">Customer Portal</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p><strong>Batlokoa Innovative Projects</strong></p>
+            <p>Industrial Engineering Supplies</p>
+            <div class="footer-links">
+                <a href="mailto:info@batlokoainnovpro.co.za">info@batlokoainnovpro.co.za</a>
+                <a href="tel:+27000000000">Contact Us</a>
+            </div>
+            <p style="margin-top: 2rem; font-size: 0.8rem; opacity: 0.7;">System Version 2.0 | December 2025</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile navigation toggle
+        function toggleNav() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        }
+
+        // Fade in on scroll
+        function handleScroll() {
+            const elements = document.querySelectorAll('.fade-in');
+            elements.forEach(el => {
+                const rect = el.getBoundingClientRect();
+                if (rect.top < window.innerHeight - 100) {
+                    el.classList.add('visible');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', handleScroll);
+        window.addEventListener('load', handleScroll);
+
+        // Smooth scroll for nav links
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = document.querySelector(link.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                    document.querySelector('.nav-links').classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
