@@ -214,7 +214,8 @@ Located in `docs/`:
 - `uat-checklist.html` - Interactive testing checklist (75 test cases)
 - `client-presentation.html` - Professional client presentation
 - `order-flow-guide.html` - Order workflow documentation
-- `smart-ai-factory.html` - Smart AI technical documentation (NEW)
+- `smart-ai-factory.html` - Smart AI technical documentation
+- `pricing-proposal.html` - SA market pricing & investment guide (NEW)
 - `DESIGN_SYSTEM.md` - Colors, typography, components
 
 ---
