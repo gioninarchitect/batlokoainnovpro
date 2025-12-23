@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Batlokoa B2B Platform - Pricing & Investment Guide</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #1a1a2e;
+            --navy-light: #252542;
+            --navy-dark: #12121f;
+            --industrial: #0f3460;
+            --industrial-light: #164470;
+            --safety: #e94560;
+            --safety-dark: #d13350;
+            --gold: #d4af37;
+            --gold-light: #e0c45c;
+            --white: #ffffff;
+            --gray-50: #fafafa;
+            --gray-100: #f5f5f5;
+            --gray-200: #eeeeee;
+            --gray-300: #e0e0e0;
+            --gray-400: #bdbdbd;
+            --gray-500: #9e9e9e;
+            --gray-600: #757575;
+            --gray-700: #616161;
+            --gray-800: #424242;
+            --gray-900: #333333;
+            --success: #4caf50;
+            --success-light: #e8f5e9;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--white);
+            color: var(--gray-900);
+            line-height: 1.6;
+        }
+
+        /* Cover Page */
+        .cover {
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--navy) 0%, var(--industrial) 50%, var(--navy-dark) 100%);
+            color: var(--white);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 60px 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cover::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.5;
+        }
+
+        .cover-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+        }
+
+        .cover-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--gold);
+            color: var(--navy);
+            padding: 10px 24px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            margin-bottom: 40px;
+        }
+
+        .cover h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+
+        .cover h1 span {
+            color: var(--safety);
+        }
+
+        .cover .subtitle {
+            font-size: 1.5rem;
+            opacity: 0.9;
+            margin-bottom: 40px;
+            font-weight: 300;
+        }
+
+        .cover-features {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin-bottom: 60px;
+        }
+
+        .cover-feature {
+            text-align: center;
+        }
+
+        .cover-feature .value {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--gold);
+        }
+
+        .cover-feature .label {
+            font-size: 0.875rem;
+            opacity: 0.8;
+            margin-top: 4px;
+        }
+
+        .cover-meta {
+            font-size: 0.875rem;
+            opacity: 0.7;
+        }
+
+        /* Page Header */
+        .page-header {
+            background: var(--navy);
+            color: var(--white);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .page-header .logo {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+
+        .page-header .page-title {
+            font-size: 0.875rem;
+            opacity: 0.8;
+        }
+
+        /* Content Sections */
+        .section {
+            padding: 60px 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-dark {
+            background: var(--gray-50);
+        }
+
+        .section-navy {
+            background: var(--navy);
+            color: var(--white);
+        }
+
+        .section h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 16px;
+        }
+
+        .section-navy h2 {
+            color: var(--white);
+        }
+
+        .section h2 span {
+            color: var(--safety);
+        }
+
+        .section .lead {
+            font-size: 1.125rem;
+            color: var(--gray-600);
+            margin-bottom: 40px;
+            max-width: 700px;
+        }
+
+        .section-navy .lead {
+            color: rgba(255,255,255,0.8);
+        }
+
+        /* Pricing Cards */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-top: 40px;
+        }
+
+        .pricing-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            position: relative;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 48px rgba(0,0,0,0.15);
+        }
+
+        .pricing-card.featured {
+            border: 3px solid var(--safety);
+        }
+
+        .pricing-card.featured::before {
+            content: "RECOMMENDED";
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--safety);
+            color: var(--white);
+            padding: 4px 16px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .pricing-card .tier {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--industrial);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .pricing-card h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 16px;
+        }
+
+        .pricing-card .price {
+            margin-bottom: 24px;
+        }
+
+        .pricing-card .price .amount {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--navy);
+        }
+
+        .pricing-card .price .currency {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--gray-600);
+        }
+
+        .pricing-card .price .period {
+            font-size: 0.875rem;
+            color: var(--gray-500);
+        }
+
+        .pricing-card .setup {
+            background: var(--gray-100);
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+        }
+
+        .pricing-card .setup-label {
+            font-size: 0.75rem;
+            color: var(--gray-600);
+            text-transform: uppercase;
+        }
+
+        .pricing-card .setup-amount {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--navy);
+        }
+
+        .pricing-card .features {
+            list-style: none;
+            margin-bottom: 24px;
+        }
+
+        .pricing-card .features li {
+            padding: 8px 0;
+            padding-left: 28px;
+            position: relative;
+            color: var(--gray-700);
+            font-size: 0.9375rem;
+        }
+
+        .pricing-card .features li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 12px;
+            width: 16px;
+            height: 16px;
+            background: var(--success);
+            border-radius: 50%;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z'/%3E%3C/svg%3E");
+            background-size: 10px;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .pricing-card .target {
+            font-size: 0.875rem;
+            color: var(--gray-500);
+            font-style: italic;
+            padding-top: 16px;
+            border-top: 1px solid var(--gray-200);
+        }
+
+        /* AI Pricing */
+        .ai-pricing {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-top: 40px;
+        }
+
+        .ai-card {
+            background: linear-gradient(135deg, var(--industrial) 0%, var(--navy) 100%);
+            color: var(--white);
+            border-radius: 16px;
+            padding: 32px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ai-card::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(233,69,96,0.2) 0%, transparent 70%);
+        }
+
+        .ai-card .content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .ai-card .model {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.8;
+            margin-bottom: 8px;
+        }
+
+        .ai-card h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .ai-card .price-tag {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .ai-card .price-tag .amount {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+        }
+
+        .ai-card .price-tag .period {
+            opacity: 0.7;
+        }
+
+        .ai-card p {
+            font-size: 0.9375rem;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        /* Comparison Table */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 40px;
+            background: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+        }
+
+        .comparison-table th {
+            background: var(--navy);
+            color: var(--white);
+            padding: 16px 20px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .comparison-table th:first-child {
+            width: 35%;
+        }
+
+        .comparison-table td {
+            padding: 14px 20px;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .comparison-table tr:hover {
+            background: var(--gray-50);
+        }
+
+        .comparison-table .highlight {
+            background: var(--success-light);
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        .comparison-table .competitor {
+            color: var(--gray-500);
+        }
+
+        /* Value Props */
+        .value-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            margin-top: 40px;
+        }
+
+        .value-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+        }
+
+        .section-navy .value-card {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .value-card .icon {
+            width: 48px;
+            height: 48px;
+            background: var(--safety);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+        }
+
+        .value-card .icon svg {
+            width: 24px;
+            height: 24px;
+            color: var(--white);
+        }
+
+        .value-card h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--navy);
+            margin-bottom: 8px;
+        }
+
+        .section-navy .value-card h4 {
+            color: var(--white);
+        }
+
+        .value-card p {
+            font-size: 0.9375rem;
+            color: var(--gray-600);
+        }
+
+        .section-navy .value-card p {
+            color: rgba(255,255,255,0.8);
+        }
+
+        /* ROI Section */
+        .roi-highlight {
+            background: linear-gradient(135deg, var(--success-light) 0%, #c8e6c9 100%);
+            border-radius: 16px;
+            padding: 40px;
+            margin-top: 40px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 32px;
+            text-align: center;
+        }
+
+        .roi-item .number {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--success);
+        }
+
+        .roi-item .label {
+            color: var(--gray-700);
+            font-size: 0.9375rem;
+            margin-top: 8px;
+        }
+
+        /* Package Summary */
+        .package-summary {
+            background: var(--navy);
+            color: var(--white);
+            border-radius: 16px;
+            padding: 40px;
+            margin-top: 40px;
+        }
+
+        .package-summary h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .package-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .package-table th {
+            text-align: left;
+            padding: 12px 16px;
+            border-bottom: 2px solid rgba(255,255,255,0.2);
+            font-weight: 600;
+        }
+
+        .package-table td {
+            padding: 16px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .package-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .package-table .package-name {
+            font-weight: 600;
+            color: var(--gold);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--safety) 0%, var(--safety-dark) 100%);
+            color: var(--white);
+            text-align: center;
+            padding: 80px 40px;
+        }
+
+        .cta-section h2 {
+            color: var(--white);
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+        }
+
+        .cta-section p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 16px 32px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .cta-btn.primary {
+            background: var(--white);
+            color: var(--safety);
+        }
+
+        .cta-btn.secondary {
+            background: transparent;
+            color: var(--white);
+            border: 2px solid var(--white);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--navy-dark);
+            color: var(--white);
+            padding: 40px;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .footer p {
+            opacity: 0.7;
+            font-size: 0.875rem;
+            margin-bottom: 8px;
+        }
+
+        .footer-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--gold);
+            color: var(--navy);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            margin-top: 16px;
+        }
+
+        /* Print Styles */
+        @media print {
+            .cover {
+                min-height: auto;
+                padding: 40px;
+            }
+
+            .section {
+                padding: 30px 20px;
+            }
+
+            .pricing-card:hover,
+            .ai-card:hover {
+                transform: none;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .cover h1 {
+                font-size: 2rem;
+            }
+
+            .cover .subtitle {
+                font-size: 1.125rem;
+            }
+
+            .cover-features {
+                gap: 24px;
+            }
+
+            .section {
+                padding: 40px 20px;
+            }
+
+            .section h2 {
+                font-size: 1.5rem;
+            }
+
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison-table {
+                font-size: 0.875rem;
+            }
+
+            .comparison-table th,
+            .comparison-table td {
+                padding: 10px 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Cover Page -->
+    <div class="cover">
+        <div class="cover-content">
+            <div class="cover-badge">
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                Level 1 BBB-EE Contributor
+            </div>
+            <h1>B2B Enterprise Platform<br><span>Pricing & Investment Guide</span></h1>
+            <p class="subtitle">Complete Industrial E-Commerce Solution with AI-Powered Sales Automation</p>
+            <div class="cover-features">
+                <div class="cover-feature">
+                    <div class="value">12</div>
+                    <div class="label">Admin Modules</div>
+                </div>
+                <div class="cover-feature">
+                    <div class="value">24</div>
+                    <div class="label">AI Intent Types</div>
+                </div>
+                <div class="cover-feature">
+                    <div class="value">R0</div>
+                    <div class="label">AI API Costs</div>
+                </div>
+                <div class="cover-feature">
+                    <div class="value">100%</div>
+                    <div class="label">SA Compliant</div>
+                </div>
+            </div>
+            <p class="cover-meta">Prepared by Batlokoa Innovative Projects (Pty) Ltd | December 2025</p>
+        </div>
+    </div>
+
+    <!-- Platform Pricing Section -->
+    <div class="section">
+        <h2>Platform <span>Investment Options</span></h2>
+        <p class="lead">Choose the package that fits your business. All options include full South African compliance, BBB-EE integration, and dedicated support.</p>
+
+        <div class="pricing-grid">
+            <div class="pricing-card">
+                <div class="tier">Entry Level</div>
+                <h3>Starter</h3>
+                <div class="price">
+                    <span class="currency">R</span><span class="amount">3,500</span>
+                    <span class="period">/month</span>
+                </div>
+                <div class="setup">
+                    <div class="setup-label">Setup Fee</div>
+                    <div class="setup-amount">R95,000</div>
+                </div>
+                <ul class="features">
+                    <li>Admin Dashboard</li>
+                    <li>Product Management (up to 500)</li>
+                    <li>Order & Quote Management</li>
+                    <li>Invoice Generation</li>
+                    <li>Customer Portal</li>
+                    <li>Email Support</li>
+                </ul>
+                <p class="target">Ideal for: Small distributors, new wholesalers</p>
+            </div>
+
+            <div class="pricing-card featured">
+                <div class="tier">Most Popular</div>
+                <h3>Professional</h3>
+                <div class="price">
+                    <span class="currency">R</span><span class="amount">6,500</span>
+                    <span class="period">/month</span>
+                </div>
+                <div class="setup">
+                    <div class="setup-label">Setup Fee</div>
+                    <div class="setup-amount">R175,000</div>
+                </div>
+                <ul class="features">
+                    <li>Everything in Starter</li>
+                    <li>Unlimited Products</li>
+                    <li>Smart AI Assistant</li>
+                    <li>Lead Scoring Dashboard</li>
+                    <li>Supplier Portal</li>
+                    <li>Purchase Order Management</li>
+                    <li>Reports & Analytics</li>
+                    <li>Priority Support</li>
+                </ul>
+                <p class="target">Ideal for: Mid-size wholesalers, industrial suppliers</p>
+            </div>
+
+            <div class="pricing-card">
+                <div class="tier">Full Featured</div>
+                <h3>Enterprise</h3>
+                <div class="price">
+                    <span class="currency">R</span><span class="amount">12,000</span>
+                    <span class="period">/month</span>
+                </div>
+                <div class="setup">
+                    <div class="setup-label">Setup Fee</div>
+                    <div class="setup-amount">R350,000</div>
+                </div>
+                <ul class="features">
+                    <li>Everything in Professional</li>
+                    <li>Multi-warehouse Support</li>
+                    <li>Advanced AI Compliance Checker</li>
+                    <li>Custom Integrations</li>
+                    <li>White-label Options</li>
+                    <li>API Access</li>
+                    <li>Dedicated Account Manager</li>
+                    <li>SLA Guarantee (99.9% uptime)</li>
+                </ul>
+                <p class="target">Ideal for: Large industrial suppliers, enterprise</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Pricing Section -->
+    <div class="section section-dark">
+        <h2>Smart AI Factory <span>Add-On</span></h2>
+        <p class="lead">Zero-cost AI assistant with pattern matching, lead scoring, and compliance verification. No external API fees ever.</p>
+
+        <div class="ai-pricing">
+            <div class="ai-card">
+                <div class="content">
+                    <div class="model">Bundled Add-On</div>
+                    <h4>AI with Platform</h4>
+                    <div class="price-tag">
+                        <span class="currency">R</span>
+                        <span class="amount">2,500 - 5,000</span>
+                        <span class="period">/month</span>
+                    </div>
+                    <p>Add Smart AI to any platform package. Includes chat widget, lead scoring, compliance checking, and offline capability.</p>
+                </div>
+            </div>
+
+            <div class="ai-card">
+                <div class="content">
+                    <div class="model">Standalone License</div>
+                    <h4>One-Time Purchase</h4>
+                    <div class="price-tag">
+                        <span class="currency">R</span>
+                        <span class="amount">75,000 - 150,000</span>
+                        <span class="period">once</span>
+                    </div>
+                    <p>Full source code license. Integrate into any existing system. Includes 12 months support and updates.</p>
+                </div>
+            </div>
+
+            <div class="ai-card">
+                <div class="content">
+                    <div class="model">API Access</div>
+                    <h4>SaaS API</h4>
+                    <div class="price-tag">
+                        <span class="currency">R</span>
+                        <span class="amount">1,500 - 3,500</span>
+                        <span class="period">/month</span>
+                    </div>
+                    <p>Hosted API endpoints for external systems. RESTful interface, unlimited requests, 99.9% uptime SLA.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="roi-highlight">
+            <div class="roi-item">
+                <div class="number">R180K</div>
+                <div class="label">Annual AI Cost Savings vs ChatGPT API</div>
+            </div>
+            <div class="roi-item">
+                <div class="number">&lt;50ms</div>
+                <div class="label">Response Time (No Network Latency)</div>
+            </div>
+            <div class="roi-item">
+                <div class="number">100%</div>
+                <div class="label">Works Offline (Load-shedding Proof)</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Market Comparison -->
+    <div class="section">
+        <h2>Market <span>Comparison</span></h2>
+        <p class="lead">See how our platform compares to alternatives in the South African market.</p>
+
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Solution</th>
+                    <th>Monthly Cost</th>
+                    <th>Setup Cost</th>
+                    <th>SA Specific</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Batlokoa Platform</strong></td>
+                    <td class="highlight">R3,500 - R12,000</td>
+                    <td class="highlight">R95,000 - R350,000</td>
+                    <td class="highlight">BBB-EE, SANS, VAT</td>
+                </tr>
+                <tr>
+                    <td class="competitor">Shopify B2B Enterprise</td>
+                    <td>R36,000 - R45,000</td>
+                    <td>R50,000+</td>
+                    <td>Limited</td>
+                </tr>
+                <tr>
+                    <td class="competitor">SAP Business One</td>
+                    <td>R25,000+</td>
+                    <td>R500,000+</td>
+                    <td>Partial</td>
+                </tr>
+                <tr>
+                    <td class="competitor">Custom Development</td>
+                    <td>R15,000+</td>
+                    <td>R540,000 - R1.6M</td>
+                    <td>Varies</td>
+                </tr>
+                <tr>
+                    <td class="competitor">Generic ERP</td>
+                    <td>R8,000 - R20,000</td>
+                    <td>R100,000 - R500,000</td>
+                    <td>Requires customization</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table class="comparison-table" style="margin-top: 32px;">
+            <thead>
+                <tr>
+                    <th>AI Solution</th>
+                    <th>Monthly Cost</th>
+                    <th>API Costs</th>
+                    <th>Offline</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Batlokoa Smart AI</strong></td>
+                    <td class="highlight">R2,500 - R5,000</td>
+                    <td class="highlight">R0 (Pattern Matching)</td>
+                    <td class="highlight">Yes</td>
+                </tr>
+                <tr>
+                    <td class="competitor">ChatGPT Pro</td>
+                    <td>R4,000/user</td>
+                    <td>Usage-based</td>
+                    <td>No</td>
+                </tr>
+                <tr>
+                    <td class="competitor">Enterprise Chatbots</td>
+                    <td>R8,000 - R25,000</td>
+                    <td>R5,000 - R20,000</td>
+                    <td>No</td>
+                </tr>
+                <tr>
+                    <td class="competitor">Custom AI Development</td>
+                    <td>R20,000+</td>
+                    <td>R10,000+</td>
+                    <td>Varies</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- SA Value Props -->
+    <div class="section section-navy">
+        <h2>Built for <span>South Africa</span></h2>
+        <p class="lead">Every feature designed with South African business realities in mind.</p>
+
+        <div class="value-grid">
+            <div class="value-card">
+                <div class="icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                </div>
+                <h4>BBB-EE Level 1</h4>
+                <p>135% procurement recognition built-in. Clients maximize BEE scorecard points when purchasing from you.</p>
+            </div>
+
+            <div class="value-card">
+                <div class="icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+                </div>
+                <h4>SANS/OHSA/DMR</h4>
+                <p>Pre-loaded compliance standards for mining, construction, electrical, and manufacturing industries.</p>
+            </div>
+
+            <div class="value-card">
+                <div class="icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                </div>
+                <h4>Multi-Language</h4>
+                <p>Full English support plus Afrikaans and Zulu terminology. AI understands "bolts", "boute", "moere", and local industry terms.</p>
+            </div>
+
+            <div class="value-card">
+                <div class="icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                </div>
+                <h4>Load-Shedding Proof</h4>
+                <p>AI works 100% offline after initial load. No internet required for chat, search, or compliance checking.</p>
+            </div>
+
+            <div class="value-card">
+                <div class="icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                </div>
+                <h4>SA Logistics</h4>
+                <p>20% delivery buffer built-in for South African realities. Accurate estimates for all 9 provinces.</p>
+            </div>
+
+            <div class="value-card">
+                <div class="icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                </div>
+                <h4>VAT Compliant</h4>
+                <p>15% VAT calculation, proper invoicing, and SARS-ready documentation built into every transaction.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Package Summary -->
+    <div class="section">
+        <h2>Package <span>Summary</span></h2>
+        <p class="lead">Quick reference for all available packages and pricing.</p>
+
+        <div class="package-summary">
+            <h3>Complete Pricing Overview</h3>
+            <table class="package-table">
+                <thead>
+                    <tr>
+                        <th>Package</th>
+                        <th>Setup Fee</th>
+                        <th>Monthly</th>
+                        <th>AI Included</th>
+                        <th>Target Market</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="package-name">Starter</td>
+                        <td>R95,000</td>
+                        <td>R3,500</td>
+                        <td>Optional (+R2,500)</td>
+                        <td>Small distributors</td>
+                    </tr>
+                    <tr>
+                        <td class="package-name">Professional</td>
+                        <td>R175,000</td>
+                        <td>R6,500</td>
+                        <td>Included</td>
+                        <td>Mid-size wholesalers</td>
+                    </tr>
+                    <tr>
+                        <td class="package-name">Enterprise</td>
+                        <td>R350,000</td>
+                        <td>R12,000</td>
+                        <td>Included + Advanced</td>
+                        <td>Large suppliers</td>
+                    </tr>
+                    <tr>
+                        <td class="package-name">Whitelabel Partner</td>
+                        <td>R500,000</td>
+                        <td>R2,500/client</td>
+                        <td>Full License</td>
+                        <td>Resellers & agencies</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div style="margin-top: 40px; padding: 32px; background: var(--success-light); border-radius: 12px; border-left: 4px solid var(--success);">
+            <h4 style="color: var(--success); font-family: 'Montserrat', sans-serif; margin-bottom: 12px;">Enterprise License Option</h4>
+            <p style="margin-bottom: 0; color: var(--gray-700);">
+                <strong>R450,000 - R750,000 one-time</strong> for full source code ownership with unlimited use.
+                Ideal for large organizations wanting complete control and no recurring platform fees.
+                Includes 12 months of updates and support.
+            </p>
+        </div>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="cta-section">
+        <h2>Ready to Transform Your Business?</h2>
+        <p>Get started with South Africa's most comprehensive B2B platform. Schedule a demo or request a custom quote today.</p>
+        <div class="cta-buttons">
+            <a href="mailto:info@batlokoainnovpro.co.za?subject=Platform Demo Request" class="cta-btn primary">
+                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                Schedule Demo
+            </a>
+            <a href="tel:+27739748317" class="cta-btn secondary">
+                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                Call +27 73 974 8317
+            </a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-logo">Batlokoa Innovative Projects (Pty) Ltd</div>
+        <p>12 A Bussing Rd, Aureus Ext 1, Randfontein, Gauteng</p>
+        <p>info@batlokoainnovpro.co.za | +27 73 974 8317</p>
+        <div class="footer-badge">
+            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            Level 1 BBB-EE | 100% Black Women-Owned
+        </div>
+        <p style="margin-top: 24px; opacity: 0.5;">Pricing valid as of December 2025. Subject to change.</p>
+    </footer>
+</body>
+</html>
